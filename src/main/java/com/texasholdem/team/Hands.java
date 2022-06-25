@@ -6,8 +6,9 @@ public class Hands {
 
     ArrayList<Card> hands;
 
-    public ArrayList<Card> hands(ArrayList<Card> hand) {
-        return hand;
+
+    public Hands(ArrayList<Card> hands) {
+        this.hands = hands;
     }
 
     //Royal Flush
@@ -40,23 +41,43 @@ public class Hands {
     public boolean Flush(ArrayList<Card> hand){
         Suit suit = null;
         int suitCounter = 0;
-        outer:
+
         for (int i = 0; i < hand.size(); i++) {
             int counter = 0;
+
             for (int j = 0; j < hand.size(); i++) {
                 if (hand.get(i).getSuit() == hand.get(j).getSuit()) {
-                    counter+=1;
+                    counter += 1;
                 }
             }
-            if(counter > suitCounter ) {
+            if (counter > suitCounter) {
                 suit = hand.get(i).getSuit();
                 suitCounter = counter;
             }
         }
-        return suitCounter > 5;
+        return suitCounter >= 5;
     }
 
     //Four of a kind
+    public boolean FourOfAKind(ArrayList<Card> hand){
+        Rank rank = null;
+        int rankCounter = 0;
+
+        for (int i = 0; i < hand.size(); i++) {
+            int counter = 0;
+
+            for (int j = 0; j < hand.size(); i++) {
+                if (hand.get(i).getRank() == hand.get(j).getRank()) {
+                    counter += 1;
+                }
+            }
+            if (counter > rankCounter) {
+                rank = hand.get(i).getRank();
+                rankCounter = counter;
+            }
+        }
+        return rankCounter >= 4;
+    }
 
 
     //Full House
