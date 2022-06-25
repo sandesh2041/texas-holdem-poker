@@ -1,6 +1,5 @@
-package com.texasholem.team;
+package com.texasholdem.team;
 
-import java.util.EnumMap;
 import java.util.Objects;
 
 /**

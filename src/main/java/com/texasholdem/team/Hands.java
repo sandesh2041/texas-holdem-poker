@@ -1,4 +1,4 @@
-package com.texasholem.team;
+package com.texasholdem.team;
 
 import java.util.ArrayList;
 
@@ -15,15 +15,14 @@ public class Hands {
         ArrayList<Card> royal = null;
         Suit suit = null;
         int suitCounter = 0;
-        outer:
         for (int i = 0; i < hand.size(); i++) {
             int counter = 0;
-            for (int j = 0; j < hand.size(); i++) {
+            for (int j = 0; j < hand.size(); j++) {
                 if (hand.get(i).getSuit() == hand.get(j).getSuit()) {
-                    counter+=1;
+                    counter += 1;
                 }
             }
-            if(counter > suitCounter ) {
+            if (counter > suitCounter) {
                 suit = hand.get(i).getSuit();
                 suitCounter = counter;
             }
