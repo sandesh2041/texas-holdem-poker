@@ -12,8 +12,7 @@ public class Game {
     public static ArrayList<Card> table = new ArrayList<>();
     public static ArrayList<Card> dealer = new ArrayList<>();
     private final Comparator<Card> displayComparator = Comparator
-            .comparing((Card c) -> c.getRank())
-            .thenComparing(Card::getRank);
+            .comparing(Card::getRank);
 
 
     public Game() {
@@ -34,7 +33,7 @@ public class Game {
         System.out.println(table.subList(0,4));
         System.out.println("Would you like to Bet X2");
         System.out.println(table.subList(0,5));
-        //System.out.println(dealer.toString());
+        System.out.println(dealer.toString());
     }
 
     public void bet() {

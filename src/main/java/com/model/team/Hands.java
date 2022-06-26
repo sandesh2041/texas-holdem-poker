@@ -39,46 +39,37 @@ public class Hands {
     }
 
     //Straight Flush
-    public boolean Flush(ArrayList<Card> hand) {
+    public boolean straightFlush(ArrayList<Card> hand) {
+        int colors = Collections.frequency(hand, hand.get(0).getSuit());
+        int ace = 0;
 
-        Suit suit = null;
-        int suitCounter = 0;
+        if (colors != 5) {
+            return false;
+        }
 
-        for (int i = 0; i < hand.size(); i++) {
-            int counter = 0;
-
-            for (int j = 0; j < hand.size(); i++) {
-                if (hand.get(i).getSuit() == hand.get(j).getSuit()) {
+        int counter = 0;
+        for (Card card : hand) {
+            for (Card next : hand) {
+                if (card.getRank().ordinal() + 1 == next.getRank().ordinal()) {
                     counter += 1;
                 }
             }
-            if (counter > suitCounter) {
-                suit = hand.get(i).getSuit();
-                suitCounter = counter;
-            }
         }
-        return suitCounter >= 5;
+        return counter == 5;
     }
 
     //Four of a kind
     public boolean FourOfAKind(ArrayList<Card> hand) {
         Rank rank = null;
-        int rankCounter = 0;
-
-        for (int i = 0; i < hand.size(); i++) {
-            int counter = 0;
-
-            for (int j = 0; j < hand.size(); i++) {
-                if (hand.get(i).getRank() == hand.get(j).getRank()) {
-                    counter += 1;
-                }
-            }
-            if (counter > rankCounter) {
-                rank = hand.get(i).getRank();
-                rankCounter = counter;
+        boolean output = false;
+        int rankCounter = Collections.frequency(hand, hand.get(0).getRank());
+        if (rankCounter != 4) {
+            rankCounter = Collections.frequency(hand, hand.get(1).getRank());
+            if (rankCounter == 4) {
+                output = true;
             }
         }
-        return rankCounter >= 4;
+        return output;
     }
 
 
@@ -90,17 +81,15 @@ public class Hands {
         int occurrences = 0;
         for (int i = 0; i < hand.size(); i++) {
             occurrences = Collections.frequency(hand, hand.get(i).getRank());
-            if(occurrences == 3){
+            if (occurrences == 3) {
                 tripleRank = hand.get(i).getRank();
-            }
-            else if(occurrences == 2){
+            } else if (occurrences == 2) {
                 doublesRank = hand.get(i).getRank();
             }
         }
         if (tripleRank != null && doublesRank != null) {
             isFullHouse = true;
-        }
-        else{
+        } else {
             isFullHouse = false;
         }
         return isFullHouse;
