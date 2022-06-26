@@ -1,14 +1,13 @@
-package com.texasholdem;
+package com.model;
 
-import com.texasholdem.team.Card;
-import com.texasholdem.team.Deck;
+import com.model.team.Card;
+import com.model.team.Deck;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
     public static ArrayList<Card> user = new ArrayList<>();
-
     public static ArrayList<Card> table = new ArrayList<>();
     public static ArrayList<Card> dealer = new ArrayList<>();
 
@@ -28,8 +27,6 @@ public class Game {
 //        System.out.println(table.subList(0,3));
 //        System.out.println(dealer.toString());
         System.out.println("Would you like to Bet X2");
-
-
     }
 
     public void bet() {
