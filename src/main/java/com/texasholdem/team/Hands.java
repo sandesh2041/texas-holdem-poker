@@ -81,6 +81,27 @@ public class Hands {
 
 
     //Full House
+    public boolean FullHouse(ArrayList<Card> hand){
+        Rank rank = null;
+        int rankCounter = 0;
+
+
+        for (int i = 0; i < hand.size(); i++) {
+            int counter = 0;
+
+            for (int j = 0; j < hand.size(); i++) {
+                if (hand.get(i).getRank() == hand.get(j).getRank()) {
+                    counter += 1;
+                }
+            }
+            if (counter > rankCounter) {
+                rank = hand.get(i).getRank();
+                rankCounter = counter;
+            }
+        }
+        return rankCounter >= 4;
+    }
+
 
     //Flush
 
