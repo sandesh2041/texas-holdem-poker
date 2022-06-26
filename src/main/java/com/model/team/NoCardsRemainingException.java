@@ -1,4 +1,4 @@
-package com.texasholdem.team;
+package com.model.team;
 
 /**
  * Unchecked exception thrown when an attempt is made to draw a {@link Card} but none is available.

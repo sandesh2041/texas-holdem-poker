@@ -1,4 +1,4 @@
-package com.texasholdem.team;
+package com.model.team;
 
 import java.util.*;
 

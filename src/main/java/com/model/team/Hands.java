@@ -1,4 +1,4 @@
-package com.texasholdem.team;
+package com.model.team;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ public class Hands {
     }
 
     //Straight Flush
-    public boolean Flush(ArrayList<Card> hand){
+    public boolean Flush(ArrayList<Card> hand) {
         Suit suit = null;
         int suitCounter = 0;
 
@@ -59,7 +59,7 @@ public class Hands {
     }
 
     //Four of a kind
-    public boolean FourOfAKind(ArrayList<Card> hand){
+    public boolean FourOfAKind(ArrayList<Card> hand) {
         Rank rank = null;
         int rankCounter = 0;
 
@@ -81,9 +81,11 @@ public class Hands {
 
 
     //Full House
-    public boolean FullHouse(ArrayList<Card> hand){
-        Rank rank = null;
-        int rankCounter = 0;
+    public void FullHouse(ArrayList<Card> hand) {
+        Rank tripleRank = null;
+        Rank doublesRank = null;
+        int triple = 3;
+        int doubles = 2;
 
 
         for (int i = 0; i < hand.size(); i++) {
@@ -94,12 +96,11 @@ public class Hands {
                     counter += 1;
                 }
             }
-            if (counter > rankCounter) {
-                rank = hand.get(i).getRank();
-                rankCounter = counter;
+            if (counter == triple) {
+                tripleRank = hand.get(i).getRank();
+                triple = counter;
             }
         }
-        return rankCounter >= 4;
     }
 
 
