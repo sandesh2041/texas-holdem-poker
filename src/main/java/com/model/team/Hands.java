@@ -40,6 +40,7 @@ public class Hands {
 
     //Straight Flush
     public boolean Flush(ArrayList<Card> hand) {
+
         Suit suit = null;
         int suitCounter = 0;
 
@@ -96,7 +97,12 @@ public class Hands {
                 doublesRank = hand.get(i).getRank();
             }
         }
-        if()
+        if (tripleRank != null && doublesRank != null) {
+            isFullHouse = true;
+        }
+        else{
+            isFullHouse = false;
+        }
         return isFullHouse;
     }
 

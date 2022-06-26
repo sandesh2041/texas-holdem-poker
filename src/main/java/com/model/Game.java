@@ -4,12 +4,16 @@ import com.model.team.Card;
 import com.model.team.Deck;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Game {
     public static ArrayList<Card> user = new ArrayList<>();
     public static ArrayList<Card> table = new ArrayList<>();
     public static ArrayList<Card> dealer = new ArrayList<>();
+    private final Comparator<Card> displayComparator = Comparator
+            .comparing((Card c) -> c.getRank())
+            .thenComparing(Card::getRank);
 
 
     public Game() {
@@ -22,7 +26,7 @@ public class Game {
         game.deal(deck);
         //hoow much do you want to wager (overall)
         System.out.println("Would you like to play? 10$ minimum.");
-        game.bet();
+        //game.bet();
         System.out.println(user.toString());
 
         System.out.println(table.subList(0,3));
@@ -52,6 +56,9 @@ public class Game {
         table.add(deck.draw());
         dealer.add(deck.draw());
         dealer.add(deck.draw());
+        user.sort(displayComparator);
+        table.sort(displayComparator);
+        dealer.sort(displayComparator);
     }
 
     public void preFold() {
