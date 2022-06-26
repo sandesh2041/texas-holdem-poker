@@ -20,13 +20,17 @@ public class Game {
         deck.shuffle();
         Game game = new Game();
         game.deal(deck);
-
+        //hoow much do you want to wager (overall)
         System.out.println("Would you like to play? 10$ minimum.");
         game.bet();
-//        System.out.println(user.toString());
-//        System.out.println(table.subList(0,3));
-//        System.out.println(dealer.toString());
+        System.out.println(user.toString());
+
+        System.out.println(table.subList(0,3));
+
+        System.out.println(table.subList(0,4));
         System.out.println("Would you like to Bet X2");
+        System.out.println(table.subList(0,5));
+        //System.out.println(dealer.toString());
     }
 
     public void bet() {

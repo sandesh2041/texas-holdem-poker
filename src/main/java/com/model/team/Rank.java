@@ -7,7 +7,6 @@ package com.model.team;
  */
 public enum Rank {
 
-    ACE("A"),
     TWO("2"),
     THREE("3"),
     FOUR("4"),
@@ -19,7 +18,8 @@ public enum Rank {
     TEN("10"),
     JACK("J"),
     QUEEN("Q"),
-    KING("K");
+    KING("K"),
+    ACE("A");
 
     private final String abbreviation;
 

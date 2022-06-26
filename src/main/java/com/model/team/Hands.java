@@ -1,6 +1,7 @@
 package com.model.team;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Hands {
 
@@ -81,26 +82,22 @@ public class Hands {
 
 
     //Full House
-    public void FullHouse(ArrayList<Card> hand) {
+    public boolean FullHouse(ArrayList<Card> hand) {
         Rank tripleRank = null;
         Rank doublesRank = null;
-        int triple = 3;
-        int doubles = 2;
-
-
+        boolean isFullHouse = false;
+        int occurrences = 0;
         for (int i = 0; i < hand.size(); i++) {
-            int counter = 0;
-
-            for (int j = 0; j < hand.size(); i++) {
-                if (hand.get(i).getRank() == hand.get(j).getRank()) {
-                    counter += 1;
-                }
-            }
-            if (counter == triple) {
+            occurrences = Collections.frequency(hand, hand.get(i).getRank());
+            if(occurrences == 3){
                 tripleRank = hand.get(i).getRank();
-                triple = counter;
+            }
+            else if(occurrences == 2){
+                doublesRank = hand.get(i).getRank();
             }
         }
+        if()
+        return isFullHouse;
     }
 
 
