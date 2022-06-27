@@ -1,9 +1,9 @@
-package com.henblair;
+package com;
 
 
-import com.henblair.model.Card;
-import com.henblair.model.Deck;
-import com.henblair.model.Suit;
+import com.model.team.Card;
+import com.model.team.Deck;
+import com.model.team.Suit;
 
 import java.util.*;
 import java.util.stream.Collectors;
