@@ -5,12 +5,6 @@ import java.util.Collections;
 
 public class Hands {
 
-    ArrayList<Card> hands;
-
-
-    public Hands(ArrayList<Card> hands) {
-        this.hands = hands;
-    }
 
     //Royal Flush
     public boolean royalFlush(ArrayList<Card> hand) {
@@ -35,7 +29,7 @@ public class Hands {
         royal.add(new Card(suit, Rank.QUEEN));
         royal.add(new Card(suit, Rank.JACK));
         royal.add(new Card(suit, Rank.TEN));
-        return hands.containsAll(royal);
+        return hand.containsAll(royal);
     }
 
     //Straight Flush
