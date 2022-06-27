@@ -7,74 +7,94 @@ public class Hands {
 
 
     //Royal Flush
-    public boolean royalFlush(ArrayList<Card> hand) {
-        ArrayList<Card> royal = null;
+    public ArrayList<Object> royalFlush(ArrayList<Card> hand) {
+        ArrayList<Object> royal = new ArrayList<>();
+        ArrayList<Card> royalTrue = null;
         Suit suit = null;
-        int suitCounter = 0;
-        for (int i = 0; i < hand.size(); i++) {
-            int counter = 0;
-            for (int j = 0; j < hand.size(); j++) {
-                if (hand.get(i).getSuit() == hand.get(j).getSuit()) {
-                    counter += 1;
-                }
-            }
-            if (counter > suitCounter) {
-                suit = hand.get(i).getSuit();
-                suitCounter = counter;
+
+        int colors = 0;
+
+        for (Card cards : hand) {
+            if (Collections.frequency(hand, cards.getSuit()) >= 5) {
+                colors = Collections.frequency(hand, cards.getSuit());
+                suit = cards.getSuit();
             }
         }
-
-        royal.add(new Card(suit, Rank.ACE));
-        royal.add(new Card(suit, Rank.KING));
-        royal.add(new Card(suit, Rank.QUEEN));
-        royal.add(new Card(suit, Rank.JACK));
-        royal.add(new Card(suit, Rank.TEN));
-        return hand.containsAll(royal);
+        if (colors < 5) {
+            return null;
+        }
+        royalTrue.add(new Card(suit, Rank.ACE));
+        royalTrue.add(new Card(suit, Rank.KING));
+        royalTrue.add(new Card(suit, Rank.QUEEN));
+        royalTrue.add(new Card(suit, Rank.JACK));
+        royalTrue.add(new Card(suit, Rank.TEN));
+        royal.add(hand.containsAll(royalTrue));
+        royal.add(CardRankings.ROYAL_FLUSH);
+        royal.add(null);
+        royal.add(null);
+        return royal;
     }
 
     //Straight Flush
-    public boolean straightFlush(ArrayList<Card> hand) {
-        int colors = Collections.frequency(hand, hand.get(0).getSuit());
+    public ArrayList<Object> straightFlush(ArrayList<Card> hand) {
+        ArrayList<Object> straightFlush = new ArrayList<>();
 
-        if (colors != 5) {
-            return false;
+        int colors = 0;
+
+        for (Card cards : hand) {
+            if (Collections.frequency(hand, cards.getSuit()) >= 5)
+                colors = Collections.frequency(hand, cards.getSuit());
+        }
+        if (colors < 4) {
+            return null;
         }
 
         int counter = 0;
-        for (Card card : hand) {
-            for (Card next : hand) {
-                if (card.getRank().ordinal() + 1 == next.getRank().ordinal()) {
+        for (int i = 0; i < hand.size(); i++) {
+            for (int j = 0; j < hand.size(); j++) {
+                if (hand.get(i).getRank().ordinal() == hand.get(j).getRank().ordinal() + 1) {
                     counter += 1;
+                    break;
+                } else {
+                    hand.remove(j);
                 }
             }
         }
-        if (counter == 4 && hand.get(0).getRank() == Rank.TWO && hand.get(4).getRank() == Rank.ACE)
-        {
+        if (counter == 4 && hand.get(0).getRank() == Rank.TWO && hand.get(4).getRank() == Rank.ACE) {
             counter = 5;
+            straightFlush.add(true);
+            straightFlush.add(CardRankings.STRAIGHT_FLUSH);
+            straightFlush.add(hand.get(hand.size() - 1).getRank());
+            straightFlush.add(null);
         }
-        return counter == 5;
+        return straightFlush;
     }
 
     //Four of a kind
-    public boolean fourOfAKind(ArrayList<Card> hand) {
+    public ArrayList<Object> fourOfAKind(ArrayList<Card> hand) {
+        ArrayList<Object> four = new ArrayList<>();
+        int counter = 0;
         Rank rank = null;
-        boolean output = false;
-        int rankCounter = Collections.frequency(hand, hand.get(0).getRank());
-        if (rankCounter != 4) {
-            rankCounter = Collections.frequency(hand, hand.get(1).getRank());
-            if (rankCounter == 4) {
-                output = true;
+        for (Card cards : hand) {
+            if (Collections.frequency(hand, cards.getRank()) >= 4) {
+                rank = cards.getRank();
             }
         }
-        return output;
+        if (rank != null) {
+            four.add(true);
+            four.add(CardRankings.FOUR_OF_A_KIND);
+            four.add(rank);
+            four.add(null);
+        }
+        return four;
     }
 
 
     //Full House
-    public boolean fullHouse(ArrayList<Card> hand) {
+    public ArrayList<Object> fullHouse(ArrayList<Card> hand) {
+        ArrayList<Object> full = new ArrayList<>();
         Rank tripleRank = null;
         Rank doublesRank = null;
-        boolean isFullHouse;
         int occurrences;
         for (int i = 0; i < hand.size(); i++) {
             occurrences = Collections.frequency(hand, hand.get(i).getRank());
@@ -85,31 +105,50 @@ public class Hands {
             }
         }
         if (tripleRank != null && doublesRank != null) {
-            isFullHouse = true;
+            full.add(true);
+            full.add(CardRankings.FULL_HOUSE);
+            full.add(tripleRank);
+            full.add(doublesRank);
         } else {
-            isFullHouse = false;
+            full = null;
         }
-        return isFullHouse;
+
+        return full;
     }
 
 
     //Flush
-    public boolean flush(ArrayList<Card> hand) {
-        int occurrence = Collections.frequency(hand, hand.get(0).getSuit());
-        return occurrence == 5;
+    public ArrayList<Object> flush(ArrayList<Card> hand) {
+        ArrayList<Object> flush = new ArrayList<>();
+        Suit suit = null;
+        for (Card cards : hand) {
+            if (Collections.frequency(hand, cards.getSuit()) >= 5) {
+                flush = null;
+                suit = cards.getSuit();
+                flush.add(true);
+                flush.add(CardRankings.FLUSH);
+                flush.add(cards.getRank());
+            }
+        }
+
+        return flush;
     }
 
     //Straight
     public boolean straight(ArrayList<Card> hand) {
         int counter = 0;
-        for (Card card : hand) {
-            for (Card next : hand) {
-                if (card.getRank().ordinal() + 1 == next.getRank().ordinal()) {
+        for (int i = 0; i < hand.size(); i++) {
+            for (int j = 0; j < hand.size(); j++) {
+                if (hand.get(i).getRank().ordinal()+1 == hand.get(j).getRank().ordinal()) {
                     counter += 1;
+                    break;
+                }
+                else if (hand.get(i).getRank().ordinal() == hand.get(j).getRank().ordinal()){
+
                 }
             }
         }
-        return counter == 5;
+        return counter >= 5;
     }
 
     //Three of a kind
@@ -128,14 +167,14 @@ public class Hands {
     public boolean twoPairs(ArrayList<Card> hand) {
         ArrayList<Rank> ranks = new ArrayList<>();
         for (int i = 0; i < hand.size(); i++) {
-            for(int j = 0; j < hand.size(); j++){
-                if (hand.get(i).getRank().equals(hand.get(j).getRank())){
-                   ranks.add(hand.get(i).getRank());
-                   ranks.add(hand.get(j).getRank());
+            for (int j = 0; j < hand.size(); j++) {
+                if (hand.get(i).getRank().equals(hand.get(j).getRank())) {
+                    ranks.add(hand.get(i).getRank());
+                    ranks.add(hand.get(j).getRank());
                 }
             }
         }
-        if(ranks.size()==6){
+        if (ranks.size() == 6) {
             ranks.remove(0);
             ranks.remove(0);
         }
@@ -146,8 +185,8 @@ public class Hands {
     public boolean pair(ArrayList<Card> hand) {
         ArrayList<Rank> ranks = new ArrayList<>();
         for (int i = 0; i < hand.size(); i++) {
-            for(int j = 0; j < hand.size(); j++){
-                if (hand.get(i).getRank().equals(hand.get(j).getRank())){
+            for (int j = 0; j < hand.size(); j++) {
+                if (hand.get(i).getRank().equals(hand.get(j).getRank())) {
                     ranks.add(hand.get(i).getRank());
                     ranks.add(hand.get(j).getRank());
                 }
@@ -158,10 +197,10 @@ public class Hands {
 
 
     //High Card
-    public boolean HighCard(ArrayList<Card> hand){
+    public boolean HighCard(ArrayList<Card> hand) {
         ArrayList<Rank> ranks = new ArrayList<>();
         return ranks.add(hand.get(4).getRank());
     }
 
-    //compareTo
+    //Checking which is the highest.
 }
