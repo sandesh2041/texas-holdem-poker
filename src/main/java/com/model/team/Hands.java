@@ -48,7 +48,7 @@ public class Hands {
                 }
             }
         }
-        if (counter == 4 && hand.get(0).equals(Rank.TWO) && hand.get(4).equals(Rank.ACE)) ;
+        if (counter == 4 && hand.get(0).getRank() == Rank.TWO && hand.get(4).getRank() == Rank.ACE)
         {
             counter = 5;
         }
@@ -74,8 +74,8 @@ public class Hands {
     public boolean fullHouse(ArrayList<Card> hand) {
         Rank tripleRank = null;
         Rank doublesRank = null;
-        boolean isFullHouse = false;
-        int occurrences = 0;
+        boolean isFullHouse;
+        int occurrences;
         for (int i = 0; i < hand.size(); i++) {
             occurrences = Collections.frequency(hand, hand.get(i).getRank());
             if (occurrences == 3) {
