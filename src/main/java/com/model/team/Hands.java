@@ -50,13 +50,12 @@ public class Hands {
         }
 
         int counter = 0;
-        for(int i = 0; i < hand.size(); i++){
-            for(int j = 0; j < hand.size(); j++){
-                if (hand.get(i).getRank().ordinal() == hand.get(j).getRank().ordinal()+1) {
+        for (int i = 0; i < hand.size(); i++) {
+            for (int j = 0; j < hand.size(); j++) {
+                if (hand.get(i).getRank().ordinal() == hand.get(j).getRank().ordinal() + 1) {
                     counter += 1;
                     break;
-                }
-                else {
+                } else {
                     hand.remove(j);
                 }
             }
@@ -65,7 +64,7 @@ public class Hands {
             counter = 5;
             straightFlush.add(true);
             straightFlush.add(CardRankings.STRAIGHT_FLUSH);
-            straightFlush.add(hand.get(hand.size()-1).getRank());
+            straightFlush.add(hand.get(hand.size() - 1).getRank());
             straightFlush.add(null);
         }
         return straightFlush;
@@ -81,7 +80,7 @@ public class Hands {
                 rank = cards.getRank();
             }
         }
-        if(rank != null){
+        if (rank != null) {
             four.add(true);
             four.add(CardRankings.FOUR_OF_A_KIND);
             four.add(rank);
@@ -138,18 +137,18 @@ public class Hands {
     //Straight
     public boolean straight(ArrayList<Card> hand) {
         int counter = 0;
-        for(int i = 0; i < hand.size(); i++){
-            for(int j = 0; j < hand.size(); j++){
-                if (hand.get(i).getRank().ordinal() == hand.get(j).getRank().ordinal()+1) {
+        for (int i = 0; i < hand.size(); i++) {
+            for (int j = 0; j < hand.size(); j++) {
+                if (hand.get(i).getRank().ordinal()+1 == hand.get(j).getRank().ordinal()) {
                     counter += 1;
                     break;
                 }
-                else {
-                    hand.remove(j);
+                else if (hand.get(i).getRank().ordinal() == hand.get(j).getRank().ordinal()){
+
                 }
             }
         }
-        return counter == 5;
+        return counter >= 5;
     }
 
     //Three of a kind
