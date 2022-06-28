@@ -24,13 +24,12 @@ public class Game {
 
     private final Comparator<Card> displayComparator = Comparator.comparing((Card c) -> c.getSuit().getColor()).thenComparing(Card::getSuit).thenComparing(Card::getRank);
 
-    private final List<Card> hand = new ArrayList<>();
-    private final List<Card> dealerHand = new ArrayList<>();
-    private final List<Card> burnPile = new ArrayList<>();
-    private final List<Card> sharedCards = new ArrayList<>();
+    private final ArrayList<Card> hand = new ArrayList<>();
+    private final ArrayList<Card> dealerHand = new ArrayList<>();
+    private final ArrayList<Card> burnPile = new ArrayList<>();
+    private final ArrayList<Card> sharedCards = new ArrayList<>();
 
-    private List<Card> combinedCards = new ArrayList<>();
-    private List<Card> bestCards = new ArrayList<>();
+    private ArrayList<Card> combinedCards = new ArrayList<>();
 
     public Game() {
     }
@@ -166,12 +165,11 @@ public class Game {
  //       System.out.println("It is your turn, please enter \"c\" or \"check\" to check, or y");
 //        System.out.println("SHOULDNT SEE THIS YET!!!");
 
-
         //Bot actions
         ChenScore chenScore = new ChenScore();
         score = chenScore.calculateScore(dealerHand); //Calculated Chen Score
         Actions botAction = botServices.botTwoCardAction(playerAction.getAction(), score); //Determine what bot will do with initial 2 pocket card
-        bBet = GetBotBet(botAction);
+        bBet = getBotBet(botAction);
     }
 
     public void flop() {
@@ -190,7 +188,7 @@ public class Game {
 
         score = botServices.check(combinedCards);
         Actions botAction =  botServices.botMultiCardAction(playerAction.getAction(), (int)score);
-        bBet = GetBotBet(botAction);
+        bBet = getBotBet(botAction);
 
     }
 
@@ -198,7 +196,7 @@ public class Game {
         sharedCards.add(deck.draw());
         showSharedCards();
         Actions botAction = botServices.botMultiCardAction(playerAction.getAction(), (int)score);
-        bBet = GetBotBet(botAction);
+        bBet = getBotBet(botAction);
 
 
     }
@@ -207,11 +205,10 @@ public class Game {
         sharedCards.add(deck.draw());
         showSharedCards();
         Actions botAction = botServices.botMultiCardAction(playerAction.getAction(), (int)score);
-        bBet = GetBotBet(botAction);
+        bBet = getBotBet(botAction);
     }
 
-    private int GetBotBet(Actions botAction) {
-        int botBet = 0;
+    private int getBotBet(Actions botAction) {
         if(botAction == Actions.CALL){
             if (dealerBank < playerAction.getWager()) {
                 bBet = dealerBank;
@@ -219,11 +216,11 @@ public class Game {
                 if(playerAction.getAction() == Actions.CHECK){
                     bBet = 10;
                 } else {
-                    bBet = playerAction.getWager() - bBet;
+                    bBet = playerAction.getWager() - bBet; //May be need to pass bBet too
                 }
             }
         }
-        return botBet;
+        return bBet;
     }
 
 
