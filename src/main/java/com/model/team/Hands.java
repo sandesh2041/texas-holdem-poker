@@ -186,7 +186,7 @@ public class Hands {
     }
 
     //Two pair
-    public ArrayList<Object>  twoPairs(ArrayList<Card> hand) {
+    public ArrayList<Object> twoPairs(ArrayList<Card> hand) {
         ArrayList<Object> two = new ArrayList<>();
         ArrayList<Rank> ranks = new ArrayList<>();
         for (int i = 0; i < hand.size(); i++) {
@@ -197,15 +197,19 @@ public class Hands {
                 }
             }
         }
-        if (ranks.size() >= 6) {
-            ranks.remove(0);
+        while (ranks.size() > 4) {
             ranks.remove(0);
         }
+        two.add(ranks.size() == 4);
+        two.add(CardRankings.TWO_PAIRS);
+        two.add(ranks.get(3));
+        two.add(ranks.get(0));
         return two;
     }
 
     //One pair
-    public boolean pair(ArrayList<Card> hand) {
+    public ArrayList<Object>  pair(ArrayList<Card> hand) {
+        ArrayList<Object> pair = new ArrayList<>();
         ArrayList<Rank> ranks = new ArrayList<>();
         for (int i = 0; i < hand.size(); i++) {
             for (int j = 0; j < hand.size(); j++) {
@@ -215,14 +219,17 @@ public class Hands {
                 }
             }
         }
-        return ranks.size() == 2;
+        return pair;
     }
 
 
     //High Card
-    public boolean HighCard(ArrayList<Card> hand) {
-        ArrayList<Rank> ranks = new ArrayList<>();
-        return ranks.add(hand.get(4).getRank());
+    public ArrayList<Object> HighCard(ArrayList<Card> hand) {
+        ArrayList<Object> high = new ArrayList<>();
+        high.add(true);
+        high.add(CardRankings.HIGH_CARD);
+        high.add(hand.get(hand.size()-1).getRank());
+        return high;
     }
 
     //Checking which is the highest.
