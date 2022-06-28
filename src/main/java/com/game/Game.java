@@ -4,30 +4,27 @@ import com.model.team.Card;
 import com.model.team.Deck;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Game {
 
+    private final int time = 750;
     public static int bank = 0;
     public static int dealerBank = 0;
     public static int pot = 0;
     public static int blinds = 0;
+    public static Deck deck = new Deck();
+    Scanner scanner = new Scanner(System.in);
 
-    Deck deck = new Deck();
+    public static  ArrayList<Card> hand = new ArrayList<>();
+    public static ArrayList<Card> dealerHand = new ArrayList<>();
+    public static ArrayList<Card> burnPile = new ArrayList<>();
+    public static ArrayList<Card> sharedCards = new ArrayList<>();
+    private final ResourceBundle bundle = ResourceBundle.getBundle("strings");
 
-    private final Comparator<Card> displayComparator = Comparator.comparing((Card c) -> c.getSuit().getColor()).thenComparing(Card::getSuit).thenComparing(Card::getRank);
-
-    private final ArrayList<Card> hand = new ArrayList<>();
-    private final ArrayList<Card> dealerHand = new ArrayList<>();
-    private final ArrayList<Card> burnPile = new ArrayList<>();
-    private final ArrayList<Card> sharedCards = new ArrayList<>();
-
-    public Game() {
-    }
 
     public void startGame() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Welcome to Texas Hold'em! Select \"y\" or \"yes\" to play. Or type \"exit\" to exit game. ");
+        System.out.println(bundle.getString("start_game"));
         String startGame = scanner.next();
         do {
             if (startGame.equalsIgnoreCase("y") || startGame.equalsIgnoreCase("yes")) {
@@ -36,13 +33,14 @@ public class Game {
                 System.out.println("Exiting the game");
                 System.exit(0);
             } else {
-                System.out.println("Please type \"y\" or \"yes\" to play. Or type \"exit\" to exit game.");
+                System.out.println(bundle.getString("start_game"));
                 startGame = scanner.next();
             }
         } while (!(startGame.equalsIgnoreCase("y")) && !(startGame.equalsIgnoreCase("yes")));
+    }
 
-        System.out.println("Please set your bank. Enter your starting bank value between 20-1000: ");
-
+    public void chooseBankValue() {
+        System.out.println(bundle.getString("set_bank"));
 
         while (!(bank >= 20 && bank <= 1000)) {
             try {
@@ -56,30 +54,35 @@ public class Game {
             }
         }
 
-        sleep(250);
-        System.out.printf("Your current bank value: $%d.%nDealer's current bank value: $%d.%n", getBank(), getDealerBank());
-        sleep(250);
-        System.out.println("Please enter a value between 5-20 to use as the blind amount for each player");
+        System.out.printf(bundle.getString("bank_value"), getBank(), getDealerBank());
+        sleep(time);
+    }
+
+    public void chooseBlinds() {
+        System.out.println(bundle.getString("set_blinds"));
 
         while (blinds < 5 || blinds > 20) {
             try {
                 blinds = Integer.parseInt(String.valueOf(Integer.parseInt(scanner.next())));
                 if (blinds < 5 || blinds > 20) {
-                    System.out.println("You must select a whole value number between 5 and 20!");
+                    System.out.println(bundle.getString("blinds_error"));
                 }
             } catch (NumberFormatException ignored) {
-                System.out.println("You must select a whole value number between 5 and 20!");
+                System.out.println(bundle.getString("blinds_error"));
             }
         }
 
-        System.out.printf("Blind value set to $%d%n", getBlinds());
-        sleep(250);
-        System.out.println("Shuffling cards...");
-        deck.shuffle();
-        sleep(250);
+        System.out.printf(bundle.getString("blinds_value"), getBlinds());
+        sleep(time);
+    }
 
-        System.out.println("Cards are shuffled! Please type \"d\" or \"deal\" to deal cards.");
+    public void dealCardsMenu() {
+        System.out.println(bundle.getString("shuffle_cards"));
+        deck.shuffle();
+        sleep(time);
+        System.out.println(bundle.getString("deal_menu"));
         String deal = scanner.next();
+
         do {
             if (deal.equalsIgnoreCase("deal") || deal.equalsIgnoreCase("d")) {
                 break;
@@ -87,13 +90,13 @@ public class Game {
                 System.out.println("Exiting the game");
                 System.exit(0);
             } else {
-                System.out.println("Please type \"d\" or \"deal\" to deal cards, or \"exit\" to exit the game.");
+                System.out.println(bundle.getString("deal_menu"));
                 deal = scanner.next();
             }
         } while (!(deal.equalsIgnoreCase("deal")) && !(deal.equalsIgnoreCase("d")));
 
-        System.out.println("Dealing hands...");
-        dealHand();
+        sleep(time);
+        System.out.println(bundle.getString("deal_hands"));
     }
 
 
@@ -111,78 +114,88 @@ public class Game {
         dealerHand.add(card3);
         hand.add(card4);
         dealerHand.add(card5);
-
-        System.out.println("Burn card has been dealt into the burn pile...");
-        sleep(250);
-
-        System.out.println("Your first card is " + card1);
-        sleep(250);
-        System.out.println("Dealer has received their first card.");
-        sleep(250);
-        System.out.println("Your second card is " + card2);
-        sleep(250);
-        System.out.println("Dealer has received their second card.");
-        sleep(250);
-
-        showHand();
-        sleep(250);
-        preFlopAction();
-
-    }
-
-    public void showHand() {
-        System.out.println("Your hand is " + hand);
+        System.out.println(bundle.getString("burn_pile"));
+        sleep(time);
+        System.out.printf(bundle.getString("card1"), card2);
+        sleep(time);
+        System.out.println(bundle.getString("dealer_card1"));
+        sleep(time);
+        System.out.printf(bundle.getString("card2"), card4);
+        sleep(time);
+        System.out.println(bundle.getString("dealer_card2"));
     }
 
     public void preFlopAction() {
-        Scanner scanner = new Scanner(System.in);
         bank = bank - blinds;
         pot = blinds * 2;
         dealerBank = dealerBank - blinds;
-        System.out.println("It is your turn, please enter \"c\" or \"check\" to check, or y");
-        Actions action = new Actions();
-        action.actions();
-        System.out.println("SHOULDNT SEE THIS YET!!!");
+        Actions actions = new Actions();
+        actions.actions();
     }
 
-    public void preFlop() {
+    public void flop() {
+        bank = bank - Actions.bet;
+        System.out.println(bank);
+        pot = pot + Actions.bet*2;
+        System.out.println(pot);
+        dealerBank = dealerBank - Actions.bet;;
+        System.out.println(dealerBank);
+        System.out.println("DONE!?!?!");
         Card card1 = deck.draw();
         Card card2 = deck.draw();
         Card card3 = deck.draw();
         sharedCards.add(card1);
         sharedCards.add(card2);
         sharedCards.add(card3);
-        showSharedCards();
+        System.out.printf(bundle.getString("dealing_flop"),card1);
+        sleep(time);
+        System.out.printf(bundle.getString("dealing_flop"),card2);
+        sleep(time);
+        System.out.printf(bundle.getString("dealing_flop"),card3);
+        sleep(time);
+        System.out.printf(bundle.getString("shared_cards"),sharedCards);
+        sleep(time);
+        Actions actions = new Actions();
+        actions.actions();
 
     }
 
-    public void showSharedCards() {
-        System.out.println("The current shared cards is " + sharedCards);
+    public void turn() {
+        bank = bank - Actions.bet;
+        System.out.println(bank);
+        pot = pot + Actions.bet*2;
+        System.out.println(pot);
+        dealerBank = dealerBank - Actions.bet;;
+
+        Card card1 = deck.draw();
+        sharedCards.add(card1);
+        System.out.printf(bundle.getString("dealing_turn"),card1);
+        sleep(time);
+        System.out.printf(bundle.getString("shared_cards"),sharedCards);
+        sleep(time);
+        Actions action = new Actions();
+        action.actions();
+    }
+    public void river(){
+        bank = bank - Actions.bet;
+        System.out.println(bank);
+        pot = pot + Actions.bet*2;
+        System.out.println(pot);
+        dealerBank = dealerBank - Actions.bet;;
+
+        Card card1 = deck.draw();
+        sharedCards.add(card1);
+
+        System.out.printf(bundle.getString("dealing_river"),card1);
+        System.out.printf(bundle.getString("shared_cards"),sharedCards);
+        sleep(time);
+        Actions action = new Actions();
+        action.actions();
     }
 
 
-//        do {
-//            if (preFlopAction.equalsIgnoreCase("y") || preFlopAction.equalsIgnoreCase("yes")) {
-//                break;
-//            } else if (preFlopAction.equalsIgnoreCase("exit")) {
-//                System.out.println("Exiting the game");
-//                System.exit(0);
-//            }
-//            else {
-//                System.out.println("Please type \"y\" or \"yes\" to play. Or type \"exit\" to exit game.");
-//                preFlopAction = scanner.next();
-//            }
-//        }  while (!(preFlopAction.equalsIgnoreCase("y")) && !(preFlopAction.equalsIgnoreCase("yes")));
 
 
-    public void bet() {
-        Scanner userInput = new Scanner(System.in);
-        int choice = userInput.nextInt();
-        while (choice <= 10) {
-            System.out.println("The Minimum is 10$, please enter a higher number.");
-            choice = userInput.nextInt();
-        }
-    }
 
     public void sleep(int timer) {
         try {
@@ -192,15 +205,35 @@ public class Game {
         }
     }
 
+    public static List<Card> getHand() {
+//        Deck deck = new Deck();
+//        Card card1 = deck.draw();
+//        Card card2 = deck.draw();
+//        hand.add(card1);
+//        hand.add(card2);
+        List<Card> filtered = hand.stream().collect(Collectors.toList());
+        return filtered;
+    }
+
     public static int getBank() {
         return bank;
+    }
+    public static void setBank(int bank) {
+        Game.bank = bank;
     }
 
     public static int getDealerBank() {
         return dealerBank;
     }
 
+    public static void setDealerBank(int dealerBank) {
+        Game.dealerBank = dealerBank;
+    }
+
     public static int getBlinds() {
         return blinds;
+    }
+    public static int getPot() {
+        return pot;
     }
 }
