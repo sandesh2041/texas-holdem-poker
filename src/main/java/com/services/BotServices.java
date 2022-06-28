@@ -38,17 +38,17 @@ public class BotServices {
     }
 
     //Determine the strength score of the bot cards combining pocket and community cards
-    public int check(List<Card> cards){
+    public int check(ArrayList<Card> cards){
         int score = 10;
-        if(hand.royalFlush(cards).get(0))
+        if((boolean)hand.royalFlush(cards).get(0))
             return CardRankings.ROYAL_FLUSH.getValue();
-        if(hand.straightFlush(cards))
+        if((boolean)hand.straightFlush(cards).get(0))
             return CardRankings.STRAIGHT_FLUSH.getValue();
-        if(hand.fourOfAKind(cards))
+        if((boolean)hand.fourOfAKind(cards).get(0))
             return CardRankings.FOUR_OF_A_KIND.getValue();
-        if(hand.fullHouse(cards))
+        if((boolean)hand.fullHouse(cards).get(0))
             return CardRankings.FULL_HOUSE.getValue();
-        if(hand.flush(cards))
+        if((boolean)hand.flush(cards).get(0))
             return CardRankings.FLUSH.getValue();
         if(hand.straight(cards))
             return CardRankings.STRAIGHT.getValue();
