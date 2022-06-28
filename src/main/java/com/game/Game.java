@@ -3,9 +3,7 @@ package com.game;
 import com.model.team.Card;
 import com.model.team.Deck;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
 
@@ -21,6 +19,7 @@ public class Game {
     private final ArrayList<Card> hand = new ArrayList<>();
     private final ArrayList<Card> dealerHand = new ArrayList<>();
     private final ArrayList<Card> burnPile = new ArrayList<>();
+    private final ArrayList<Card> sharedCards = new ArrayList<>();
 
     public Game() {
     }
@@ -36,12 +35,11 @@ public class Game {
             } else if (startGame.equalsIgnoreCase("exit")) {
                 System.out.println("Exiting the game");
                 System.exit(0);
-            }
-            else {
+            } else {
                 System.out.println("Please type \"y\" or \"yes\" to play. Or type \"exit\" to exit game.");
                 startGame = scanner.next();
             }
-        }  while (!(startGame.equalsIgnoreCase("y")) && !(startGame.equalsIgnoreCase("yes")));
+        } while (!(startGame.equalsIgnoreCase("y")) && !(startGame.equalsIgnoreCase("yes")));
 
         System.out.println("Please set your bank. Enter your starting bank value between 20-1000: ");
 
@@ -58,9 +56,9 @@ public class Game {
             }
         }
 
-        sleep(750);
+        sleep(250);
         System.out.printf("Your current bank value: $%d.%nDealer's current bank value: $%d.%n", getBank(), getDealerBank());
-        sleep(1250);
+        sleep(250);
         System.out.println("Please enter a value between 5-20 to use as the blind amount for each player");
 
         while (blinds < 5 || blinds > 20) {
@@ -75,26 +73,27 @@ public class Game {
         }
 
         System.out.printf("Blind value set to $%d%n", getBlinds());
-        sleep(750);
+        sleep(250);
         System.out.println("Shuffling cards...");
         deck.shuffle();
-        sleep(750);
+        sleep(250);
 
         System.out.println("Cards are shuffled! Please type \"d\" or \"deal\" to deal cards.");
         String deal = scanner.next();
         do {
-                if (deal.equalsIgnoreCase("deal") || deal.equalsIgnoreCase("d")) {
-                    System.out.println("Dealing hands...");
-                    dealHand();
-                } else if (deal.equalsIgnoreCase("exit")) {
-                    System.out.println("Exiting the game");
-                    System.exit(0);
-                }
-                else {
-                    System.out.println("Please type \"d\" or \"deal\" to deal cards, or \"exit\" to exit the game.");
-                    deal = scanner.next();
-                }
-            }  while (!(deal.equalsIgnoreCase("deal")) && !(deal.equalsIgnoreCase("d")));
+            if (deal.equalsIgnoreCase("deal") || deal.equalsIgnoreCase("d")) {
+                break;
+            } else if (deal.equalsIgnoreCase("exit")) {
+                System.out.println("Exiting the game");
+                System.exit(0);
+            } else {
+                System.out.println("Please type \"d\" or \"deal\" to deal cards, or \"exit\" to exit the game.");
+                deal = scanner.next();
+            }
+        } while (!(deal.equalsIgnoreCase("deal")) && !(deal.equalsIgnoreCase("d")));
+
+        System.out.println("Dealing hands...");
+        dealHand();
     }
 
 
@@ -114,19 +113,19 @@ public class Game {
         dealerHand.add(card5);
 
         System.out.println("Burn card has been dealt into the burn pile...");
-        sleep(750);
+        sleep(250);
 
         System.out.println("Your first card is " + card1);
-        sleep(750);
+        sleep(250);
         System.out.println("Dealer has received their first card.");
-        sleep(750);
+        sleep(250);
         System.out.println("Your second card is " + card2);
-        sleep(750);
+        sleep(250);
         System.out.println("Dealer has received their second card.");
-        sleep(750);
+        sleep(250);
 
         showHand();
-        sleep(750);
+        sleep(250);
         preFlopAction();
 
     }
@@ -141,7 +140,26 @@ public class Game {
         pot = blinds * 2;
         dealerBank = dealerBank - blinds;
         System.out.println("It is your turn, please enter \"c\" or \"check\" to check, or y");
-        String preFlopAction = scanner.next();
+        Actions action = new Actions();
+        action.actions();
+        System.out.println("SHOULDNT SEE THIS YET!!!");
+    }
+
+    public void preFlop() {
+        Card card1 = deck.draw();
+        Card card2 = deck.draw();
+        Card card3 = deck.draw();
+        sharedCards.add(card1);
+        sharedCards.add(card2);
+        sharedCards.add(card3);
+        showSharedCards();
+
+    }
+
+    public void showSharedCards() {
+        System.out.println("The current shared cards is " + sharedCards);
+    }
+
 
 //        do {
 //            if (preFlopAction.equalsIgnoreCase("y") || preFlopAction.equalsIgnoreCase("yes")) {
@@ -157,8 +175,6 @@ public class Game {
 //        }  while (!(preFlopAction.equalsIgnoreCase("y")) && !(preFlopAction.equalsIgnoreCase("yes")));
 
 
-    }
-
     public void bet() {
         Scanner userInput = new Scanner(System.in);
         int choice = userInput.nextInt();
@@ -167,13 +183,15 @@ public class Game {
             choice = userInput.nextInt();
         }
     }
-    public void sleep(int timer){
+
+    public void sleep(int timer) {
         try {
             Thread.sleep(timer);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
+
     public static int getBank() {
         return bank;
     }

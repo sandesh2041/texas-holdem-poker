@@ -4,8 +4,13 @@ public class Client {
     public static void main(String[] args) {
 
         Game game = new Game();
+//        System.out.printf("%-15%03");
+        Actions action = new Actions();
 
-        game.startGame();
+        action.actions();
+
+
+//        game.startGame();
 
 //        dealer.showHand();
 
