@@ -1,7 +1,10 @@
 package com.game;
 
+import com.model.enums.Actions;
 import com.model.team.Card;
 import com.model.team.Deck;
+import com.model.utils.ChenScore;
+import com.services.BotServices;
 
 import java.util.*;
 
@@ -12,14 +15,22 @@ public class Game {
     public static int pot = 0;
     public static int blinds = 0;
 
+    double score;
+    int bBet = 0;
+
     Deck deck = new Deck();
+    BotServices botServices = new BotServices();
+    MyAction playerAction = new MyAction();
 
     private final Comparator<Card> displayComparator = Comparator.comparing((Card c) -> c.getSuit().getColor()).thenComparing(Card::getSuit).thenComparing(Card::getRank);
 
-    private final ArrayList<Card> hand = new ArrayList<>();
-    private final ArrayList<Card> dealerHand = new ArrayList<>();
-    private final ArrayList<Card> burnPile = new ArrayList<>();
-    private final ArrayList<Card> sharedCards = new ArrayList<>();
+    private final List<Card> hand = new ArrayList<>();
+    private final List<Card> dealerHand = new ArrayList<>();
+    private final List<Card> burnPile = new ArrayList<>();
+    private final List<Card> sharedCards = new ArrayList<>();
+
+    private List<Card> combinedCards = new ArrayList<>();
+    private List<Card> bestCards = new ArrayList<>();
 
     public Game() {
     }
@@ -115,6 +126,7 @@ public class Game {
         System.out.println("Burn card has been dealt into the burn pile...");
         sleep(250);
 
+
         System.out.println("Your first card is " + card1);
         sleep(250);
         System.out.println("Dealer has received their first card.");
@@ -126,7 +138,8 @@ public class Game {
 
         showHand();
         sleep(250);
-        preFlopAction();
+//        preFlopAction();
+
 
     }
 
@@ -134,18 +147,34 @@ public class Game {
         System.out.println("Your hand is " + hand);
     }
 
-    public void preFlopAction() {
-        Scanner scanner = new Scanner(System.in);
+//    public void preFlopAction() {
+//        Scanner scanner = new Scanner(System.in);
+//        bank = bank - blinds;
+//        pot = blinds * 2;
+//        dealerBank = dealerBank - blinds;
+//        System.out.println("It is your turn, please enter \"c\" or \"check\" to check, or y");
+//        Actions action = new Actions();
+//        action.actions();
+//        System.out.println("SHOULDNT SEE THIS YET!!!");
+//    }
+
+    public void preFlopActionV1() {
+//       Scanner scanner = new Scanner(System.in);
         bank = bank - blinds;
         pot = blinds * 2;
         dealerBank = dealerBank - blinds;
-        System.out.println("It is your turn, please enter \"c\" or \"check\" to check, or y");
-        Actions action = new Actions();
-        action.actions();
-        System.out.println("SHOULDNT SEE THIS YET!!!");
+ //       System.out.println("It is your turn, please enter \"c\" or \"check\" to check, or y");
+//        System.out.println("SHOULDNT SEE THIS YET!!!");
+
+
+        //Bot actions
+        ChenScore chenScore = new ChenScore();
+        score = chenScore.calculateScore(dealerHand); //Calculated Chen Score
+        Actions botAction = botServices.botTwoCardAction(playerAction.getAction(), score); //Determine what bot will do with initial 2 pocket card
+        bBet = GetBotBet(botAction);
     }
 
-    public void preFlop() {
+    public void flop() {
         Card card1 = deck.draw();
         Card card2 = deck.draw();
         Card card3 = deck.draw();
@@ -154,7 +183,50 @@ public class Game {
         sharedCards.add(card3);
         showSharedCards();
 
+        combinedCards = dealerHand;
+        combinedCards.add(card1);
+        combinedCards.add(card2);
+        combinedCards.add(card3);
+
+        score = botServices.check(combinedCards);
+        Actions botAction =  botServices.botMultiCardAction(playerAction.getAction(), (int)score);
+        bBet = GetBotBet(botAction);
+
     }
+
+    public void turn() {
+        sharedCards.add(deck.draw());
+        showSharedCards();
+        Actions botAction = botServices.botMultiCardAction(playerAction.getAction(), (int)score);
+        bBet = GetBotBet(botAction);
+
+
+    }
+
+    public void river() {
+        sharedCards.add(deck.draw());
+        showSharedCards();
+        Actions botAction = botServices.botMultiCardAction(playerAction.getAction(), (int)score);
+        bBet = GetBotBet(botAction);
+    }
+
+    private int GetBotBet(Actions botAction) {
+        int botBet = 0;
+        if(botAction == Actions.CALL){
+            if (dealerBank < playerAction.getWager()) {
+                bBet = dealerBank;
+            } else {
+                if(playerAction.getAction() == Actions.CHECK){
+                    bBet = 10;
+                } else {
+                    bBet = playerAction.getWager() - bBet;
+                }
+            }
+        }
+        return botBet;
+    }
+
+
 
     public void showSharedCards() {
         System.out.println("The current shared cards is " + sharedCards);

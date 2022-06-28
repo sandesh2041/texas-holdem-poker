@@ -6,6 +6,7 @@ import com.model.team.CardRankings;
 import com.model.team.Hands;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BotServices {
 
@@ -17,17 +18,17 @@ public class BotServices {
         switch (userAction) {
             case CALL:
             case RAISE:
-                if(score <= 10){
+                if(score <= 7){
                     botAction = Actions.FOLD;
                 }
                 break;
             case CHECK:
-                if(score <= 8){
+                if(score <= 5){
                     botAction = Actions.CHECK;
                 }
                 break;
             case ALL_IN:
-                if(score <= 13){
+                if(score <= 8){
                     botAction = Actions.FOLD;
                 }
                 break;
@@ -37,17 +38,26 @@ public class BotServices {
     }
 
     //Determine the strength score of the bot cards combining pocket and community cards
-    public int check(ArrayList<Card> cards){
+    public int check(List<Card> cards){
         int score = 10;
-        if(hand.royalFlush(cards)) return CardRankings.ROYAL_FLUSH.getValue();
-        if(hand.straightFlush(cards)) return CardRankings.STRAIGHT_FLUSH.getValue();
-        if(hand.fourOfAKind(cards)) return CardRankings.FOUR_OF_A_KIND.getValue();
-        if(hand.fullHouse(cards)) return CardRankings.FULL_HOUSE.getValue();
-        if(hand.flush(cards)) return CardRankings.FLUSH.getValue();
-        if(hand.straight(cards)) return CardRankings.STRAIGHT.getValue();
-        if(hand.three(cards)) return CardRankings.THREE_OF_A_KIND.getValue();
-        if(hand.twoPairs(cards)) return CardRankings.TWO_PAIRS.getValue();
-        if(hand.pair(cards)) return CardRankings.ONE_PAIR.getValue();
+        if(hand.royalFlush(cards).get(0))
+            return CardRankings.ROYAL_FLUSH.getValue();
+        if(hand.straightFlush(cards))
+            return CardRankings.STRAIGHT_FLUSH.getValue();
+        if(hand.fourOfAKind(cards))
+            return CardRankings.FOUR_OF_A_KIND.getValue();
+        if(hand.fullHouse(cards))
+            return CardRankings.FULL_HOUSE.getValue();
+        if(hand.flush(cards))
+            return CardRankings.FLUSH.getValue();
+        if(hand.straight(cards))
+            return CardRankings.STRAIGHT.getValue();
+        if(hand.three(cards))
+            return CardRankings.THREE_OF_A_KIND.getValue();
+        if(hand.twoPairs(cards))
+            return CardRankings.TWO_PAIRS.getValue();
+        if(hand.pair(cards))
+            return CardRankings.ONE_PAIR.getValue();
         return score;
     }
 
@@ -76,21 +86,29 @@ public class BotServices {
     }
 
     //Determines how much bot will bet (Cannot call this method if user checks or fold)
-    public int botBet(Actions userAction, int userBet, int raisedAmount, int botBank) {
-        int bet = 0;
-        if(botBank <= userBet || botBank <= raisedAmount){
-            bet = botBank;
-        } else {
-            if (userAction == Actions.CALL) {
-                bet = userBet;
-            } else if (userAction == Actions.RAISE) {
-                bet = raisedAmount;
-            } else if (userAction == Actions.ALL_IN) {
-                bet = raisedAmount;
-            }
-        }
-        return bet;
-    }
+//    public int botFirstBet(Actions userAction, int userBet, int botBank) {
+//        int bet = 0;
+//        if(botBank <= userBet){
+//            bet = botBank;
+//        } else {
+//            if (userAction == Actions.CHECK) {
+//                bet = 10;
+//            } else {
+//                bet = userBet;
+//            }
+//        }
+//        return bet;
+//    }
+//
+//    public int botSecondBet(Actions userAction, int raisedAmount, int botBank) {
+//        int bet = 0;
+//        if(botBank <= raisedAmount){
+//            bet = botBank;
+//        } else {
+//           bet = raisedAmount;
+//        }
+//        return bet;
+//    }
 
 
 }

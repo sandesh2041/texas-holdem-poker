@@ -4,11 +4,11 @@ import com.model.team.Card;
 import com.model.team.Rank;
 import com.model.team.Suit;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ChenScore {
 
-    public double calculateScore (ArrayList<Card> cards) {
+    public double calculateScore (List<Card> cards) {
         double score;
 
         Rank rankOfFirst = cards.get(0).getRank();
@@ -84,7 +84,7 @@ public class ChenScore {
         return score;
     }
 
-    private Rank calculateHighCard(ArrayList<Card> card){
+    private Rank calculateHighCard(List<Card> card){
         int cardValue = card.get(0).getRank().compareTo(card.get(1).getRank());
         return (cardValue > 0) ? card.get(0).getRank() : card.get(1).getRank();
     }

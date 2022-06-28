@@ -41,8 +41,6 @@ public class Actions {
 
     public void check() {
         System.out.println("Dealer: \"Player checks.\" ");
-
-
     }
 
     public int raise() {
