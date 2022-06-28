@@ -6,7 +6,10 @@ import java.util.Collections;
 public class Hands {
 
 
-    //Royal Flush
+    //Royal Flush  [boolean, Enum.CardRankings:double ,[A], [3]]
+    //             [boolean, enum.CardRankings:double, [a], [5]]
+    //assign new arraylist of final hands to compare.
+    //
     public ArrayList<Object> royalFlush(ArrayList<Card> hand) {
         ArrayList<Object> royal = new ArrayList<>();
         ArrayList<Card> royalTrue = null;
@@ -136,46 +139,55 @@ public class Hands {
     }
 
     //Straight
-    public boolean straight(ArrayList<Card> hand) {
+    public ArrayList<Object> straight(ArrayList<Card> hand) {
         int counter = 0;
-        Rank previous = null;
-        ArrayList<Card> straight = new ArrayList<>();
-
+        Rank highest = null;
+        ArrayList<Object> straight = new ArrayList<>();
+        out:
         for (int i = 0; i < hand.size(); i++) {
             for (int j = 0; j < hand.size(); j++) {
                 if (hand.get(i).getRank().ordinal() - hand.get(j).getRank().ordinal() == 1) {
                     counter += 1;
-                    previous = hand.get(i).getRank();
+                    highest = hand.get(i).getRank();
+                    break;
+                } else if (hand.get(i).getRank().ordinal() - hand.get(j).getRank().ordinal() == 0) {
                     break;
                 }
-                else if (hand.get(i).getRank().ordinal() == hand.get(j).getRank().ordinal()){
-                    //dealer = [2,3,4,5,7,8,9]
-                    //          +1+1+1  +1+1
-                    //dealer = [2,3,4,4,5,7,8]
-                    //          +1+1 .r+1 b
-                    //dealer = [2,3,4,4,4,5,6]
-                    //          +1+1     +1+1
-
+                else{
+                    break out;
                 }
             }
         }
-        return counter >= 5;
+        if(counter >= 4){
+            straight.add(true);
+            straight.add(CardRankings.STRAIGHT);
+            straight.add(highest);
+            straight.add(null);
+        }
+        return straight;
     }
 
     //Three of a kind
-    public boolean three(ArrayList<Card> hand) {
-        Rank three = null;
+    public ArrayList<Object> threeOfAKind(ArrayList<Card> hand) {
+        ArrayList<Object> three = new ArrayList<>();
+        Rank highest = null;
         for (int i = 0; i < hand.size(); i++) {
             if (Collections.frequency(hand, hand.get(i).getRank()) == 3) {
-                three = hand.get(i).getRank();
+                highest = hand.get(i).getRank();
             }
         }
-
-        return three != null;
+        if(highest != null){
+            three.add(true);
+            three.add(CardRankings.THREE_OF_A_KIND);
+            three.add(highest);
+            three.add(null);
+        }
+        return three;
     }
 
     //Two pair
-    public boolean twoPairs(ArrayList<Card> hand) {
+    public ArrayList<Object>  twoPairs(ArrayList<Card> hand) {
+        ArrayList<Object> two = new ArrayList<>();
         ArrayList<Rank> ranks = new ArrayList<>();
         for (int i = 0; i < hand.size(); i++) {
             for (int j = 0; j < hand.size(); j++) {
@@ -185,11 +197,11 @@ public class Hands {
                 }
             }
         }
-        if (ranks.size() == 6) {
+        if (ranks.size() >= 6) {
             ranks.remove(0);
             ranks.remove(0);
         }
-        return ranks.size() == 4;
+        return two;
     }
 
     //One pair
@@ -214,4 +226,9 @@ public class Hands {
     }
 
     //Checking which is the highest.
+//    public ArrayList compareTo(arraylist<card> hand1, arraylist<card> card2){
+//        for Card cards : hand1{
+//            if (hand1.get(2).
+//        }
+//    }
 }
