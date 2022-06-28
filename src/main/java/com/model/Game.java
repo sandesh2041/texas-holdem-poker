@@ -2,10 +2,10 @@ package com.model;
 
 import com.model.team.Card;
 import com.model.team.Deck;
+import com.model.team.Hands;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Scanner;
 
 public class Game {
     public static ArrayList<Card> user = new ArrayList<>();
@@ -23,27 +23,18 @@ public class Game {
         deck.shuffle();
         Game game = new Game();
         game.deal(deck);
-        //hoow much do you want to wager (overall)
-        System.out.println("Would you like to play? 10$ minimum.");
-        //game.bet();
-        System.out.println(user.toString());
-
-        System.out.println(table.subList(0,3));
-
-        System.out.println(table.subList(0,4));
-        System.out.println("Would you like to Bet X2");
-        System.out.println(table.subList(0,5));
-        System.out.println(dealer.toString());
+        System.out.println("User"+user);
+        System.out.println("Dealer"+dealer);
+        System.out.println("Table"+ table);
+        dealer.addAll(table);
+        game.sorter(dealer);
+        user.addAll(table);
+        game.sorter(user);
+        System.out.println(dealer);
+        //Hands.getHand(dealer);
+        Hands.compare(dealer,user);
     }
 
-    public void bet() {
-        Scanner userInput = new Scanner(System.in);
-        int choice = userInput.nextInt();
-        while (choice <= 10) {
-            System.out.println("The Minimum is 10$, please enter a higher number.");
-            choice = userInput.nextInt();
-        }
-    }
 
     public void deal(Deck deck) {
         user.add(deck.draw());
@@ -60,9 +51,9 @@ public class Game {
         dealer.sort(displayComparator);
     }
 
-    public void preFold() {
-        System.out.println(user.toString());
+    public void sorter(ArrayList<Card> deck) {
+        dealer.sort(displayComparator);
     }
-
 }
+
 
