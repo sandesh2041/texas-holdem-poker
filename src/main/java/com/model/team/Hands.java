@@ -96,6 +96,7 @@ public class Hands {
         ArrayList<Object> full = new ArrayList<>();
         Rank tripleRank = null;
         Rank doublesRank = null;
+        boolean isFullHouse;
         int occurrences;
         for (int i = 0; i < hand.size(); i++) {
             occurrences = Collections.frequency(hand, hand.get(i).getRank());
