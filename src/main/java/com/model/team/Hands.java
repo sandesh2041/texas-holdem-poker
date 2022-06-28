@@ -36,6 +36,7 @@ public class Hands {
     }
 
     //Straight Flush
+    //todo return statement needs to be updated.
     public ArrayList<Object> straightFlush(ArrayList<Card> hand) {
         ArrayList<Object> straightFlush = new ArrayList<>();
 
@@ -137,13 +138,23 @@ public class Hands {
     //Straight
     public boolean straight(ArrayList<Card> hand) {
         int counter = 0;
+        Rank previous = null;
+        ArrayList<Card> straight = new ArrayList<>();
+
         for (int i = 0; i < hand.size(); i++) {
             for (int j = 0; j < hand.size(); j++) {
-                if (hand.get(i).getRank().ordinal()+1 == hand.get(j).getRank().ordinal()) {
+                if (hand.get(i).getRank().ordinal() - hand.get(j).getRank().ordinal() == 1) {
                     counter += 1;
+                    previous = hand.get(i).getRank();
                     break;
                 }
                 else if (hand.get(i).getRank().ordinal() == hand.get(j).getRank().ordinal()){
+                    //dealer = [2,3,4,5,7,8,9]
+                    //          +1+1+1  +1+1
+                    //dealer = [2,3,4,4,5,7,8]
+                    //          +1+1 .r+1 b
+                    //dealer = [2,3,4,4,4,5,6]
+                    //          +1+1     +1+1
 
                 }
             }
