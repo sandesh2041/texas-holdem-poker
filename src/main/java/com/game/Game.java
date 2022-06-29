@@ -266,7 +266,3 @@ public class Game {
 
 }
 
-//    public static ArrayList<Object> dealerSharedHand = new ArrayList<>();
-//    public static ArrayList<Object> playerSharedHand = new ArrayList<>();
-//                    dealerSharedHand=first;
-//                            playerSharedHand=second;
