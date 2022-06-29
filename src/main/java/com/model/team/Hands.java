@@ -142,11 +142,11 @@ public class Hands {
                     straight.add(card);
 
                 } else {
-                    if (straight.size() >= 5) {
+                    if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE) {
                         val = highest.getSuit();
                         fin = new ArrayList<>();
                         fin.add(true);
-                        fin.add(CardRankings.STRAIGHT_FLUSH);
+                        fin.add(CardRankings.ROYAL_FLUSH);
                         fin.add(straight.get(straight.size() - 1).getRank());
                         fin.add(null);
                         return fin;
@@ -156,7 +156,7 @@ public class Hands {
             }
             highest = card;
         }
-        if (straight.size() >= 5) {
+        if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE) {
             straightFlush.add(true);
             straightFlush.add(CardRankings.ROYAL_FLUSH);
             straightFlush.add(straight.get(straight.size() - 1).getRank());
