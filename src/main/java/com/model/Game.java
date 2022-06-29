@@ -23,15 +23,11 @@ public class Game {
         deck.shuffle();
         Game game = new Game();
         game.deal(deck);
-        System.out.println("User"+user);
         System.out.println("Dealer"+dealer);
+        System.out.println("User"+user);
         System.out.println("Table"+ table);
-        dealer.addAll(table);
         game.sorter(dealer);
-        user.addAll(table);
         game.sorter(user);
-        System.out.println(dealer);
-        System.out.println(user);
         //Hands.getHand(dealer);
         Hands.compares(dealer,user,table);
     }
