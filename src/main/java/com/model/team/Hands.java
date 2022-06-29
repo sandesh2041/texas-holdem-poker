@@ -5,8 +5,6 @@ import java.util.Comparator;
 
 public class Hands {
 
-    //todo: getting in the users inputs and then merging.
-    //todo:
     private static final Comparator<Card> comparator = Comparator
             .comparing(Card::getRank);
 
@@ -143,7 +141,7 @@ public class Hands {
                     straight.add(card);
 
                 } else {
-                    if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE) {
+                    if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE && straight.get(straight.size()-5).getRank() == Rank.TEN) {
                         val = highest.getSuit();
                         fin = new ArrayList<>();
                         fin.add(true);
@@ -157,7 +155,7 @@ public class Hands {
             }
             highest = card;
         }
-        if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE) {
+        if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE && straight.get(straight.size()-5).getRank() == Rank.TEN) {
             straightFlush.add(true);
             straightFlush.add(CardRankings.ROYAL_FLUSH);
             straightFlush.add(straight.get(straight.size() - 1).getRank());
@@ -314,13 +312,6 @@ public class Hands {
     public static ArrayList<Object> straight(ArrayList<Card> hand) {
         ArrayList<Card> straight = new ArrayList<>();
         ArrayList<Object> fin = new ArrayList<>();
-        ArrayList<Rank> lower = new ArrayList<>();
-        lower.add(Rank.ACE);
-        lower.add(Rank.TWO);
-        lower.add(Rank.THREE);
-        lower.add(Rank.FOUR);
-        lower.add(Rank.FIVE);
-
 
         Card highest = null;
         for (Card card : hand) {

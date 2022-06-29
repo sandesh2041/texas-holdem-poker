@@ -22,6 +22,7 @@ public class Game {
     public static void main(String[] args) {
         Game game = new Game();
         Deck deck = new Deck();
+        //deck.shuffle();
         game.deal(deck);
 //        Card card1 = deck.draw();
 //        Card card2 = deck.draw();
@@ -63,15 +64,35 @@ public class Game {
         //Hands.getHand(dealer);
         String x = compares(dealer, user, table);
         //System.out.println(x +"  this");
-        if (x.equals("winner: Dealer")){
+        if (x.equals("winner: Dealer")) {
             System.out.println("Dealers won");
-        }else{
+        } else {
             System.out.println("User won");
         }
     }
 
 
     public void deal(Deck deck) {
+        Card card1 = deck.draw();
+        Card card2 = deck.draw();
+        Card card3 = deck.draw();
+        Card card4 = deck.draw();
+        Card card5 = deck.draw();
+        Card card6 = deck.draw();
+        Card card7 = deck.draw();
+        Card card8 = deck.draw();
+//
+        user.add(deck.draw());
+        user.add(deck.draw());
+        dealer.add(deck.draw());
+        dealer.add(deck.draw());
+        table.add(deck.draw());
+        table.add(deck.draw());
+        table.add(deck.draw());
+        table.add(deck.draw());
+        table.add(deck.draw());
+
+
         user.sort(displayComparator);
         table.sort(displayComparator);
         dealer.sort(displayComparator);
