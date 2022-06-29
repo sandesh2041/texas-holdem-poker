@@ -19,10 +19,36 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Deck deck = new Deck();
-        deck.shuffle();
         Game game = new Game();
+        Deck deck = new Deck();
         game.deal(deck);
+        Card card1 = deck.draw();
+        Card card2 = deck.draw();
+        Card card3 = deck.draw();
+        Card card4 = deck.draw();
+        Card card5 = deck.draw();
+        Card card6 = deck.draw();
+        Card card7 = deck.draw();
+        Card card8 = deck.draw();
+        Card card9 = deck.draw();
+        Card card10 = deck.draw();
+        Card card11 = deck.draw();
+        Card card12 = deck.draw();
+        Card card13 = deck.draw();
+
+        dealer.add(card12);
+        dealer.add(card13);
+        user.add(card3);
+        user.add(card4);
+
+        //table.add(card5);
+        //table.add(card6);
+        table.add(card7);
+        table.add(card8);
+        table.add(card9);
+        table.add(card10);
+        table.add(card11);
+
         System.out.println("Dealer"+dealer);
         System.out.println("User"+user);
         System.out.println("Table"+ table);
@@ -34,18 +60,10 @@ public class Game {
 
 
     public void deal(Deck deck) {
-        user.add(deck.draw());
-        user.add(deck.draw());
-        table.add(deck.draw());
-        table.add(deck.draw());
-        table.add(deck.draw());
-        table.add(deck.draw());
-        table.add(deck.draw());
-        dealer.add(deck.draw());
-        dealer.add(deck.draw());
         user.sort(displayComparator);
         table.sort(displayComparator);
         dealer.sort(displayComparator);
+
     }
 
     public void sorter(ArrayList<Card> deck) {
