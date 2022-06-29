@@ -342,7 +342,16 @@ public class Hands {
                 }
             }
             highest = card;
-        }if (straight.size() == 5) {
+        }
+        int x = straight.size()-1;
+        if(straight.size()>=4  && straight.get(x).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO){
+            fin.add(true);
+            fin.add(CardRankings.STRAIGHT);
+            fin.add(straight.get(straight.size() - 1).getRank());
+            fin.add(null);
+            return fin;
+        }
+        if (straight.size() == 5) {
             fin.add(true);
             fin.add(CardRankings.STRAIGHT);
             fin.add(straight.get(straight.size() - 1).getRank());
