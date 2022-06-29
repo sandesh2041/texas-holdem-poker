@@ -128,54 +128,43 @@ public class Hands {
 
 
     public static ArrayList<Object> royalFlush(ArrayList<Card> hand) {
-        ArrayList<Card> royalTrue = new ArrayList<>();
-        ArrayList<Card> royal = new ArrayList<>();
+        ArrayList<Object> straightFlush = new ArrayList<>();
+        ArrayList<Card> straight = new ArrayList<>();
         ArrayList<Object> fin = new ArrayList<>();
-        Suit suit = null;
+        Suit val = null;
         Card highest = null;
         for (Card card : hand) {
             if (highest != null) {
-                if (card.getRank().ordinal() - highest.getRank().ordinal() == 1) {
-                    if (royal.size() == 0) {
-                        royal.add(highest);
+                if (card.getRank().ordinal() - highest.getRank().ordinal() == 1 && card.getSuit() == highest.getSuit()) {
+                    if (straight.size() == 0) {
+                        straight.add(highest);
                     }
-                    royal.add(card);
+                    straight.add(card);
 
                 } else {
-                    if (royal.size() >= 5) {
-                        suit = highest.getSuit();
+                    if (straight.size() >= 5) {
+                        val = highest.getSuit();
                         fin = new ArrayList<>();
                         fin.add(true);
-                        fin.add(CardRankings.ROYAL_FLUSH);
-                        fin.add(royal.get(royal.size() - 1).getRank());
+                        fin.add(CardRankings.STRAIGHT_FLUSH);
+                        fin.add(straight.get(straight.size() - 1).getRank());
                         fin.add(null);
                         return fin;
                     }
-                    royal.clear();
+                    straight.clear();
                 }
-            }
-            if (royal.size() >= 5) {
-                suit = royal.get(royal.size() - 1).getSuit();
             }
             highest = card;
         }
-        if (suit != null) {
-            royalTrue.add(new Card(suit, Rank.ACE));
-            royalTrue.add(new Card(suit, Rank.KING));
-            royalTrue.add(new Card(suit, Rank.QUEEN));
-            royalTrue.add(new Card(suit, Rank.JACK));
-            royalTrue.add(new Card(suit, Rank.TEN));
-        }
-        if (royal.containsAll(royalTrue)) {
-            fin = new ArrayList<>();
-            fin.add(hand.containsAll(royalTrue));
-            fin.add(CardRankings.ROYAL_FLUSH);
-            fin.add(null);
-            fin.add(null);
+        if (straight.size() >= 5) {
+            straightFlush.add(true);
+            straightFlush.add(CardRankings.ROYAL_FLUSH);
+            straightFlush.add(straight.get(straight.size() - 1).getRank());
+            straightFlush.add(null);
         } else {
             return null;
         }
-        return fin;
+        return straightFlush;
     }
 
     //Straight Flush
@@ -187,7 +176,7 @@ public class Hands {
         Card highest = null;
         for (Card card : hand) {
             if (highest != null) {
-                if (card.getRank().ordinal() - highest.getRank().ordinal() == 1) {
+                if (card.getRank().ordinal() - highest.getRank().ordinal() == 1 && card.getSuit() == highest.getSuit()) {
                     if (straight.size() == 0) {
                         straight.add(highest);
                     }
@@ -216,7 +205,7 @@ public class Hands {
         } else if (straight.size() >= 5) {
             straightFlush.add(true);
             straightFlush.add(CardRankings.STRAIGHT_FLUSH);
-            straightFlush.add(hand.get(hand.size() - 1).getRank());
+            straightFlush.add(straight.get(straight.size() - 1).getRank());
             straightFlush.add(null);
         } else {
             return null;
@@ -303,7 +292,7 @@ public class Hands {
                     counter += 1;
                 }
             }
-            if (counter >= 5) {
+            if (counter == 5) {
                 suit = cards.getSuit();
                 rank = cards.getRank();
             }
@@ -353,6 +342,12 @@ public class Hands {
                 }
             }
             highest = card;
+        }if (straight.size() == 5) {
+            fin.add(true);
+            fin.add(CardRankings.STRAIGHT);
+            fin.add(straight.get(straight.size() - 1).getRank());
+            fin.add(null);
+            return fin;
         }
         return null;
     }

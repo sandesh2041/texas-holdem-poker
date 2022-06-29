@@ -36,26 +36,41 @@ public class Game {
         Card card12 = deck.draw();
         Card card13 = deck.draw();
 
-        dealer.add(card12);
-        dealer.add(card13);
-        user.add(card3);
-        user.add(card4);
+        Card card14 = deck.draw();
+        Card card15 = deck.draw();
+        Card card16 = deck.draw();
+        Card card17 = deck.draw();
+        Card card18 = deck.draw();
+        Card card19 = deck.draw();
+        Card card20 = deck.draw();
+        Card card21= deck.draw();
+        Card card22 = deck.draw();
+        Card card23= deck.draw();
+        Card card24 = deck.draw();
+        Card card25 = deck.draw();
+        Card card26= deck.draw();
 
-        //table.add(card5);
-        //table.add(card6);
-        table.add(card7);
-        table.add(card8);
+        dealer.add(card25);
+        dealer.add(card26);
+        user.add(card12);
+        user.add(card13);
+
+//        table.add(card14);
+//        table.add(card15);
+//        table.add(card3);
+        table.add(card4);
+        table.add(card15);
         table.add(card9);
         table.add(card10);
         table.add(card11);
 
-        System.out.println("Dealer"+dealer);
-        System.out.println("User"+user);
-        System.out.println("Table"+ table);
+        System.out.println("Dealer" + dealer);
+        System.out.println("User" + user);
+        System.out.println("Table" + table);
         game.sorter(dealer);
         game.sorter(user);
         //Hands.getHand(dealer);
-        Hands.compares(dealer,user,table);
+        Hands.compares(dealer, user, table);
     }
 
 
