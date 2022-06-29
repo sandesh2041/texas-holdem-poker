@@ -53,7 +53,7 @@ public class Hands {
         return HighCard(hand);
     }
 
-    public static ArrayList<Card> compares(ArrayList<Card> hand1, ArrayList<Card> hand2, ArrayList<Card> shared) {
+    public static String compares(ArrayList<Card> hand1, ArrayList<Card> hand2, ArrayList<Card> shared) {
         //hands [0,1]
         Rank dealer = hand1.get(1).getRank();
         Rank user = hand2.get(1).getRank();
@@ -83,43 +83,43 @@ public class Hands {
 
         if (rank1.ordinal() < rank2.ordinal()) {
             System.out.println("winner: Dealer");
-            return hand1;
+            return "winner: Dealer";
         }
         if (rank1.ordinal() > rank2.ordinal()) {
             System.out.println("winner: User");
-            return hand2;
+            return "winner: User";
         }
         if (firstCard.ordinal() > secondCard.ordinal()) {
             System.out.println("winner: dealer2");
-            return hand1;
+            return "winner: Dealer";
         }
         if (firstCard.ordinal() < secondCard.ordinal()) {
             System.out.println("winner: user2");
-            return hand2;
+            return "winner: User";
         }
         if (hand1LastCard.ordinal() > hand2LastCard.ordinal()) {
             System.out.println("winner: dealer3");
-            return hand1;
+            return "winner: Dealer";
         }
         if (hand1LastCard.ordinal() < hand2LastCard.ordinal()) {
             System.out.println("winner: user3");
-            return hand2;
+            return "winner: User";
         }
         if (dealer.ordinal() > user.ordinal()) {
             System.out.println("winner: dealer4");
-            return hand1;
+            return "winner: Dealer";
         }
         if (dealer.ordinal() < user.ordinal()) {
             System.out.println("winner: user4");
-            return hand2;
+            return "winner: User";
         }
         if (dealerSecond.ordinal() < userSecond.ordinal()) {
             System.out.println("winner: dealer5");
-            return hand1;
+            return "winner: Dealer";
         }
         if (dealerSecond.ordinal() > userSecond.ordinal()) {
             System.out.println("winner: user5");
-            return hand2;
+            return "winner: User";
         }
         System.out.println("push");
         return null;

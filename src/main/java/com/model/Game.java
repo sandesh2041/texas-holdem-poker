@@ -61,8 +61,13 @@ public class Game {
         game.sorter(dealer);
         game.sorter(user);
         //Hands.getHand(dealer);
-        ArrayList<Object> x = new ArrayList<>(compares(dealer, user, table));
-        System.out.println(x);
+        String x = compares(dealer, user, table);
+        System.out.println(x +"  this");
+        if (x.equals("winner: Dealer")){
+            System.out.println("Dealers won");
+        }else{
+            System.out.println("Winners won");
+        }
     }
 
 
