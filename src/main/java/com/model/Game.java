@@ -31,8 +31,9 @@ public class Game {
         user.addAll(table);
         game.sorter(user);
         System.out.println(dealer);
+        System.out.println(user);
         //Hands.getHand(dealer);
-        Hands.compare(dealer,user);
+        Hands.compares(dealer,user);
     }
 
 
@@ -52,7 +53,7 @@ public class Game {
     }
 
     public void sorter(ArrayList<Card> deck) {
-        dealer.sort(displayComparator);
+        deck.sort(displayComparator);
     }
 }
 

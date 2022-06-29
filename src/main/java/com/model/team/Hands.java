@@ -32,10 +32,12 @@ public class Hands {
         if (set != null) {
             return set;
         }
+
         set = flush(hand);
         if (set != null) {
             return set;
         }
+
         set = straight(hand);
         if (set != null) {
             return set;
@@ -55,46 +57,17 @@ public class Hands {
         return HighCard(hand);
     }
 
-    public static ArrayList<Card> compare(ArrayList<Card> hand1, ArrayList<Card> hand2) {
+    public static ArrayList<Card> compares(ArrayList<Card> hand1, ArrayList<Card> hand2) {
         ArrayList<Object> first = getHand(hand1);
         ArrayList<Object> second = getHand(hand2);
         System.out.println(hand1);
         System.out.println(hand2);
+
         System.out.println(first);
         System.out.println(second);
 
-        Enum f = (Enum) first.get(1);
-        Enum s = (Enum) second.get(1);
-        Rank fC = (Rank) first.get(2);
-        Rank sC = (Rank) second.get(2);
-        Rank flC = (Rank) first.get(3);
-        Rank slC = (Rank) first.get(3);
+        //for( int i = 0; )
 
-        if ((f.ordinal() - s.ordinal()) == 1) {
-            return hand1;
-        }
-        if (f.ordinal() - s.ordinal() == -1) {
-            return hand2;
-        }
-        if (f.ordinal() - s.ordinal() == 0) {
-            if (fC.ordinal() - sC.ordinal() == 1) {
-                return hand1;
-            }
-            if (fC.ordinal() - sC.ordinal() == -1) {
-                return hand2;
-            }
-            if (fC.ordinal() - sC.ordinal() == 0) {
-                if (flC.ordinal() - slC.ordinal() == 1) {
-                    return hand1;
-                }
-                if (flC.ordinal() - slC.ordinal() == -1) {
-                    return hand2;
-                } else {
-                    System.out.println("Split Pot!");
-                    return null;
-                }
-            }
-        }
         return null;
     }
 
@@ -104,34 +77,34 @@ public class Hands {
         ArrayList<Card> royalTrue = new ArrayList<>();
         Suit suit = null;
         int colors = 0;
-        //out:
+        out:
         for (int i = 0; i < hand.size(); i++) {
             for (int j = 0; j < hand.size(); j++) {
                 if (hand.get(i).getSuit() == hand.get(j).getSuit()) {
                     colors += 1;
                 }
-                if (colors >= 4) { //todo 5
-                    suit = hand.get(i).getSuit();
-                    // break out;
+            if (colors >= 5) {
+                suit = hand.get(i).getSuit();
+                break out;
                 }
             }
             colors = 0;
         }
-        if (colors < 5) {
-            return null;
+        if(suit != null) {
+            royalTrue.add(new Card(suit, Rank.ACE));
+            royalTrue.add(new Card(suit, Rank.KING));
+            royalTrue.add(new Card(suit, Rank.QUEEN));
+            royalTrue.add(new Card(suit, Rank.JACK));
+            royalTrue.add(new Card(suit, Rank.TEN));
         }
-
-        royalTrue.add(new Card(suit, Rank.ACE));
-        royalTrue.add(new Card(suit, Rank.KING));
-        royalTrue.add(new Card(suit, Rank.QUEEN));
-        royalTrue.add(new Card(suit, Rank.JACK));
-        royalTrue.add(new Card(suit, Rank.TEN));
-
-        if (hand.containsAll(royalTrue)) {
+        if (royalTrue.containsAll(hand)) {
             royal.add(hand.containsAll(royalTrue));
             royal.add(CardRankings.ROYAL_FLUSH);
             royal.add(null);
             royal.add(null);
+        }
+        else{
+            return null;
         }
         return royal;
     }
@@ -194,6 +167,7 @@ public class Hands {
             if (counter == 4) {
                 rank = cards.getRank();
             }
+            counter = 0;
         }
         if (rank != null) {
             four.add(true);
@@ -212,16 +186,23 @@ public class Hands {
         ArrayList<Object> full = new ArrayList<>();
         Rank tripleRank = null;
         Rank doublesRank = null;
-        int occurrences;
-        for (int i = 0; i < hand.size(); i++) {
-            occurrences = Collections.frequency(hand, hand.get(i).getRank().ordinal());
-            if (occurrences == 3) {
-                tripleRank = hand.get(i).getRank();
-            } else if (occurrences == 2) {
-                doublesRank = hand.get(i).getRank();
+        int counter = 0;
+
+        for (Card cards : hand) {
+            for (Card cards1 : hand) {
+                if (cards.getRank() == cards1.getRank()) {
+                    counter += 1;
+                }
             }
+            if (counter == 3) {
+                tripleRank = cards.getRank();
+            } else if (counter == 2) {
+                doublesRank = cards.getRank();
+            }
+            counter = 0;
+
         }
-        if (tripleRank != null && doublesRank != null) {
+        if (tripleRank != null && doublesRank != null && doublesRank != tripleRank) {
             full.add(true);
             full.add(CardRankings.FULL_HOUSE);
             full.add(tripleRank);
@@ -238,20 +219,28 @@ public class Hands {
     public static ArrayList<Object> flush(ArrayList<Card> hand) {
         ArrayList<Object> flush = new ArrayList<>();
         Suit suit = null;
+        Rank rank = null;
+        int counter = 0;
         for (Card cards : hand) {
-            if (Collections.frequency(hand, cards.getSuit()) >= 4) {
-                flush = new ArrayList<>();
-                suit = cards.getSuit();
-                flush.add(true);
-                flush.add(CardRankings.FLUSH);
-                flush.add(cards.getRank());
-                break;
-            } else {
-                flush = null;
-
+            for (Card cards1 : hand) {
+                if (cards.getSuit() == cards1.getSuit()) {
+                    counter += 1;
+                }
             }
+            if (counter >= 5) {
+                suit = cards.getSuit();
+                rank = cards.getRank();
+            }
+            counter = 0;
         }
-
+        if (suit != null) {
+            flush.add(true);
+            flush.add(CardRankings.FLUSH);
+            flush.add(rank);
+            flush.add(null);
+        } else {
+            flush = null;
+        }
         return flush;
     }
 
@@ -289,16 +278,24 @@ public class Hands {
     //Three of a kind
     public static ArrayList<Object> threeOfAKind(ArrayList<Card> hand) {
         ArrayList<Object> three = new ArrayList<>();
-        Rank highest = null;
-        for (int i = 0; i < hand.size(); i++) {
-            if (Collections.frequency(hand, hand.get(i).getRank()) == 3) {
-                highest = hand.get(i).getRank();
+        int counter = 0;
+        Rank rank = null;
+        for (Card cards : hand) {
+            for (Card cards1 : hand) {
+                if (cards.getRank() == cards1.getRank()) {
+                    counter += 1;
+                }
             }
+            if (counter == 3) {
+                rank = cards.getRank();
+            }
+            counter = 0;
+
         }
-        if (highest != null) {
+        if (rank != null) {
             three.add(true);
             three.add(CardRankings.THREE_OF_A_KIND);
-            three.add(highest);
+            three.add(rank);
             three.add(null);
         } else {
             three = null;
@@ -310,21 +307,27 @@ public class Hands {
     public static ArrayList<Object> twoPairs(ArrayList<Card> hand) {
         ArrayList<Object> two = new ArrayList<>();
         ArrayList<Rank> ranks = new ArrayList<>();
-        for (int i = 0; i < hand.size(); i++) {
-            if (Collections.frequency(hand, hand.get(i).getRank()) == 2) {
-                ranks.add(hand.get(i).getRank());
+        int counter = 0;
+        Rank rank = null;
+        for (Card cards : hand) {
+            for (Card cards1 : hand) {
+                if (cards.getRank() == cards1.getRank()) {
+                    counter += 1;
+                }
             }
+            if (counter >= 2) {
+                ranks.add(cards.getRank());
+            }
+            counter = 0;
         }
-        if (ranks.size() < 4) {
-            return null;
+        if (ranks.size() >= 4) {
+            two.add(true);
+            two.add(CardRankings.TWO_PAIRS);
+            two.add(ranks.get(ranks.size() - 1));
+            two.add(ranks.get(ranks.size() - 3));
+        } else {
+            two = null;
         }
-        while (ranks.size() > 4) {
-            ranks.remove(0);
-        }
-        two.add(ranks.size() == 4);
-        two.add(CardRankings.TWO_PAIRS);
-        two.add(ranks.get(3));
-        two.add(ranks.get(0));
         return two;
     }
 
@@ -333,21 +336,28 @@ public class Hands {
         ArrayList<Object> pair = new ArrayList<>();
         ArrayList<Rank> ranks = new ArrayList<>();
         Rank highestRank = null;
-
+        int counter = 0;
         for (Card cards : hand) {
-            if (Collections.frequency(hand, (cards.getRank().ordinal())) == 2) {
-                ranks.add(cards.getRank());
-            } else {
-                highestRank = cards.getRank();
+            for (Card cards1 : hand) {
+                if (cards.getRank() == cards1.getRank()) {
+                    counter += 1;
+                } else {
+                    highestRank = cards.getRank();
+                }
             }
+            if (counter == 2) {
+                ranks.add(cards.getRank());
+            }
+                counter = 0;
         }
-        if (ranks.size() == 0) {
-            return null;
+        if (ranks.size() > 0) {
+            pair.add(true);
+            pair.add(CardRankings.ONE_PAIR);
+            pair.add(ranks.get(ranks.size() - 1));
+            pair.add(highestRank);
+        } else {
+            pair = null;
         }
-        pair.add(true);
-        pair.add(CardRankings.ONE_PAIR);
-        pair.add(ranks.get(ranks.size() - 1));
-        pair.add(highestRank);
 
         return pair;
     }
@@ -359,7 +369,7 @@ public class Hands {
         high.add(true);
         high.add(CardRankings.HIGH_CARD);
         high.add(hand.get(hand.size() - 1).getRank());
-        high.add(null);
+        high.add(hand.get(hand.size() - 2).getRank());
         return high;
     }
 }
