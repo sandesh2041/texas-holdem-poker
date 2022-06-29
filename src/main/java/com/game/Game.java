@@ -76,7 +76,7 @@ public class Game {
         sleep(time);
     }
 
-    public void dealCardsMenu() {
+    public void startHandMenu() {
         System.out.println(bundle.getString("shuffle_cards"));
         deck.shuffle();
         sleep(time);
@@ -131,16 +131,13 @@ public class Game {
         dealerBank = dealerBank - blinds;
         Actions actions = new Actions();
         actions.actions();
+        bank = bank - Actions.bet;
+        pot = pot + Actions.bet*2;
+        dealerBank = dealerBank - Actions.bet;
     }
 
     public void flop() {
-        bank = bank - Actions.bet;
-        System.out.println(bank);
-        pot = pot + Actions.bet*2;
-        System.out.println(pot);
-        dealerBank = dealerBank - Actions.bet;;
-        System.out.println(dealerBank);
-        System.out.println("DONE!?!?!");
+
         Card card1 = deck.draw();
         Card card2 = deck.draw();
         Card card3 = deck.draw();
