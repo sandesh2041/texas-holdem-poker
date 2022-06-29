@@ -42,5 +42,9 @@ public class GameBoard {
         game.turn();
         game.river();
     }
+//    public boolean flag(){
+//        boolean flag = true
+//        return flag;
+//    }
 
 }

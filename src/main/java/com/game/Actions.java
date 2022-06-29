@@ -1,5 +1,8 @@
 package com.game;
 
+import com.model.team.Card;
+
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -118,21 +121,14 @@ public class Actions {
             throw new RuntimeException(e);
         }
     }
-
-    //    public void menu() {
-//        String menu = "=============";
-//        System.out.printf("%s %12s %12s %12s %12s\n", menu, menu, menu, menu, menu);
-//        System.out.printf("%s %8d %13d %13d %24s", "Enter:", 1, 2, 3, "Hand"+Game.getHand());
-//        System.out.printf("\n%s %11s %13s %12s %17s\n", "Action:", "Check", "Raise", "Fold","Bank:"+Game.getBank());
-//        System.out.printf("%s %12s %12s %12s %12s\n", menu, menu, menu, menu, menu);
-//    }
     public void menu() {
         String menu = "===============";
-        System.out.printf("%nPot: %4d %15s Board: %8s  %8s Dealer Bank: %4d%n", Game.pot,"", Game.sharedCards, "", Game.dealerBank);
+        System.out.printf("%nPot:%4d %6s Blinds: %2d %5sBoard:%-21.21s %4sDealer Bank:%4d %n", Game.pot, "", Game.blinds, "", Game.sharedCards.toString(),"", Game.dealerBank);
         System.out.printf("%s %12s %12s %12s %12s\n", menu, menu, menu, menu, menu);
         System.out.printf("%s %10d %15d %15d %14sHand: %s\n", "Enter:", 1, 2, 3, "", Game.getHand());
-        System.out.printf("%s %13s %15s %14s %10s Bank: %4d%n", "Action:", "Check", "Raise", "Fold","", Game.getBank());
+        System.out.printf("%s %13s %15s %14s %10s Bank: %4d%n", "Action:", "Check", "Raise", "Fold", "", Game.getBank());
         System.out.printf("%s %12s %12s %12s %12s\n", menu, menu, menu, menu, menu);
 
     }
 }
+

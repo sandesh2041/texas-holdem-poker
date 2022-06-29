@@ -233,4 +233,8 @@ public class Game {
     public static int getPot() {
         return pot;
     }
+
+    public static ArrayList<Card> getSharedCards() {
+        return sharedCards;
+    }
 }
