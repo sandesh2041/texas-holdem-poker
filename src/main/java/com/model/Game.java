@@ -33,7 +33,7 @@ public class Game {
         System.out.println(dealer);
         System.out.println(user);
         //Hands.getHand(dealer);
-        Hands.compares(dealer,user);
+        Hands.compares(dealer,user,table);
     }
 
 

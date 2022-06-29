@@ -14,6 +14,9 @@ public class Hands {
     //Check the Enum.ordinal
 
     //Hands.getHand(ArrayList<Card> dealerHand);
+
+    //todo: getting in the users inputs and then merging.
+    //todo:
     public static ArrayList<Object> getHand(ArrayList<Card> hand) {
         ArrayList<Object> set = new ArrayList<>();
         set = royalFlush(hand);
@@ -57,17 +60,25 @@ public class Hands {
         return HighCard(hand);
     }
 
-    public static ArrayList<Card> compares(ArrayList<Card> hand1, ArrayList<Card> hand2) {
+    public static ArrayList<Card> compares(ArrayList<Card> hand1, ArrayList<Card> hand2, ArrayList<Card> hand3) {
+        Rank user = hand1.get(1).getRank();
+        Rank dealer = hand2.get(1).getRank();
+
         ArrayList<Object> first = getHand(hand1);
         ArrayList<Object> second = getHand(hand2);
-        System.out.println(hand1);
-        System.out.println(hand2);
 
         System.out.println(first);
         System.out.println(second);
-
-        //for( int i = 0; )
-
+        CardRankings rank1 = (CardRankings) first.get(1);
+        CardRankings rank2 = (CardRankings) second.get(1);
+        if(rank1.ordinal() < rank2.ordinal()){
+            System.out.println("winner hand1");
+            return hand1;
+        }
+        if(rank1.ordinal() > rank2.ordinal()){
+            System.out.println("winner hand2 ");
+            return hand2;
+        }
         return null;
     }
 
