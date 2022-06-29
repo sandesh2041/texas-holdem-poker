@@ -72,6 +72,7 @@ public class Hands {
 
         System.out.println("Dealer" + first);
         System.out.println("User" + second);
+
         CardRankings rank1 = (CardRankings) first.get(1);
         CardRankings rank2 = (CardRankings) second.get(1);
 
@@ -82,47 +83,47 @@ public class Hands {
         Rank hand2LastCard = (Rank) second.get(2);
 
         if (rank1.ordinal() < rank2.ordinal()) {
-            System.out.println("winner: Dealer");
+            //System.out.println("winner: Dealer");
             return "winner: Dealer";
         }
         if (rank1.ordinal() > rank2.ordinal()) {
-            System.out.println("winner: User");
+           // System.out.println("winner: User");
             return "winner: User";
         }
         if (firstCard.ordinal() > secondCard.ordinal()) {
-            System.out.println("winner: dealer2");
+            //System.out.println("winner: dealer2");
             return "winner: Dealer";
         }
         if (firstCard.ordinal() < secondCard.ordinal()) {
-            System.out.println("winner: user2");
+           // System.out.println("winner: user2");
             return "winner: User";
         }
         if (hand1LastCard.ordinal() > hand2LastCard.ordinal()) {
-            System.out.println("winner: dealer3");
+           // System.out.println("winner: dealer3");
             return "winner: Dealer";
         }
         if (hand1LastCard.ordinal() < hand2LastCard.ordinal()) {
-            System.out.println("winner: user3");
+            //System.out.println("winner: user3");
             return "winner: User";
         }
         if (dealer.ordinal() > user.ordinal()) {
-            System.out.println("winner: dealer4");
+            //System.out.println("winner: dealer4");
             return "winner: Dealer";
         }
         if (dealer.ordinal() < user.ordinal()) {
-            System.out.println("winner: user4");
+            //System.out.println("winner: user4");
             return "winner: User";
         }
         if (dealerSecond.ordinal() < userSecond.ordinal()) {
-            System.out.println("winner: dealer5");
+            //System.out.println("winner: dealer5");
             return "winner: Dealer";
         }
         if (dealerSecond.ordinal() > userSecond.ordinal()) {
-            System.out.println("winner: user5");
+            //System.out.println("winner: user5");
             return "winner: User";
         }
-        System.out.println("push");
-        return null;
+        //System.out.println("push");
+        return "push";
 
     }
 
