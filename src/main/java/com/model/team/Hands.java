@@ -9,8 +9,7 @@ import java.util.Comparator;
 
 public class Hands {
 
-    public static ArrayList<Object> dealerSharedHand = new ArrayList<>();
-    public static ArrayList<Object> playerSharedHand = new ArrayList<>();
+
 
 
     //Royal Flush  [boolean, Enum.CardRankings:double ,[A], [3]]
@@ -102,8 +101,7 @@ public class Hands {
 
         ArrayList<Object> first = getHand(hand1);
         ArrayList<Object> second = getHand(hand2);
-        dealerSharedHand= first;
-        playerSharedHand = second;
+
 
 
 //        System.out.println("Dealer" + first);
@@ -118,50 +116,50 @@ public class Hands {
         Rank hand2LastCard = (Rank) second.get(2);
 
         if (rank1.ordinal() < rank2.ordinal()) {
-            System.out.println("Dealer: \"Dealer wins!\"");
+//            System.out.println("Dealer: \"Dealer wins!\"");
             return hand1;
         }
         if (rank1.ordinal() > rank2.ordinal()) {
-            System.out.println("Dealer: \"Player wins!\"");
+//            System.out.println("Dealer: \"Player wins!\"");
             return hand2;
         }
         if (firstCard.ordinal() > secondCard.ordinal()) {
-            System.out.println("Dealer: \"Dealer wins!\"");
+//            System.out.println("Dealer: \"Dealer wins!\"");
             return hand1;
         }
         if (firstCard.ordinal() < secondCard.ordinal()) {
-            System.out.println("Dealer: \"Player wins!\"");
+//            System.out.println("Dealer: \"Player wins!\"");
             ;
             return hand2;
         }
         if (hand1LastCard.ordinal() > hand2LastCard.ordinal()) {
-            System.out.println("Dealer: \"Dealer wins!\"");
+//            System.out.println("Dealer: \"Dealer wins!\"");
             return hand1;
         }
         if (hand1LastCard.ordinal() < hand2LastCard.ordinal()) {
-            System.out.println("Dealer: \"Player wins!\"");
+//            System.out.println("Dealer: \"Player wins!\"");
             ;
             return hand2;
         }
         if (dealer.ordinal() > user.ordinal()) {
-            System.out.println("Dealer: \"Dealer wins!\"");
+//            System.out.println("Dealer: \"Dealer wins!\"");
             return hand1;
         }
         if (dealer.ordinal() < user.ordinal()) {
-            System.out.println("Dealer: \"Player wins!\"");
+//            System.out.println("Dealer: \"Player wins!\"");
             ;
             return hand2;
         }
         if (dealerSecond.ordinal() < userSecond.ordinal()) {
-            System.out.println("Dealer: \"Dealer wins!\"");
+//            System.out.println("Dealer: \"Dealer wins!\"");
             return hand1;
         }
         if (dealerSecond.ordinal() > userSecond.ordinal()) {
-            System.out.println("Dealer: \"Player wins!\"");
+//            System.out.println("Dealer: \"Player wins!\"");
             ;
             return hand2;
         }
-        System.out.println("Dealer: \"Even hand, push!\"");
+//        System.out.println("Dealer: \"Even hand, push!\"");
         return null;
 
     }
@@ -195,8 +193,6 @@ public class Hands {
         if (royalTrue.containsAll(hand)) {
             royal.add(hand.containsAll(royalTrue));
             royal.add(CardRankings.ROYAL_FLUSH);
-            royal.add(null);
-            royal.add(null);
         } else {
             return null;
         }

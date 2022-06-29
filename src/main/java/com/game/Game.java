@@ -5,11 +5,10 @@ import com.model.team.Deck;
 import com.model.team.Hands;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Game {
 
-    private final int time = 750;
+    private final int time = 1;
     public static int bank = 0;
     public static int dealerBank = 0;
     public static int pot = 0;
@@ -17,7 +16,7 @@ public class Game {
     public static Deck deck = new Deck();
     Scanner scanner = new Scanner(System.in);
 
-    public static  ArrayList<Card> hand = new ArrayList<>();
+    public static ArrayList<Card> playerHand = new ArrayList<>();
     public static ArrayList<Card> dealerHand = new ArrayList<>();
     public static ArrayList<Card> burnPile = new ArrayList<>();
     public static ArrayList<Card> sharedCards = new ArrayList<>();
@@ -111,9 +110,9 @@ public class Game {
         Card card5 = deck.draw();
 
         burnPile.add(card1);
-        hand.add(card2);
+        playerHand.add(card2);
         dealerHand.add(card3);
-        hand.add(card4);
+        playerHand.add(card4);
         dealerHand.add(card5);
         System.out.println(bundle.getString("burn_pile"));
         sleep(time);
@@ -133,7 +132,7 @@ public class Game {
         Actions actions = new Actions();
         actions.actions();
         bank = bank - Actions.bet;
-        pot = pot + Actions.bet*2;
+        pot = pot + Actions.bet * 2;
         dealerBank = dealerBank - Actions.bet;
     }
 
@@ -145,85 +144,94 @@ public class Game {
         sharedCards.add(card1);
         sharedCards.add(card2);
         sharedCards.add(card3);
-        System.out.printf(bundle.getString("dealing_flop"),card1);
+        System.out.printf(bundle.getString("dealing_flop"), card1);
         sleep(time);
-        System.out.printf(bundle.getString("dealing_flop"),card2);
+        System.out.printf(bundle.getString("dealing_flop"), card2);
         sleep(time);
-        System.out.printf(bundle.getString("dealing_flop"),card3);
+        System.out.printf(bundle.getString("dealing_flop"), card3);
         sleep(time);
-        System.out.printf(bundle.getString("shared_cards"),sharedCards);
+        System.out.printf(bundle.getString("shared_cards"), sharedCards);
         sleep(time);
         Actions actions = new Actions();
         actions.actions();
+        bank = bank - Actions.bet;
+        pot = pot + Actions.bet * 2;
+        dealerBank = dealerBank - Actions.bet;
+        ;
 
     }
 
     public void turn() {
-        bank = bank - Actions.bet;
-        System.out.println(bank);
-        pot = pot + Actions.bet*2;
-        System.out.println(pot);
-        dealerBank = dealerBank - Actions.bet;;
 
         Card card1 = deck.draw();
         sharedCards.add(card1);
-        System.out.printf(bundle.getString("dealing_turn"),card1);
+        System.out.printf(bundle.getString("dealing_turn"), card1);
         sleep(time);
-        System.out.printf(bundle.getString("shared_cards"),sharedCards);
+        System.out.printf(bundle.getString("shared_cards"), sharedCards);
         sleep(time);
         Actions action = new Actions();
         action.actions();
-    }
-    public void river(){
         bank = bank - Actions.bet;
-        System.out.println(bank);
-        pot = pot + Actions.bet*2;
-        System.out.println(pot);
-        dealerBank = dealerBank - Actions.bet;;
+        pot = pot + Actions.bet * 2;
+        dealerBank = dealerBank - Actions.bet;
+    }
 
+    public void river() {
         Card card1 = deck.draw();
         sharedCards.add(card1);
 
-        System.out.printf(bundle.getString("dealing_river"),card1);
-        System.out.printf(bundle.getString("shared_cards"),sharedCards);
+        System.out.printf(bundle.getString("dealing_river"), card1);
+        sleep(time);
+        System.out.printf(bundle.getString("shared_cards"), sharedCards);
         sleep(time);
         Actions action = new Actions();
         action.actions();
-//        boolean winnerResult = Hands.compares(dealerHand,hand,sharedCards).equals(hand) ? true : false;
-//        System.out.println(winnerResult);
-        System.out.println(printWinner());
-        if (Hands.compares(dealerHand,hand,sharedCards).equals(hand)){
-            bank+=pot;
-        }
-        else if (Hands.compares(dealerHand,hand,sharedCards).equals(dealerHand)){
-            dealerBank+=pot;
-        }
-        else {
-            bank+=pot/2;
-            dealerBank+=pot/2;
+        bank = bank - Actions.bet;
+        pot = pot + Actions.bet * 2;
+        dealerBank = dealerBank - Actions.bet;
+    }
+
+
+    public void determineWinner() {
+        printWinner();
+        sleep(time);
+        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.playerSharedHand));
+        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), playerHand));
+        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.dealerSharedHand));
+        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), dealerHand));
+        System.out.println(Hands.compares(dealerHand, playerHand, sharedCards));
+
+        System.out.println("testing was in 5 lines above");
+        if (Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.playerSharedHand)) {
+            System.out.println("Dealer: \"Player wins!\"");
+            bank += pot;
+        } else if (Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.dealerSharedHand)) {
+            System.out.println("Dealer: \"Dealer wins!\"");
+            dealerBank += pot;
+        } else {
+            System.out.println("Dealer: \"Split pot!\"");
+            bank += pot / 2;
+            dealerBank += pot / 2;
         }
     }
-    public static String printWinner() {
+
+    public void printWinner() {
         String dealerResult = "";
         String userResult = "";
-        Hands.compares(dealerHand,hand,sharedCards);
-
+        sleep(time);
+        System.out.println("Dealer flips over their cards showing..." + dealerHand);
+        sleep(time);
+        Hands.compares(dealerHand, playerHand, sharedCards);
         for (int i = 1; i < Hands.dealerSharedHand.size(); i++) {
             dealerResult += Hands.dealerSharedHand.get(i) + " ";
         }
         for (int i = 1; i < Hands.playerSharedHand.size(); i++) {
             userResult += Hands.playerSharedHand.get(i) + " ";
         }
-        String message = "Dealer: \"The dealer hand is " + dealerHand + " and has a " + dealerResult + "\"\n"
-                + "Dealer: \"The player hand is " + hand + " and has a " + userResult;
-//        System.out.println("The dealer hand is " + dealerResult);
-//        System.out.println("The user hand is " + userResult);
-        return message;
+        String message = "Dealer: \"The dealer has " + dealerResult + "and the player has " + userResult + "\"";
+
+        System.out.println(message);
     }
-
-
-
-
 
     public void sleep(int timer) {
         try {
@@ -233,39 +241,32 @@ public class Game {
         }
     }
 
-    public static List<Card> getHand() {
-//        Deck deck = new Deck();
-//        Card card1 = deck.draw();
-//        Card card2 = deck.draw();
-//        hand.add(card1);
-//        hand.add(card2);
-        List<Card> filtered = hand.stream().collect(Collectors.toList());
-        return filtered;
-    }
+//    public static List<Card> getHand() {
+////        Deck deck = new Deck();
+////        Card card1 = deck.draw();
+////        Card card2 = deck.draw();
+////        hand.add(card1);
+////        hand.add(card2);
+//        List<Card> filtered = hand.stream().collect(Collectors.toList());
+//        return filtered;
+//    }
 
     public static int getBank() {
         return bank;
-    }
-    public static void setBank(int bank) {
-        Game.bank = bank;
     }
 
     public static int getDealerBank() {
         return dealerBank;
     }
 
-    public static void setDealerBank(int dealerBank) {
-        Game.dealerBank = dealerBank;
-    }
 
     public static int getBlinds() {
         return blinds;
     }
-    public static int getPot() {
-        return pot;
-    }
 
-    public static ArrayList<Card> getSharedCards() {
-        return sharedCards;
-    }
 }
+
+//    public static ArrayList<Object> dealerSharedHand = new ArrayList<>();
+//    public static ArrayList<Object> playerSharedHand = new ArrayList<>();
+//                    dealerSharedHand=first;
+//                            playerSharedHand=second;

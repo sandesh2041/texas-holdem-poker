@@ -15,7 +15,7 @@ public class GameBoard {
 //        Actions action = new Actions();
         Game.pot = 0;
         Game.deck = new Deck();
-        Game.hand.clear();
+        Game.playerHand.clear();
         Game.dealerHand.clear();
         Game.sharedCards.clear();
         Game.burnPile.clear();
@@ -25,13 +25,14 @@ public class GameBoard {
         game.flop();
         game.turn();
         game.river();
+        game.determineWinner();
     }
 
     public void dealerTurn() {
 //        Actions action = new Actions();
         Game.pot = 0;
         Game.deck = new Deck();
-        Game.hand.clear();
+        Game.playerHand.clear();
         Game.dealerHand.clear();
         Game.sharedCards.clear();
         Game.burnPile.clear();
@@ -41,6 +42,7 @@ public class GameBoard {
         game.flop();
         game.turn();
         game.river();
+        game.determineWinner();
     }
 //    public boolean flag(){
 //        boolean flag = true
