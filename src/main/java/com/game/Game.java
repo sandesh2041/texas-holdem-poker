@@ -2,6 +2,7 @@ package com.game;
 
 import com.model.team.Card;
 import com.model.team.Deck;
+import com.model.team.Hands;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -188,6 +189,36 @@ public class Game {
         sleep(time);
         Actions action = new Actions();
         action.actions();
+//        boolean winnerResult = Hands.compares(dealerHand,hand,sharedCards).equals(hand) ? true : false;
+//        System.out.println(winnerResult);
+        System.out.println(printWinner());
+        if (Hands.compares(dealerHand,hand,sharedCards).equals(hand)){
+            bank+=pot;
+        }
+        else if (Hands.compares(dealerHand,hand,sharedCards).equals(dealerHand)){
+            dealerBank+=pot;
+        }
+        else {
+            bank+=pot/2;
+            dealerBank+=pot/2;
+        }
+    }
+    public static String printWinner() {
+        String dealerResult = "";
+        String userResult = "";
+        Hands.compares(dealerHand,hand,sharedCards);
+
+        for (int i = 1; i < Hands.dealerSharedHand.size(); i++) {
+            dealerResult += Hands.dealerSharedHand.get(i) + " ";
+        }
+        for (int i = 1; i < Hands.playerSharedHand.size(); i++) {
+            userResult += Hands.playerSharedHand.get(i) + " ";
+        }
+        String message = "Dealer: \"The dealer hand is " + dealerHand + " and has a " + dealerResult + "\"\n"
+                + "Dealer: \"The player hand is " + hand + " and has a " + userResult;
+//        System.out.println("The dealer hand is " + dealerResult);
+//        System.out.println("The user hand is " + userResult);
+        return message;
     }
 
 
