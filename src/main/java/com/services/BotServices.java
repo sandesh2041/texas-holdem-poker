@@ -1,7 +1,7 @@
 package com.services;
 
-import com.samgame.Actions;
-import com.samgame.BotActions;
+import com.game.Actions;
+import com.game.BotActions;
 import com.model.enums.Decision;
 import com.model.team.Card;
 import com.model.team.CardRankings;
