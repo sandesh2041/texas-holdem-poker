@@ -1,4 +1,4 @@
-package com.model.team;
+package com.poker.model;
 
 import java.util.Objects;
 

@@ -1,14 +1,15 @@
-package com.game;
+package com.poker.game;
 
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class Actions {
+    private final int time = 700;
     private static final ResourceBundle bundle = ResourceBundle.getBundle("strings");
+
     public static int actionDecision = 0;
     public static int bet = 0;
-    private final int time = 1;
     Scanner scanner = new Scanner(System.in);
 
     public int actions() {
@@ -82,7 +83,6 @@ public class Actions {
             case 3:
                 fold();
                 break;
-
         }
         actionDecision = caseNum;
         return actionDecision;
@@ -95,24 +95,20 @@ public class Actions {
 
     public void call() {
         if (Game.bank >= Game.bBet) {
-            Game.pot += Game.bBet*2;
+            Game.pot += Game.bBet * 2;
             Game.bank -= Game.bBet;
             Game.dealerBank -= Game.bBet;
         } else {
             Game.pot = Game.pot + (Game.bank * 2);
             Game.dealerBank = Game.dealerBank + Game.bBet - Game.bank;
             Game.bank = 0;
-
         }
-
         System.out.println(bundle.getString("actions_call"));
     }
 
     public void raise() {
-
         bet = 0;
         int wager = 0;
-
         if (Game.getBank() < 10) {
             System.out.println(bundle.getString("raise_bankLow"));
             Actions actions = new Actions();
@@ -121,13 +117,11 @@ public class Actions {
         String[] dealerResponses = {bundle.getString("raise_menu"), bundle.getString("raise_menu1"), bundle.getString("raise_menu2"), bundle.getString("raise_menu3")};
         Random ran = new Random();
         String dealerRandomResponse = dealerResponses[ran.nextInt(dealerResponses.length)];
-
-
         if (Game.getBank() >= 10) {
             System.out.println(dealerRandomResponse);
             String result = scanner.next();
             do {
-                if ((wager >= 10 && wager <= Game.getBank()) && wager>=Game.bBet) {
+                if ((wager >= 10 && wager <= Game.getBank()) && wager >= Game.bBet) {
                     break;
                 }
                 try {
@@ -138,7 +132,7 @@ public class Actions {
                     } else if (wager > Game.getBank()) {
                         System.out.println(bundle.getString("raise_betHigh"));
                         result = scanner.next();
-                    } else if (wager < Game.bBet){
+                    } else if (wager < Game.bBet) {
                         System.out.println(bundle.getString("raise_higherDealer"));
                         result = scanner.next();
                     }
@@ -176,7 +170,6 @@ public class Actions {
         System.out.printf("%s %10d %15d %15d %14sHand: %s\n", "Enter:", 1, 2, 3, "", Game.playerHand);
         System.out.printf("%s %13s %15s %14s %10s Bank: %4d%n", "Action:", "Check", "Raise", "Fold", "", Game.getBank());
         System.out.printf("%s %12s %12s %12s %12s\n", menu, menu, menu, menu, menu);
-
     }
 
     public void menu1() {
@@ -186,7 +179,6 @@ public class Actions {
         System.out.printf("%s %10d %15d %15d %14sHand: %s\n", "Enter:", 1, 2, 3, "", Game.playerHand);
         System.out.printf("%s %12s %16s %14s %10s Bank: %4d%n", "Action:", "Call", "Raise", "Fold", "", Game.getBank());
         System.out.printf("%s %12s %12s %12s %12s\n", menu, menu, menu, menu, menu);
-
     }
 }
 

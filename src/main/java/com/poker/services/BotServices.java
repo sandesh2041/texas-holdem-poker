@@ -1,23 +1,19 @@
-package com.services;
+package com.poker.services;
 
-import com.game.Actions;
-import com.game.BotActions;
-import com.game.Game;
-import com.game.GameBoard;
-import com.model.enums.Decision;
-import com.model.team.Card;
-import com.model.team.CardRankings;
-import com.model.team.Hands;
+import com.poker.game.Actions;
+import com.poker.game.Game;
+import com.poker.game.GameBoard;
+import com.poker.model.Decision;
+import com.poker.model.Card;
+import com.poker.model.CardRankings;
+import com.poker.model.Hands;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class BotServices {
-
-
     BotActions bAction = new BotActions();
 
-    //Determines bot action for initial two pocket cards
     public Decision botTwoCardAction(Decision userAction, double score) {
         Decision botAction = Decision.CALL;
         switch (userAction) {
@@ -42,19 +38,16 @@ public class BotServices {
         return botAction;
     }
 
-    //Determine the strength score of the bot cards combining pocket and community cards
     public int check(ArrayList<Card> cards) {
         CardRankings handStength = (CardRankings) Hands.getHand(cards).get(1);
         return handStength.getValue();
     }
 
-    //Determines bot action after each additional community card flipped(After flop, turn and river)
     public Decision botMultiCardAction(Decision userAction, int score) {
         Decision botAction = Decision.CALL;
         if (userAction == Decision.CALL) {
             if (score < 20) {
                 botAction = Decision.FOLD;
-
             }
         } else if (userAction == Decision.CHECK) {
             if (score < 20) {
@@ -70,7 +63,6 @@ public class BotServices {
             }
         }
         return botAction;
-
     }
 
     public int getBotBet(Decision botAction, int dealerBank) {
@@ -92,7 +84,6 @@ public class BotServices {
                 Game.bank = Game.bank + Actions.bet - bBet;
                 Game.pot = Game.pot - Actions.bet + (bBet * 2);
                 Actions.bet = bBet;
-
             } else {
                 if (bAction.getAction() == Decision.CHECK) {
                     Random random = new Random();
@@ -113,9 +104,7 @@ public class BotServices {
                     System.out.println("Dealer calls...");
                 }
             }
-
         }
-
         return bBet;
     }
 

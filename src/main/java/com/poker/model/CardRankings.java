@@ -1,4 +1,4 @@
-package com.model.team;
+package com.poker.model;
 
 public enum CardRankings {
     ROYAL_FLUSH(100),

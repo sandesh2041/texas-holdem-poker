@@ -1,4 +1,4 @@
-package com.model.team;
+package com.poker.model;
 
 /**
  * Unchecked exception thrown when an attempt is made to draw a {@link Card} but none is available.

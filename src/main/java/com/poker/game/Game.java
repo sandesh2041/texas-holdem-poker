@@ -1,38 +1,38 @@
-package com.game;
+package com.poker.game;
 
-import com.model.enums.Decision;
-import com.model.team.Card;
-import com.model.team.Deck;
-import com.model.team.Hands;
-import com.model.utils.ChenScore;
-import com.services.BotServices;
+import com.poker.model.Decision;
+import com.poker.model.Card;
+import com.poker.model.Deck;
+import com.poker.model.Hands;
+import com.poker.services.BotActions;
+import com.poker.services.ChenScore;
+import com.poker.services.BotServices;
+
 import java.util.*;
 
 public class Game {
-    private final int time = 1;
+    private final ResourceBundle bundle = ResourceBundle.getBundle("strings");
+    private final int time = 700;
+
     public static int bank = 0;
     public static int dealerBank = 0;
     public static int pot = 0;
     public static int blinds = 0;
-
-    double score;
     public static int bBet = 0;
-
-    BotServices botServices = new BotServices();
-    BotActions bAction = new BotActions();
-    Actions actions = new Actions();
-
     public static Deck deck = new Deck();
-    Scanner scanner = new Scanner(System.in);
-
     public static ArrayList<Card> playerHand = new ArrayList<>();
     public static ArrayList<Card> dealerHand = new ArrayList<>();
     public static ArrayList<Card> dealerHand1 = new ArrayList<>();
     public static ArrayList<Card> burnPile = new ArrayList<>();
     public static ArrayList<Card> sharedCards = new ArrayList<>();
     public static ArrayList<Card> sharedCards1 = new ArrayList<>();
-    private final ResourceBundle bundle = ResourceBundle.getBundle("strings");
-    private ArrayList<Card> combinedCards = new ArrayList<>(); //Remove later
+
+    double score;
+    BotServices botServices = new BotServices();
+    BotActions bAction = new BotActions();
+    Actions actions = new Actions();
+    Scanner scanner = new Scanner(System.in);
+    private ArrayList<Card> combinedCards = new ArrayList<>();
 
     public void startGame() {
         System.out.println(bundle.getString("start_game"));
@@ -52,7 +52,6 @@ public class Game {
 
     public void chooseBankValue() {
         System.out.println(bundle.getString("set_bank"));
-
         while (!(bank >= 40 && bank <= 1000)) {
             try {
                 bank = Integer.parseInt(String.valueOf(Integer.parseInt(scanner.next())));
@@ -69,7 +68,6 @@ public class Game {
 
     public void chooseBlinds() {
         System.out.println(bundle.getString("set_blinds"));
-
         while (blinds < 5 || blinds > 20) {
             try {
                 blinds = Integer.parseInt(String.valueOf(Integer.parseInt(scanner.next())));
@@ -80,14 +78,13 @@ public class Game {
                 System.out.println(bundle.getString("blinds_error"));
             }
         }
-
         System.out.printf(bundle.getString("blinds_value"), getBlinds());
     }
 
     public void startHandMenu() {
         System.out.println(bundle.getString("shuffle_cards"));
         deck.shuffle();
-        sleep(time*2);
+        sleep(time * 2);
         System.out.println(bundle.getString("deal_menu"));
         String deal = scanner.next();
         do {
@@ -101,7 +98,6 @@ public class Game {
                 deal = scanner.next();
             }
         } while (!(deal.equalsIgnoreCase("deal")) && !(deal.equalsIgnoreCase("d")));
-
         System.out.println(bundle.getString("deal_hands"));
     }
 
@@ -121,7 +117,7 @@ public class Game {
         dealerHand.add(card5);
         dealerHand1.add(card5);
         System.out.println(bundle.getString("burn_pile"));
-        sleep(time+250);
+        sleep(time + 250);
         System.out.printf(bundle.getString("card1"), card2);
         sleep(time);
         System.out.println(bundle.getString("dealer_card1"));
@@ -136,16 +132,14 @@ public class Game {
         pot = blinds * 2;
         dealerBank = dealerBank - blinds;
         actions.actions();
-        //Bot actions
         ChenScore chenScore = new ChenScore();
-        score = chenScore.calculateScore(dealerHand); //Calculated Chen Score
-        Decision botAction = botServices.botTwoCardAction(bAction.getAction(), score); //Determine what bot will do with initial 2 pocket card
+        score = chenScore.calculateScore(dealerHand);
+        Decision botAction = botServices.botTwoCardAction(bAction.getAction(), score);
         bBet = botServices.getBotBet(botAction, dealerBank);
         dealerBank = dealerBank - bBet;
-        pot +=bBet;
+        pot += bBet;
         checkBetDifference();
-
-        Actions.bet=0;
+        Actions.bet = 0;
     }
 
     public void flop() {
@@ -171,14 +165,13 @@ public class Game {
         combinedCards.add(card1);
         combinedCards.add(card2);
         combinedCards.add(card3);
-        //Bot action
         score = botServices.check(combinedCards);
-        Decision botAction =  botServices.botMultiCardAction(bAction.getAction(), (int)score);
+        Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int) score);
         bBet = botServices.getBotBet(botAction, dealerBank);
         dealerBank = dealerBank - bBet;
-        pot +=bBet;
+        pot += bBet;
         checkBetDifference();
-        Actions.bet=0;
+        Actions.bet = 0;
     }
 
     public void turn() {
@@ -190,16 +183,15 @@ public class Game {
         sleep(time);
         System.out.printf(bundle.getString("shared_cards"), sharedCards1);
         sleep(time);
-
         actions.actions();
         combinedCards.add(card4);
         sharedCards.add(deck.draw());
-        Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int)score);
+        Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int) score);
         bBet = botServices.getBotBet(botAction, dealerBank);
         dealerBank = dealerBank - bBet;
-        pot +=bBet;
+        pot += bBet;
         checkBetDifference();
-        Actions.bet=0;
+        Actions.bet = 0;
     }
 
     public void river() {
@@ -210,16 +202,15 @@ public class Game {
         System.out.printf(bundle.getString("dealing_river"), card5);
         sleep(time);
         System.out.printf(bundle.getString("shared_cards"), sharedCards1);
-        sleep(time/3);
-
+        sleep(time / 3);
         actions.actions();
         combinedCards.add(card5);
-        Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int)score);
+        Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int) score);
         bBet = botServices.getBotBet(botAction, dealerBank);
         dealerBank = dealerBank - bBet;
-        pot +=bBet;
+        pot += bBet;
         checkBetDifference();
-        Actions.bet=0;
+        Actions.bet = 0;
     }
 
     public void determineWinner() {
@@ -227,11 +218,10 @@ public class Game {
         System.out.println("Dealer flips over their cards showing..." + dealerHand1);
         String resultCompare = Hands.compares(dealerHand1, playerHand, sharedCards1);
         String replace1 = Hands.printWinner.replace("_", " ");
-        String replace2 = replace1.replace(" and",", and");
-        String replace3 = replace2.replace("null","");
+        String replace2 = replace1.replace(" and", ", and");
+        String replace3 = replace2.replace("null", "");
         System.out.printf(replace3);
         sleep(time);
-
         dealerHand1.clear();
         playerHand.clear();
         sharedCards1.clear();
@@ -249,17 +239,16 @@ public class Game {
         sleep(time);
     }
 
-    public void checkBetDifference(){
-        //Need to make change to bank amounts
-        if(Actions.bet != bBet) {
+    public void checkBetDifference() {
+        if (Actions.bet != bBet) {
             actions.secondAction();
             sleep(750);
             System.out.println("Dealer will play...");
         }
         int tempBet = bBet;
-        if(Actions.bet != tempBet){
+        if (Actions.bet != tempBet) {
             bBet = Actions.bet - tempBet;
-            pot = pot  + bBet;
+            pot = pot + bBet;
             dealerBank = dealerBank - bBet;
         }
     }
@@ -275,9 +264,11 @@ public class Game {
     public static int getBank() {
         return bank;
     }
+
     public static int getDealerBank() {
         return dealerBank;
     }
+
     public static int getBlinds() {
         return blinds;
     }

@@ -1,44 +1,32 @@
-package com.model.utils;
+package com.poker.services;
 
-import com.model.team.Card;
-import com.model.team.Rank;
-import com.model.team.Suit;
-
+import com.poker.model.Card;
+import com.poker.model.Rank;
+import com.poker.model.Suit;
 import java.util.ArrayList;
 
 public class ChenScore {
-
     public double calculateScore (ArrayList<Card> cards) {
         double score;
-
         Rank rankOfFirst = cards.get(0).getRank();
         Rank rankOfSecond = cards.get(1).getRank();
         Suit suitOfFirst = cards.get(0).getSuit();
         Suit suitOfSecond = cards.get(1).getSuit();
-
         int firstCardValue = getCardValue(cards.get(0));
         int secondCardValue = getCardValue(cards.get(1));
-
         Rank highCard = calculateHighCard(cards);
-
-        //Scoring highest card
         score = getScore(highCard);
 
-        //Multiply pair by 2. Minimum score is 5.
         if(rankOfFirst == rankOfSecond){
                 score *= 2;
                 if(score < 5){
                     score = 5;
                 }
         }
-
-        //Add 2 score for same suit.
         if(suitOfFirst == suitOfSecond){
             score += 2;
         }
-
         if(rankOfFirst != rankOfSecond){
-            //Subtract points for gaps.
             int cardGap = Math.abs(firstCardValue - secondCardValue);
             switch (cardGap) {
                 case 1:
@@ -55,16 +43,11 @@ public class ChenScore {
                 default:
                     score -= 5;
             }
-
-            //Add 1 score of 0 or 1 gap if card is below Q
             if(firstCardValue < 12 && secondCardValue < 12 && cardGap < 3) {
                 score += 1;
             }
         }
-
-        //Round score to next up integer
         score = Math.ceil(score);
-
         return score;
     }
 
@@ -106,9 +89,7 @@ public class ChenScore {
                 break;
             default:
                 cardValue =  Integer.parseInt(card.getRank().getAbbreviation());
-
         }
         return cardValue;
     }
-
 }

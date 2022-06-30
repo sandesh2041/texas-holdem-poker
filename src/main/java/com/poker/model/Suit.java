@@ -1,4 +1,4 @@
-package com.model.team;
+package com.poker.model;
 
 /**
  * Enumerates all suits of the standard 52-card deck of playing cards (aka French-suited playing cards), each with the

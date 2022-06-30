@@ -1,14 +1,12 @@
-package com.model.team;
+package com.poker.model;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Hands {
+    private static final Comparator<Card> comparator = Comparator.comparing(Card::getRank);
 
-    private static final Comparator<Card> comparator = Comparator
-            .comparing(Card::getRank);
     public static String printWinner;
-
 
     public static ArrayList<Object> getHand(ArrayList<Card> hand) {
         ArrayList<Object> set;
@@ -28,12 +26,10 @@ public class Hands {
         if (set != null) {
             return set;
         }
-
         set = flush(hand);
         if (set != null) {
             return set;
         }
-
         set = straight(hand);
         if (set != null) {
             return set;
@@ -50,18 +46,14 @@ public class Hands {
         if (set != null) {
             return set;
         }
-        return HighCard(hand);
+        return highCard(hand);
     }
 
     public static String compares(ArrayList<Card> hand1, ArrayList<Card> hand2, ArrayList<Card> shared) {
-        //hands [0,1]
         Rank dealer = hand1.get(1).getRank();
         Rank user = hand2.get(1).getRank();
-
-        //hands [0,1]
         Rank dealerSecond = hand1.get(0).getRank();
         Rank userSecond = hand2.get(0).getRank();
-
         hand1.addAll(shared);
         hand2.addAll(shared);
         hand1.sort(comparator);
@@ -69,7 +61,6 @@ public class Hands {
 
         ArrayList<Object> first = getHand(hand1);
         ArrayList<Object> second = getHand(hand2);
-
         String dealerResult = "";
         String userResult = "";
         for (int i = 1; i < first.size(); i++) {
@@ -80,64 +71,45 @@ public class Hands {
         }
         printWinner = "Dealer: \"The dealer has " + dealerResult.toLowerCase() + "and the player has " + userResult.toLowerCase() + ".\"\n";
 
-
-
-
-
         CardRankings rank1 = (CardRankings) first.get(1);
         CardRankings rank2 = (CardRankings) second.get(1);
-
         Rank firstCard = (Rank) first.get(2);
         Rank secondCard = (Rank) second.get(2);
-
         Rank hand1LastCard = (Rank) first.get(2);
         Rank hand2LastCard = (Rank) second.get(2);
 
         if (rank1.ordinal() < rank2.ordinal()) {
-            //System.out.println("winner: Dealer");
             return "winner: Dealer";
         }
         if (rank1.ordinal() > rank2.ordinal()) {
-            // System.out.println("winner: User");
             return "winner: User";
         }
         if (firstCard.ordinal() > secondCard.ordinal()) {
-            //System.out.println("winner: dealer2");
             return "winner: Dealer";
         }
         if (firstCard.ordinal() < secondCard.ordinal()) {
-            // System.out.println("winner: user2");
             return "winner: User";
         }
         if (hand1LastCard.ordinal() > hand2LastCard.ordinal()) {
-            // System.out.println("winner: dealer3");
             return "winner: Dealer";
         }
         if (hand1LastCard.ordinal() < hand2LastCard.ordinal()) {
-            //System.out.println("winner: user3");
             return "winner: User";
         }
         if (dealer.ordinal() > user.ordinal()) {
-            //System.out.println("winner: dealer4");
             return "winner: Dealer";
         }
         if (dealer.ordinal() < user.ordinal()) {
-            //System.out.println("winner: user4");
             return "winner: User";
         }
         if (dealerSecond.ordinal() < userSecond.ordinal()) {
-            //System.out.println("winner: dealer5");
             return "winner: Dealer";
         }
         if (dealerSecond.ordinal() > userSecond.ordinal()) {
-            //System.out.println("winner: user5");
             return "winner: User";
         }
-        //System.out.println("push");
         return "push";
-
     }
-
 
     public static ArrayList<Object> royalFlush(ArrayList<Card> hand) {
         ArrayList<Object> straightFlush = new ArrayList<>();
@@ -152,9 +124,8 @@ public class Hands {
                         straight.add(highest);
                     }
                     straight.add(card);
-
                 } else {
-                    if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE && straight.get(straight.size()-5).getRank() == Rank.TEN) {
+                    if (straight.size() >= 5 && straight.get(straight.size() - 1).getRank() == Rank.ACE && straight.get(straight.size() - 5).getRank() == Rank.TEN) {
                         val = highest.getSuit();
                         fin = new ArrayList<>();
                         fin.add(true);
@@ -168,7 +139,7 @@ public class Hands {
             }
             highest = card;
         }
-        if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE && straight.get(straight.size()-5).getRank() == Rank.TEN) {
+        if (straight.size() >= 5 && straight.get(straight.size() - 1).getRank() == Rank.ACE && straight.get(straight.size() - 5).getRank() == Rank.TEN) {
             straightFlush.add(true);
             straightFlush.add(CardRankings.ROYAL_FLUSH);
             straightFlush.add(straight.get(straight.size() - 1).getRank());
@@ -179,7 +150,6 @@ public class Hands {
         return straightFlush;
     }
 
-    //Straight Flush
     public static ArrayList<Object> straightFlush(ArrayList<Card> hand) {
         ArrayList<Object> straightFlush = new ArrayList<>();
         ArrayList<Card> straight = new ArrayList<>();
@@ -193,7 +163,6 @@ public class Hands {
                         straight.add(highest);
                     }
                     straight.add(card);
-
                 } else {
                     if (straight.size() >= 5) {
                         val = highest.getSuit();
@@ -204,14 +173,13 @@ public class Hands {
                         fin.add(null);
                         return fin;
                     }
-                    if(straight.size()>=4  && hand.get(hand.size()-1).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO){
+                    if (straight.size() >= 4 && hand.get(hand.size() - 1).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO) {
                         fin.add(true);
                         fin.add(CardRankings.STRAIGHT_FLUSH);
                         fin.add(straight.get(straight.size() - 1).getRank());
                         fin.add(null);
                         return fin;
                     }
-
                     straight.clear();
                 }
             }
@@ -233,7 +201,6 @@ public class Hands {
         return straightFlush;
     }
 
-    //Four of a kind
     public static ArrayList<Object> fourOfAKind(ArrayList<Card> hand) {
         ArrayList<Object> four = new ArrayList<>();
         int counter = 0;
@@ -260,14 +227,11 @@ public class Hands {
         return four;
     }
 
-
-    //Full House
     public static ArrayList<Object> fullHouse(ArrayList<Card> hand) {
         ArrayList<Object> full = new ArrayList<>();
         Rank tripleRank = null;
         Rank doublesRank = null;
         int counter = 0;
-
         for (Card cards : hand) {
             for (Card cards1 : hand) {
                 if (cards.getRank() == cards1.getRank()) {
@@ -285,7 +249,6 @@ public class Hands {
                 doublesRank = cards.getRank();
             }
             counter = 0;
-
         }
         if (tripleRank != null && doublesRank != null && doublesRank != tripleRank) {
             full.add(true);
@@ -295,12 +258,9 @@ public class Hands {
         } else {
             full = null;
         }
-
         return full;
     }
 
-
-    //Flush
     public static ArrayList<Object> flush(ArrayList<Card> hand) {
         ArrayList<Object> flush = new ArrayList<>();
         Suit suit = null;
@@ -329,11 +289,9 @@ public class Hands {
         return flush;
     }
 
-    //Straight
     public static ArrayList<Object> straight(ArrayList<Card> hand) {
         ArrayList<Card> straight = new ArrayList<>();
         ArrayList<Object> fin = new ArrayList<>();
-
         Card highest = null;
         for (Card card : hand) {
             if (highest != null) {
@@ -342,7 +300,6 @@ public class Hands {
                         straight.add(highest);
                     }
                     straight.add(card);
-
                 } else {
                     if (straight.size() == 5) {
                         fin.add(true);
@@ -352,7 +309,7 @@ public class Hands {
                         return fin;
                     }
                     int x = hand.size();
-                    if(straight.size()>=4  && hand.get(x-1).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO){
+                    if (straight.size() >= 4 && hand.get(x - 1).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO) {
                         fin.add(true);
                         fin.add(CardRankings.STRAIGHT);
                         fin.add(straight.get(straight.size() - 1).getRank());
@@ -364,7 +321,6 @@ public class Hands {
             }
             highest = card;
         }
-
         if (straight.size() == 5) {
             fin.add(true);
             fin.add(CardRankings.STRAIGHT);
@@ -375,7 +331,6 @@ public class Hands {
         return null;
     }
 
-    //Three of a kind
     public static ArrayList<Object> threeOfAKind(ArrayList<Card> hand) {
         ArrayList<Object> three = new ArrayList<>();
         int counter = 0;
@@ -390,7 +345,6 @@ public class Hands {
                 rank = cards.getRank();
             }
             counter = 0;
-
         }
         if (rank != null) {
             three.add(true);
@@ -403,7 +357,6 @@ public class Hands {
         return three;
     }
 
-    //Two pair
     public static ArrayList<Object> twoPairs(ArrayList<Card> hand) {
         ArrayList<Object> two = new ArrayList<>();
         ArrayList<Rank> ranks = new ArrayList<>();
@@ -430,7 +383,6 @@ public class Hands {
         return two;
     }
 
-    //One pair
     public static ArrayList<Object> pair(ArrayList<Card> hand) {
         ArrayList<Object> pair = new ArrayList<>();
         ArrayList<Rank> ranks = new ArrayList<>();
@@ -457,13 +409,10 @@ public class Hands {
         } else {
             pair = null;
         }
-
         return pair;
     }
 
-
-    //High Card
-    public static ArrayList<Object> HighCard(ArrayList<Card> hand) {
+    public static ArrayList<Object> highCard(ArrayList<Card> hand) {
         ArrayList<Object> high = new ArrayList<>();
         high.add(true);
         high.add(CardRankings.HIGH_CARD);
