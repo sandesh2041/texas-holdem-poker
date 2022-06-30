@@ -142,7 +142,7 @@ public class GameTester {
         ArrayList<Card> table = new ArrayList<>();
         ArrayList<Card> dealer = new ArrayList<>();
         dealer.add(card13);
-        dealer.add(card31);
+        dealer.add(card21);
         table.add(card4);
         table.add(card5);
         table.add(card39);
