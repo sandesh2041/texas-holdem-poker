@@ -5,7 +5,13 @@ import com.poker.model.Rank;
 import com.poker.model.Suit;
 import java.util.ArrayList;
 
+/**
+ * Provides the dealer logic to determine their hand strength.
+ */
 public class ChenScore {
+    /**
+     * Allows the player to begin determine the strength of the hand they are dealt.
+     */
     public double calculateScore (ArrayList<Card> cards) {
         double score;
         Rank rankOfFirst = cards.get(0).getRank();
@@ -51,6 +57,10 @@ public class ChenScore {
         return score;
     }
 
+    /**
+     * Provides the dealer with a numeric value as a metric to determine the strength
+     * of their 2 card hand.
+     */
     private double getScore(Rank highCard) {
         double score;
         if(highCard ==  Rank.ACE){
@@ -67,11 +77,17 @@ public class ChenScore {
         return score;
     }
 
+    /**
+     * Allows dealer a method for comparing each of their cards.
+     */
     private Rank calculateHighCard(ArrayList<Card> card){
         int cardValue = card.get(0).getRank().compareTo(card.get(1).getRank());
         return (cardValue > 0) ? card.get(0).getRank() : card.get(1).getRank();
     }
 
+    /**
+     * Assigns numeric values to each potential card in their hand to make a decision
+     */
     private int getCardValue(Card card){
         int cardValue;
         switch(card.getRank().getAbbreviation()){

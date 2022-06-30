@@ -14,8 +14,7 @@ public class Hands {
      *
      * compares the card rankings and returns it in order of Rank.
      */
-    private static final Comparator<Card> comparator = Comparator
-            .comparing(Card::getRank);
+    private static final Comparator<Card> comparator = Comparator.comparing(Card::getRank);
 
     public static String printWinner;
     /**
@@ -42,12 +41,10 @@ public class Hands {
         if (set != null) {
             return set;
         }
-
         set = flush(hand);
         if (set != null) {
             return set;
         }
-
         set = straight(hand);
         if (set != null) {
             return set;
@@ -138,7 +135,6 @@ public class Hands {
             return "winner: User";
         }
         return "push";
-
     }
 
     /**

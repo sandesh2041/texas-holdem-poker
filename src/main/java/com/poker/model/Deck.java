@@ -10,7 +10,6 @@ import java.util.*;
  * a {@link ConcurrentModificationException} being thrown.
  */
 public class Deck implements Iterable<Card> {
-
     private final int size;
     private final List<Card> cards;
 
@@ -18,7 +17,8 @@ public class Deck implements Iterable<Card> {
     private int remaining;
 
     /**
-     * TODO Complete Javadoc comment.
+     * Implements the ability to use a full set of playing cards using the {@link Card}, {@link Suit}, and {@link Rank}.
+     * In order to get all cards with ranks and suits.
      */
     public Deck() {
         Suit[] suits = Suit.values();
@@ -35,9 +35,10 @@ public class Deck implements Iterable<Card> {
     }
 
     /**
-     * TODO Complete Javadoc comment (or remove, if not needed).
+     * Returns a hash code value for the object. This method is supported for the benefit of hash tables such as those provided by HashMap.
+     * {@link Override} is used to return the hashcode of {@link Card}.
      *
-     * @return
+     * @return returns tha hash code.
      */
     @Override
     public int hashCode() {
@@ -45,10 +46,10 @@ public class Deck implements Iterable<Card> {
     }
 
     /**
-     * TODO Complete Javadoc comment (or remove, if not needed).
+     * Returns a {@link Boolean} comparing objects or object instanceof {@link Deck} and {@link Card}.
      *
-     * @param obj
-     * @return
+     * @param obj can take in cards.
+     * @return a {@link Boolean} if true/false.
      */
     @Override
     public boolean equals(Object obj) {
@@ -56,9 +57,9 @@ public class Deck implements Iterable<Card> {
     }
 
     /**
-     * TODO Complete Javadoc comment (or remove, if not needed).
+     * Returns the {@link Card} to string back.
      *
-     * @return
+     * @return returns the toString of the card.
      */
     @Override
     public String toString() {
@@ -66,9 +67,9 @@ public class Deck implements Iterable<Card> {
     }
 
     /**
-     * TODO Complete Javadoc comment (or remove, if not needed).
+     * returns the cards iterated through Two and Ace's in Rank and all {@link Suit}.
      *
-     * @return
+     * @return returns the deck with cards 2-A, clubs, spade, hearts, diamonds.
      */
     @Override
     public Iterator<Card> iterator() {
@@ -76,7 +77,7 @@ public class Deck implements Iterable<Card> {
     }
 
     /**
-     * TODO Complete Javadoc comment.
+     * Returns the {@link Deck} shuffled.
      */
     public void shuffle() {
         Collections.shuffle(cards);
@@ -84,25 +85,24 @@ public class Deck implements Iterable<Card> {
     }
 
     /**
-     * TODO Complete Javadoc comment.
+     * returns the {@link Deck} shuffled using Random.
      *
-     * @param random
+     * @param random inputs a random.
      */
     public void shuffle(Random random) {
         Collections.shuffle(cards, random);
         reset();
     }
 
-    /**
-     * TODO Complete Javadoc comment.
-     */
+
     public void sort() {
         sort(null);
     }
 
     /**
-     * TODO Complete Javadoc comment.
-     * @param comparator
+     * Sorts the cards that were given to it using the {@link Comparator}.
+     *
+     * @param comparator compares cards using comparator.
      */
     public void sort(Comparator<Card> comparator) {
         cards.sort(comparator);
@@ -110,10 +110,9 @@ public class Deck implements Iterable<Card> {
     }
 
     /**
-     * TODO Complete Javadoc comment.
-     *
-     * @return
-     * @throws NoCardsRemainingException
+     * Draws a card from the {@link Deck} then returns a {@link Card}.
+     * @return a single card and if no more cards than it.
+     * @throws NoCardsRemainingException throws an exception if no cards are remaining.
      */
     public Card draw() throws NoCardsRemainingException{
         try {
@@ -126,7 +125,7 @@ public class Deck implements Iterable<Card> {
     }
 
     /**
-     * TODO Complete Javadoc comment.
+     * Resets the cards remaining.
      */
     public void reset() {
         iterator = cards.iterator();
@@ -134,9 +133,9 @@ public class Deck implements Iterable<Card> {
     }
 
     /**
-     * TODO Complete Javadoc comment.
+     * Returns the amount of the cards remaining.
      *
-     * @return
+     * @return Returns the cards remaining.
      */
     public int getRemaining() {
         return remaining;

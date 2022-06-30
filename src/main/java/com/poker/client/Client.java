@@ -4,7 +4,8 @@ import com.poker.game.Game;
 import com.poker.game.GameBoard;
 
 /**
- * Fills the game board and puts it into a while loop in order to play the game.
+ * Initializes the structure of the game and allows game to terminate when
+ * either the dealer of player do not have the money to continue.
  */
 public class Client {
     public static void main(String[] args) {

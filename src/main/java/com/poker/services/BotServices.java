@@ -11,9 +11,19 @@ import com.poker.model.Hands;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Initiates the bot action that will be used.
+ * It will calculate what kind of actions that will be made depending on the cards.
+ */
 public class BotServices {
     BotActions bAction = new BotActions();
 
+    /**
+     * Returns the best actions that can be made with the first two cards.
+     * @param userAction what kind decisions that is available.
+     * @param score gets the score of the cards.
+     * @return returns the actions that will be made.
+     */
     public Decision botTwoCardAction(Decision userAction, double score) {
         Decision botAction = Decision.CALL;
         switch (userAction) {
@@ -38,11 +48,22 @@ public class BotServices {
         return botAction;
     }
 
+    /**
+     * Determine the strength score of the bot cards combining pocket and community cards
+     * @param cards Takes in the arraylist of cards to determine the strength of the card.
+     * @return returns the card strength.
+     */
     public int check(ArrayList<Card> cards) {
         CardRankings handStength = (CardRankings) Hands.getHand(cards).get(1);
         return handStength.getValue();
     }
 
+    /**
+     * Determines bot action after each additional community card flipped(After flop, turn and river)
+     * @param userAction The action that will be given.
+     * @param score score based on the cards provided.
+     * @return returns the best action
+     */
     public Decision botMultiCardAction(Decision userAction, int score) {
         Decision botAction = Decision.CALL;
         if (userAction == Decision.CALL) {
@@ -65,6 +86,12 @@ public class BotServices {
         return botAction;
     }
 
+    /**
+     * returns the bot's bet depending on the action and dealer bank.
+     * @param botAction the action done.
+     * @param dealerBank the dealers bank value.
+     * @return returns the bank value after action.
+     */
     public int getBotBet(Decision botAction, int dealerBank) {
         int bBet = 0;
         if (botAction == Decision.CHECK) {
@@ -108,6 +135,10 @@ public class BotServices {
         return bBet;
     }
 
+    /**
+     * Used for a delay between interfaces.
+     * @param timer the amount of time needed.
+     */
     public void sleep(int timer) {
         try {
             Thread.sleep(timer);
