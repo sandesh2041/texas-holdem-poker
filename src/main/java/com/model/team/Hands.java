@@ -7,8 +7,6 @@ public class Hands {
 
     private static final Comparator<Card> comparator = Comparator
             .comparing(Card::getRank);
-    public static String printWinner;
-
 
     public static ArrayList<Object> getHand(ArrayList<Card> hand) {
         ArrayList<Object> set;
@@ -70,19 +68,8 @@ public class Hands {
         ArrayList<Object> first = getHand(hand1);
         ArrayList<Object> second = getHand(hand2);
 
-        String dealerResult = "";
-        String userResult = "";
-        for (int i = 1; i < first.size(); i++) {
-            dealerResult += first.get(i) + " ";
-        }
-        for (int i = 1; i < second.size(); i++) {
-            userResult += second.get(i) + " ";
-        }
-        printWinner = "Dealer: \"The dealer has " + dealerResult.toLowerCase() + "and the player has " + userResult.toLowerCase() + "\"\n";
-
-
-
-
+        System.out.println("Dealer" + first);
+        System.out.println("User" + second);
 
         CardRankings rank1 = (CardRankings) first.get(1);
         CardRankings rank2 = (CardRankings) second.get(1);
@@ -154,7 +141,7 @@ public class Hands {
                     straight.add(card);
 
                 } else {
-                    if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE && straight.get(straight.size()-5).getRank() == Rank.TEN) {
+                    if (straight.size() >= 5 && straight.get(straight.size() - 1).getRank() == Rank.ACE && straight.get(straight.size() - 5).getRank() == Rank.TEN) {
                         val = highest.getSuit();
                         fin = new ArrayList<>();
                         fin.add(true);
@@ -168,7 +155,7 @@ public class Hands {
             }
             highest = card;
         }
-        if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE && straight.get(straight.size()-5).getRank() == Rank.TEN) {
+        if (straight.size() >= 5 && straight.get(straight.size() - 1).getRank() == Rank.ACE && straight.get(straight.size() - 5).getRank() == Rank.TEN) {
             straightFlush.add(true);
             straightFlush.add(CardRankings.ROYAL_FLUSH);
             straightFlush.add(straight.get(straight.size() - 1).getRank());
@@ -188,36 +175,38 @@ public class Hands {
         Card highest = null;
         for (Card card : hand) {
             if (highest != null) {
-                if (card.getRank().ordinal() - highest.getRank().ordinal() == 1 && card.getSuit() == highest.getSuit()) {
+                if (card.getRank().ordinal() - highest.getRank().ordinal() == 1) {
                     if (straight.size() == 0) {
                         straight.add(highest);
                     }
                     straight.add(card);
 
                 } else {
-                    if (straight.size() >= 5) {
-                        val = highest.getSuit();
-                        fin = new ArrayList<>();
+                    if (straight.size() >= 4 &&
+                            hand.get(0).getRank() == Rank.TWO &&
+                            hand.get(hand.size() - 1).getRank() == Rank.ACE &&
+                            hand.get(hand.size() - 1).getSuit() == hand.get(hand.size() - 2).getSuit() &&
+                            hand.get(hand.size() - 2).getSuit() == hand.get(hand.size() - 3).getSuit() &&
+                            hand.get(hand.size() - 3).getSuit() == hand.get(hand.size() - 4).getSuit()
+                    ) {
                         fin.add(true);
                         fin.add(CardRankings.STRAIGHT_FLUSH);
                         fin.add(straight.get(straight.size() - 1).getRank());
                         fin.add(null);
                         return fin;
                     }
-                    if(straight.size()>=4  && hand.get(hand.size()-1).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO){
-                        fin.add(true);
-                        fin.add(CardRankings.STRAIGHT_FLUSH);
-                        fin.add(straight.get(straight.size() - 1).getRank());
-                        fin.add(null);
-                        return fin;
+                    if (highest.getRank().ordinal() != card.getRank().ordinal()) {
+                        straight.clear();
                     }
-
-                    straight.clear();
                 }
             }
             highest = card;
         }
-        if (straight.size() >= 4 && hand.get(0).getRank() == Rank.TWO && hand.get(hand.size() - 1).getRank() == Rank.ACE) {
+        if (straight.size() >= 4 &&
+                hand.get(0).getRank() == Rank.TWO &&
+                hand.get(hand.size() - 1).getRank() == Rank.ACE &&
+                hand.get(hand.size() - 1).getSuit() == hand.get(hand.size() - 2).getSuit() &&
+                hand.get(hand.size() - 2).getSuit() == hand.get(hand.size() - 3).getSuit()) {
             straightFlush.add(true);
             straightFlush.add(CardRankings.STRAIGHT_FLUSH);
             straightFlush.add(hand.get(hand.size() - 1).getRank());
@@ -274,14 +263,13 @@ public class Hands {
                     counter += 1;
                 }
             }
-            if (counter == 3) {
-                if (tripleRank == null) {
-                    tripleRank = cards.getRank();
-                } else {
+            if (counter == 3 && cards.getRank() != tripleRank) {
+                if (tripleRank != null) {
                     doublesRank = tripleRank;
-                    tripleRank = cards.getRank();
                 }
-            } else if (counter == 2) {
+                tripleRank = cards.getRank();
+            }
+            if (counter == 2) {
                 doublesRank = cards.getRank();
             }
             counter = 0;
@@ -312,7 +300,7 @@ public class Hands {
                     counter += 1;
                 }
             }
-            if (counter == 5) {
+            if (counter >= 5) {
                 suit = cards.getSuit();
                 rank = cards.getRank();
             }
@@ -352,7 +340,7 @@ public class Hands {
                         return fin;
                     }
                     int x = hand.size();
-                    if(straight.size()>=4  && hand.get(x-1).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO){
+                    if (straight.size() >= 4 && hand.get(x - 1).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO) {
                         fin.add(true);
                         fin.add(CardRankings.STRAIGHT);
                         fin.add(straight.get(straight.size() - 1).getRank());
