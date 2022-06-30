@@ -195,24 +195,31 @@ public class Game {
     public void determineWinner() {
         printWinner();
         sleep(time);
-        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.playerSharedHand));
-        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), playerHand));
-        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.dealerSharedHand));
-        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), dealerHand));
-        System.out.println(Hands.compares(dealerHand, playerHand, sharedCards));
 
-        System.out.println("testing was in 5 lines above");
-        if (Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.playerSharedHand)) {
-            System.out.println("Dealer: \"Player wins!\"");
-            bank += pot;
-        } else if (Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.dealerSharedHand)) {
-            System.out.println("Dealer: \"Dealer wins!\"");
-            dealerBank += pot;
-        } else {
-            System.out.println("Dealer: \"Split pot!\"");
-            bank += pot / 2;
-            dealerBank += pot / 2;
-        }
+//        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.playerSharedHand));
+//        System.out.println("Comparing win is: player hand");
+//        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), playerHand));
+//        System.out.println("Comparing win is: player hand");
+//        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.dealerSharedHand));
+//        System.out.println("Comparing win is: dealer hand");
+//        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), dealerHand));
+//        System.out.println("Comparing win is: dealer hand");
+//        System.out.println(Hands.compares(dealerHand, playerHand, sharedCards));
+//        System.out.println("line above just checking printing the whole compares()");
+//
+//        System.out.println("testing was in 5 lines above");
+        System.out.println(Hands.compares(dealerHand, playerHand, sharedCards));
+//        if (Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.playerSharedHand)) {
+//            System.out.println("Dealer: \"Player wins!\"");
+//            bank += pot;
+//        } else if (Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.dealerSharedHand)) {
+//            System.out.println("Dealer: \"Dealer wins!\"");
+//            dealerBank += pot;
+//        } else {
+//            System.out.println("Dealer: \"Split pot!\"");
+//            bank += pot / 2;
+//            dealerBank += pot / 2;
+//        }
     }
 
     public void printWinner() {
@@ -222,15 +229,16 @@ public class Game {
         System.out.println("Dealer flips over their cards showing..." + dealerHand);
         sleep(time);
         Hands.compares(dealerHand, playerHand, sharedCards);
-        for (int i = 1; i < Hands.dealerSharedHand.size(); i++) {
-            dealerResult += Hands.dealerSharedHand.get(i) + " ";
-        }
-        for (int i = 1; i < Hands.playerSharedHand.size(); i++) {
-            userResult += Hands.playerSharedHand.get(i) + " ";
-        }
+//        for (int i = 1; i < Hands.dealerSharedHand.size()-1; i++) {
+//            dealerResult += Hands.dealerSharedHand.get(i) + " ";
+//        }
+//        for (int i = 1; i < Hands.playerSharedHand.size()-1; i++) {
+//            userResult += Hands.playerSharedHand.get(i) + " ";
+//        }
         String message = "Dealer: \"The dealer has " + dealerResult + "and the player has " + userResult + "\"";
 
         System.out.println(message);
+        System.out.println("HELLO!");
     }
 
     public void sleep(int timer) {
