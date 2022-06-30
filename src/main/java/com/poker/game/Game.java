@@ -10,6 +10,10 @@ import com.poker.services.BotServices;
 
 import java.util.*;
 
+/**
+ * Creates the methods that will be needed to invoke the sequences of the game, setting bank and blinds.
+ * Then creates the structure of the game itself, pre-flop, flop, turn and river.
+ */
 public class Game {
     private final ResourceBundle bundle = ResourceBundle.getBundle("strings");
     private final int time = 700;
@@ -34,6 +38,9 @@ public class Game {
     Scanner scanner = new Scanner(System.in);
     private ArrayList<Card> combinedCards = new ArrayList<>();
 
+    /**
+     * Starts the game with the ability to play or exit.
+     */
     public void startGame() {
         System.out.println(bundle.getString("start_game"));
         String startGame = scanner.next();
@@ -50,6 +57,9 @@ public class Game {
         } while (!(startGame.equalsIgnoreCase("y")) && !(startGame.equalsIgnoreCase("yes")));
     }
 
+    /**
+     * Allows the player to set the bank value.
+     */
     public void chooseBankValue() {
         System.out.println(bundle.getString("set_bank"));
         while (!(bank >= 40 && bank <= 1000)) {
@@ -66,6 +76,9 @@ public class Game {
         System.out.printf(bundle.getString("bank_value"), getBank(), getDealerBank());
     }
 
+    /**
+     * Allows the player to set the blind value.
+     */
     public void chooseBlinds() {
         System.out.println(bundle.getString("set_blinds"));
         while (blinds < 5 || blinds > 20) {
@@ -81,6 +94,9 @@ public class Game {
         System.out.printf(bundle.getString("blinds_value"), getBlinds());
     }
 
+    /**
+     * Shuffles then allows the player to deal or exit the game.
+     */
     public void startHandMenu() {
         System.out.println(bundle.getString("shuffle_cards"));
         deck.shuffle();
@@ -101,6 +117,9 @@ public class Game {
         System.out.println(bundle.getString("deal_hands"));
     }
 
+    /**
+     * Creates a Deck then shuffles it and deals the cards.
+     */
     public void dealHand() {
         Deck deck = new Deck();
         deck.shuffle();
@@ -127,6 +146,9 @@ public class Game {
         System.out.println(bundle.getString("dealer_card2"));
     }
 
+    /**
+     * Action before the flop in which you can see your first two cards and then do an action.
+     */
     public void preFlopAction() {
         bank = bank - blinds;
         pot = blinds * 2;
@@ -142,6 +164,9 @@ public class Game {
         Actions.bet = 0;
     }
 
+    /**
+     * Deals the flop then allows for user/dealer actions, calculates pot and bank values as appropriate.
+     */
     public void flop() {
         Card card1 = deck.draw();
         Card card2 = deck.draw();
@@ -174,6 +199,9 @@ public class Game {
         Actions.bet = 0;
     }
 
+    /**
+     * Deals the turn then allows for user/dealer actions, calculates pot and bank values as appropriate.
+     */
     public void turn() {
         Card card4 = deck.draw();
         sharedCards.add(card4);
@@ -194,6 +222,9 @@ public class Game {
         Actions.bet = 0;
     }
 
+    /**
+     * Deals the river then allows for user/dealer actions, calculates pot and bank values as appropriate.
+     */
     public void river() {
         Card card5 = deck.draw();
         sharedCards.add(card5);
@@ -213,6 +244,9 @@ public class Game {
         Actions.bet = 0;
     }
 
+    /**
+     * Determines the winner, calculates pot and bank values as appropriate and resets the deck.
+     */
     public void determineWinner() {
         sleep(time);
         System.out.println("Dealer flips over their cards showing..." + dealerHand1);
@@ -239,6 +273,9 @@ public class Game {
         sleep(time);
     }
 
+    /**
+     * Allows the dealer AI to make a decision, and prompts user to respond.
+     */
     public void checkBetDifference() {
         if (Actions.bet != bBet) {
             actions.secondAction();
@@ -253,6 +290,10 @@ public class Game {
         }
     }
 
+    /**
+     * Waiting amount to slow down things a bit.
+     * @param timer Takes an input in MS.
+     */
     public void sleep(int timer) {
         try {
             Thread.sleep(timer);
@@ -261,14 +302,26 @@ public class Game {
         }
     }
 
+    /**
+     * Returns the user bank value.
+     * @return returns the user's bank value.
+     */
     public static int getBank() {
         return bank;
     }
 
+    /**
+     * Returns the dealers bank value
+     * @return returns the dealer's bank value.
+     */
     public static int getDealerBank() {
         return dealerBank;
     }
 
+    /**
+     * Returns the blinds
+     * @return returns the blinds value.
+     */
     public static int getBlinds() {
         return blinds;
     }

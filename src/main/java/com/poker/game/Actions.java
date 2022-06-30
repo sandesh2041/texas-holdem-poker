@@ -4,6 +4,9 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+/**
+ * Creates new actions that you are able to use, fold, call, raise, check.
+ */
 public class Actions {
     private final int time = 700;
     private static final ResourceBundle bundle = ResourceBundle.getBundle("strings");
@@ -12,6 +15,10 @@ public class Actions {
     public static int bet = 0;
     Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Allows the player to select actions.
+     * @return returns the action taken.
+     */
     public int actions() {
         Scanner scanner = new Scanner(System.in);
         sleep(time);
@@ -51,6 +58,10 @@ public class Actions {
         return actionDecision;
     }
 
+    /**
+     * Allows the dealer AI to select actions.
+     * @return returns the action taken.
+     */
     public int secondAction() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(bundle.getString("actions_menu1"));
@@ -88,11 +99,17 @@ public class Actions {
         return actionDecision;
     }
 
+    /**
+     * Calls the check method and assigns the bet to zero.
+     */
     public void check() {
         bet = 0;
         System.out.println(bundle.getString("actions_check"));
     }
 
+    /**
+     * Calls the call method and then removes the amount from bot bet and into bank.
+     */
     public void call() {
         if (Game.bank >= Game.bBet) {
             Game.pot += Game.bBet * 2;
@@ -106,6 +123,9 @@ public class Actions {
         System.out.println(bundle.getString("actions_call"));
     }
 
+    /**
+     * Gives the raised amount.
+     */
     public void raise() {
         bet = 0;
         int wager = 0;
@@ -147,6 +167,9 @@ public class Actions {
         Game.pot += bet;
     }
 
+    /**
+     * Allows the user to fold and assigns the pot to the dealer.
+     */
     public void fold() {
         Game.dealerBank += Game.pot;
         System.out.println(bundle.getString("actions_fold"));
@@ -155,6 +178,10 @@ public class Actions {
         gameboard.playerTurn();
     }
 
+    /**
+     * Waiting amount to slow down things a bit.
+     * @param timer Takes an input in MS.
+     */
     public void sleep(int timer) {
         try {
             Thread.sleep(timer);
@@ -163,6 +190,9 @@ public class Actions {
         }
     }
 
+    /**
+     * Shows the user a menu of that is provided similar to a GUI.
+     */
     public void menu() {
         String menu = "===============";
         System.out.printf("%nPot:%4d %6s Blinds: %2d %5sBoard:%-21.21s %4sDealer Bank:%4d %n", Game.pot, "", Game.blinds, "", Game.sharedCards1.toString(), "", Game.dealerBank);
@@ -172,6 +202,9 @@ public class Actions {
         System.out.printf("%s %12s %12s %12s %12s\n", menu, menu, menu, menu, menu);
     }
 
+    /**
+     * Shows the user a menu of that is provided similar to a GUI if the dealer raises.
+     */
     public void menu1() {
         String menu = "===============";
         System.out.printf("%nPot:%4d %6s Blinds: %2d %5sBoard:%-21.21s %4sDealer Bank:%4d %n", Game.pot, "", Game.blinds, "", Game.sharedCards1.toString(), "", Game.dealerBank);
