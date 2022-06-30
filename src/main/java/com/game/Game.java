@@ -29,8 +29,10 @@ public class Game {
 
     public static ArrayList<Card> playerHand = new ArrayList<>();
     public static ArrayList<Card> dealerHand = new ArrayList<>();
+    public static ArrayList<Card> dealerHand1 = new ArrayList<>();
     public static ArrayList<Card> burnPile = new ArrayList<>();
     public static ArrayList<Card> sharedCards = new ArrayList<>();
+    public static ArrayList<Card> sharedCards1 = new ArrayList<>();
     private final ResourceBundle bundle = ResourceBundle.getBundle("strings");
 
     private ArrayList<Card> combinedCards = new ArrayList<>(); //Remove later
@@ -124,8 +126,13 @@ public class Game {
         burnPile.add(card1);
         playerHand.add(card2);
         dealerHand.add(card3);
+        dealerHand1.add(card3);
         playerHand.add(card4);
         dealerHand.add(card5);
+        dealerHand1.add(card5);
+
+
+
         System.out.println(bundle.getString("burn_pile"));
         sleep(time);
         System.out.printf(bundle.getString("card1"), card2);
@@ -164,6 +171,9 @@ public class Game {
         sharedCards.add(card1);
         sharedCards.add(card2);
         sharedCards.add(card3);
+        sharedCards1.add(card1);
+        sharedCards1.add(card2);
+        sharedCards1.add(card3);
         System.out.printf(bundle.getString("dealing_flop"), card1);
         sleep(time);
         System.out.printf(bundle.getString("dealing_flop"), card2);
@@ -180,7 +190,7 @@ public class Game {
         combinedCards.add(card1);
         combinedCards.add(card2);
         combinedCards.add(card3);
-
+        System.out.println("Computer card:" + combinedCards);
         //Bot action
         score = botServices.check(combinedCards);
         Decision botAction =  botServices.botMultiCardAction(bAction.getAction(), (int)score);
@@ -193,18 +203,19 @@ public class Game {
     }
 
     public void turn() {
-        Card card1 = deck.draw();
-        sharedCards.add(card1);
+        Card card4 = deck.draw();
+        sharedCards.add(card4);
+        sharedCards1.add(card4);
         sleep(time);
-        System.out.printf(bundle.getString("dealing_turn"), card1);
+        System.out.printf(bundle.getString("dealing_turn"), card4);
         sleep(time);
         System.out.printf(bundle.getString("shared_cards"), sharedCards);
         sleep(time);
 
         actions.actions();
 
-        combinedCards.add(card1);
-
+        combinedCards.add(card4);
+        System.out.println("Computer card:" + combinedCards);
         sharedCards.add(deck.draw());
         Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int)score);
         bBet = botServices.getBotBet(botAction, dealerBank);
@@ -216,19 +227,19 @@ public class Game {
     }
 
     public void river() {
-        Card card1 = deck.draw();
-        sharedCards.add(card1);
-
+        Card card5 = deck.draw();
+        sharedCards.add(card5);
+        sharedCards1.add(card5);
         sleep(time);
-        System.out.printf(bundle.getString("dealing_river"), card1);
+        System.out.printf(bundle.getString("dealing_river"), card5);
         sleep(time);
         System.out.printf(bundle.getString("shared_cards"), sharedCards);
         sleep(time);
 
         actions.actions();
 
-        combinedCards.add(card1);
-
+        combinedCards.add(card5);
+        System.out.println("Computer card:" + combinedCards);
         bank = bank - Actions.bet;
         pot = pot + Actions.bet + bBet;
         dealerBank = dealerBank - bBet;
@@ -238,14 +249,20 @@ public class Game {
 
     public void determineWinner() {
         sleep(time);
-        System.out.println("Dealer flips over their cards showing..." + dealerHand);
+        System.out.println("Dealer flips over their cards showing..." + dealerHand1);
+        System.out.println("Dealer flips over their cards showing..." + playerHand);
+        System.out.println("Dealer flips over their cards showing..." + sharedCards1);
 
-        String resultCompare = Hands.compares(dealerHand, playerHand, sharedCards);
+        String resultCompare = Hands.compares(dealerHand1, playerHand, sharedCards1);
         String replace1 = Hands.printWinner.replace("_", " ");
         String replace2 = replace1.replace(" and",", and");
         String replace3 = replace2.replace("null","");
         System.out.printf(replace3);
         sleep(time);
+
+        dealerHand1.clear();
+        playerHand.clear();
+        sharedCards1.clear();
 
         if (resultCompare.equals("winner: User")) {
             System.out.println("Dealer: \"Player wins!\"");

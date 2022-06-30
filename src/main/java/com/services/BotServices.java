@@ -23,7 +23,7 @@ public class BotServices {
                 }
                 break;
             case CHECK:
-                if(score < 0){ //5
+                if(score < 5){
                     botAction = Decision.CHECK;
                 }
                 break;
@@ -42,12 +42,34 @@ public class BotServices {
         CardRankings handStength = (CardRankings) Hands.getHand(cards).get(1);
         return handStength.getValue();
     }
+//    public int check(ArrayList<Card> cards){
+//        int score = 10;
+//        if((boolean)Hands.royalFlush(cards).get(0))
+//            return CardRankings.ROYAL_FLUSH.getValue();
+//        if((boolean)Hands.straightFlush(cards).get(0))
+//            return CardRankings.STRAIGHT_FLUSH.getValue();
+//        if((boolean)Hands.fourOfAKind(cards).get(0))
+//            return CardRankings.FOUR_OF_A_KIND.getValue();
+//        if((boolean)Hands.fullHouse(cards).get(0))
+//            return CardRankings.FULL_HOUSE.getValue();
+//        if((boolean)Hands.flush(cards).get(0))
+//            return CardRankings.FLUSH.getValue();
+//        if((boolean)Hands.straight(cards).get(0))
+//            return CardRankings.STRAIGHT.getValue();
+//        if((boolean)Hands.threeOfAKind(cards).get(0))
+//            return CardRankings.THREE_OF_A_KIND.getValue();
+//        if((boolean)Hands.twoPairs(cards).get(0))
+//            return CardRankings.TWO_PAIRS.getValue();
+//        if((boolean)Hands.pair(cards).get(0))
+//            return CardRankings.ONE_PAIR.getValue();
+//        return score;
+//    }
 
     //Determines bot action after each additional community card flipped(After flop, turn and river)
     public Decision botMultiCardAction (Decision userAction, int score) {
         Decision botAction = Decision.CALL;
         if(userAction == Decision.CALL) {
-            if(score < 0){ //20
+            if(score < 20){
                 botAction = Decision.FOLD;
             }
         } else if(userAction == Decision.CHECK) {
