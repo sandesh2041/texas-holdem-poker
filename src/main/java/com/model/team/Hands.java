@@ -5,10 +5,13 @@ import java.util.Comparator;
 
 /**
  * Implements entry point for the ArrayList of Cards.
+ * Will take compare to call getHands then compare the output of the new
+ * ArrayList of Objects.
  */
 public class Hands {
 
     /**
+     *
      * compares the card rankings and returns it in order of Rank.
      */
     private static final Comparator<Card> comparator = Comparator
