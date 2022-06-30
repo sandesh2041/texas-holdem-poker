@@ -14,6 +14,7 @@ public class Game {
     public static int pot = 0;
     public static int blinds = 0;
     public static Deck deck = new Deck();
+
     Scanner scanner = new Scanner(System.in);
 
     public static ArrayList<Card> playerHand = new ArrayList<>();
@@ -47,10 +48,10 @@ public class Game {
                 bank = Integer.parseInt(String.valueOf(Integer.parseInt(scanner.next())));
                 dealerBank = bank;
                 if (bank < 40 || bank > 1000) {
-                    System.out.println("You must select a whole value number between 20 and 1000!");
+                    System.out.println(bundle.getString("set_bank_error"));
                 }
             } catch (NumberFormatException ignored) {
-                System.out.println("You must select a whole value number between 20 and 1000!");
+                System.out.println(bundle.getString("set_bank_error"));
             }
         }
 
@@ -162,9 +163,9 @@ public class Game {
     }
 
     public void turn() {
-
         Card card1 = deck.draw();
         sharedCards.add(card1);
+        sleep(time);
         System.out.printf(bundle.getString("dealing_turn"), card1);
         sleep(time);
         System.out.printf(bundle.getString("shared_cards"), sharedCards);
@@ -180,6 +181,7 @@ public class Game {
         Card card1 = deck.draw();
         sharedCards.add(card1);
 
+        sleep(time);
         System.out.printf(bundle.getString("dealing_river"), card1);
         sleep(time);
         System.out.printf(bundle.getString("shared_cards"), sharedCards);
@@ -195,21 +197,13 @@ public class Game {
     public void determineWinner() {
         sleep(time);
         System.out.println("Dealer flips over their cards showing..." + dealerHand);
-        sleep(time);
 
-//        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.playerSharedHand));
-//        System.out.println("Comparing win is: player hand");
-//        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), playerHand));
-//        System.out.println("Comparing win is: player hand");
-//        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.dealerSharedHand));
-//        System.out.println("Comparing win is: dealer hand");
-//        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), dealerHand));
-//        System.out.println("Comparing win is: dealer hand");
-//        System.out.println(Hands.compares(dealerHand, playerHand, sharedCards));
-//        System.out.println("line above just checking printing the whole compares()");
-//
-//        System.out.println("testing was in 5 lines above");
         String resultCompare = Hands.compares(dealerHand, playerHand, sharedCards);
+        String replace1 = Hands.printWinner.replace("_", " ");
+        String replace2 = replace1.replace(" and",", and");
+        String replace3 = replace2.replace("null","");
+        System.out.printf(replace3);
+        sleep(time);
 
         if (resultCompare.equals("winner: User")) {
             System.out.println("Dealer: \"Player wins!\"");
@@ -222,25 +216,8 @@ public class Game {
             bank += pot / 2;
             dealerBank += pot / 2;
         }
+        sleep(time);
     }
-
-//    public void printWinner() {
-//        String dealerResult = "";
-//        String userResult = "";
-//        sleep(time);
-//        System.out.println("Dealer flips over their cards showing..." + dealerHand);
-//        sleep(time);
-//        for (int i = 1; i < Hands.dealerSharedHand.size()-1; i++) {
-//            dealerResult += Hands.dealerSharedHand.get(i) + " ";
-//        }
-//        for (int i = 1; i < Hands.playerSharedHand.size()-1; i++) {
-//            userResult += Hands.playerSharedHand.get(i) + " ";
-//        }
-//        String message = "Dealer: \"The dealer has " + dealerResult + "and the player has " + userResult + "\"";
-//
-//        System.out.println(message);
-//        System.out.println("HELLO!");
-//    }
 
     public void sleep(int timer) {
         try {

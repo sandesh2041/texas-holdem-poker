@@ -13,7 +13,7 @@ public class GameBoard {
     }
 
     public void playerTurn() {
-        System.out.println("Dealer: \"Button moves to the dealer! Player has first action\"");
+        System.out.println("Dealer: \"Button moves to the dealer! Player has first action.\"");
         counter++;
         Game.pot = 0;
         Game.deck = new Deck();
@@ -32,7 +32,7 @@ public class GameBoard {
     }
 
     public void dealerTurn() {
-        System.out.println("Dealer: \"Button moves to the player! Dealer has first action\"");
+        System.out.println("Dealer: \"Button moves to the player! Dealer has first action.\"");
         counter++;
         Game.pot = 0;
         Game.deck = new Deck();
