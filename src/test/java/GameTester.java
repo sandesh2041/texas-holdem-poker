@@ -9,7 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameTester {
 
-
+    /**
+     * Checks to see if the RoyalFlush is correct and prints off who the winnner is.
+     */
     @Test
     public void royalFlushRankTest() {
         ArrayList<Card> user = new ArrayList<>();
@@ -31,7 +33,9 @@ public class GameTester {
         System.out.println(" ");
 
     }
-
+    /**
+     * Checks to see if the StraightFlush is correct and prints off whom the winner is.
+     */
     @Test
     public void straightFlushRankTest() {
         ArrayList<Card> user = new ArrayList<>();
@@ -52,7 +56,9 @@ public class GameTester {
         assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
 
     }
-
+    /**
+     * Checks to see if the Four of a Kind is correct and prints off whom the winner is.
+     */
     @Test
     public void fourOfAKindTest() {
         ArrayList<Card> user = new ArrayList<>();
@@ -73,7 +79,9 @@ public class GameTester {
         assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
 
     }
-
+    /**
+     * Checks to see if the Full House is correct and prints off whom the winner is.
+     */
     @Test
     public void fullHouseTest() {
         ArrayList<Card> user = new ArrayList<>();
@@ -94,7 +102,9 @@ public class GameTester {
         assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
 
     }
-
+    /**
+     * Checks to see if the Flush is correct and prints off whom the winner is.
+     */
     @Test
     public void flushTest() {
         ArrayList<Card> user = new ArrayList<>();
@@ -115,7 +125,9 @@ public class GameTester {
         assertEquals("winner: User", Hands.compares(dealer, user, table));
 
     }
-
+    /**
+     * Checks to see if the Straight is correct and prints off whom the winner is.
+     */
     @Test
     public void straightTest() {
         ArrayList<Card> user = new ArrayList<>();
@@ -136,6 +148,9 @@ public class GameTester {
         assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
 
     }
+    /**
+     * Checks to see if the Three of a kind is correct and prints off whom the winner is.
+     */
     @Test
     public void threeOfAKindTest() {
         ArrayList<Card> user = new ArrayList<>();
@@ -156,6 +171,9 @@ public class GameTester {
         assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
 
     }
+    /**
+     * Checks to see if the two pairs is correct and prints off whom the winner is.
+     */
     @Test
     public void twoPairsTest() {
         ArrayList<Card> user = new ArrayList<>();
@@ -177,6 +195,9 @@ public class GameTester {
         assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
 
     }
+    /**
+     * Checks to see if the One Pair is correct and prints off whom the winner is.
+     */
     @Test
     public void onePairTest() {
         ArrayList<Card> user = new ArrayList<>();
