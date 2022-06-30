@@ -31,7 +31,7 @@ public final class Card implements Comparable<Card> {
     /**
      * Returns the {@link Suit} of this instance.
      *
-     * @return
+     * @return the {@link Suit}
      */
     public Suit getSuit() {
         return suit;
@@ -40,7 +40,7 @@ public final class Card implements Comparable<Card> {
     /**
      * Returns the {@link Rank} of this instance.
      *
-     * @return
+     * @return {@link Rank}
      */
     public Rank getRank() {
         return rank;
@@ -49,7 +49,7 @@ public final class Card implements Comparable<Card> {
     /**
      * Returns an {@code int} hash value based on the {@link Suit} and {@link Rank} of this instance.
      *
-     * @return
+     * @return the hash code of the {@link Suit} and {@link Rank}
      */
     @Override
     public int hashCode() {

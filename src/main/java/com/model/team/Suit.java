@@ -5,15 +5,31 @@ package com.model.team;
  * corresponding Unicode symbol and {@link Color}.
  */
 public enum Suit {
-
+    /**
+     * Enum Suit of Clubs with the suit '\u2663' and color.
+     */
     CLUBS('\u2663', Color.BLACK),
+    /**
+     * Enum Suit of Diamonds with the suit '\u2662' and color.
+     */
     DIAMONDS('\u2662', Color.RED),
+    /**
+     * Enum Suit of Hearts with the suit '\u2661' and color.
+     */
     HEARTS('\u2661', Color.RED),
+    /**
+     * Enum Suit of Spades with the suit '\u2660' and color.
+     */
     SPADES('\u2660', Color.BLACK);
 
     private final char symbol;
     private final Color color;
 
+    /**
+     * Returns the symbol and color of the card.
+     * @param symbol returns a symbol.
+     * @param color returns a color.
+     */
     Suit(char symbol, Color color) {
         this.symbol = symbol;
         this.color = color;
@@ -37,17 +53,24 @@ public enum Suit {
     /**
      * Returns the {@link Color} of this instance.
      *
-     * @return
+     * @return returns the symbol
      */
     public Color getColor() {
         return color;
     }
 
     /**
-     * Enumerates the colors of playing card suits.
+     * Enum values of color.
      */
     public enum Color {
-        BLACK, RED
+        /**
+         * Enum values of Black.
+         */
+        BLACK,
+        /**
+         * Enum values of Red.
+         */
+        RED
     }
 
 }

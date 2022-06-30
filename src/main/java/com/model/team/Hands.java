@@ -3,10 +3,17 @@ package com.model.team;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+    /**
+     * Implements entry point for the ArrayList of Cards.
+     */
 public class Hands {
 
+    /**
+     *compares the card rankings and returns it in order of Rank.
+     */
     private static final Comparator<Card> comparator = Comparator
             .comparing(Card::getRank);
+
 
     public static ArrayList<Object> getHand(ArrayList<Card> hand) {
         ArrayList<Object> set;

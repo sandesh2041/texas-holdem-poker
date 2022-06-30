@@ -8,6 +8,13 @@ import java.util.Comparator;
 
 import static com.model.team.Hands.compares;
 
+/**
+ * Implements entry point for the ArrayList of Cards.
+ * Creates a {@link Deck} then shuffles the {@link Deck}
+ * We then create the users hand, the table, and dealers hand to be played.
+ *
+ */
+
 public class Game {
     public static ArrayList<Card> user = new ArrayList<>();
     public static ArrayList<Card> table = new ArrayList<>();
