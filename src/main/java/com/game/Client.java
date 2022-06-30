@@ -44,15 +44,23 @@ public class Client {
 
         gameBoard.setGameOptions();
         do {
-            gameBoard.playerTurn();
             if (Game.getBank() < Game.getBlinds()) {
                 System.out.println("Game Over! You do not have enough money to continue...");
                 break;
             } else if (Game.getDealerBank() < Game.getBlinds()) {
                 System.out.println("You win! Dealer is out of money!");
                 break;
-            } else if (Game.getDealerBank() > Game.getBlinds() && Game.getBank() > Game.getBlinds()) {
-                gameBoard.dealerTurn();
+            } else {
+                int trueFalse = GameBoard.counter % 2;
+                boolean flag = (trueFalse == 0);
+                if (flag) {
+                    gameBoard.playerTurn();
+                } else if (!flag) {
+                    gameBoard.dealerTurn();
+
+                }
+
+
             }
         }
         while (Game.getBank() > Game.getBlinds() || Game.getDealerBank() > Game.getBlinds());

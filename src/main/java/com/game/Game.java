@@ -42,11 +42,11 @@ public class Game {
     public void chooseBankValue() {
         System.out.println(bundle.getString("set_bank"));
 
-        while (!(bank >= 20 && bank <= 1000)) {
+        while (!(bank >= 40 && bank <= 1000)) {
             try {
                 bank = Integer.parseInt(String.valueOf(Integer.parseInt(scanner.next())));
                 dealerBank = bank;
-                if (bank < 20 || bank > 1000) {
+                if (bank < 40 || bank > 1000) {
                     System.out.println("You must select a whole value number between 20 and 1000!");
                 }
             } catch (NumberFormatException ignored) {
@@ -193,7 +193,8 @@ public class Game {
 
 
     public void determineWinner() {
-        printWinner();
+        sleep(time);
+        System.out.println("Dealer flips over their cards showing..." + dealerHand);
         sleep(time);
 
 //        System.out.println(Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.playerSharedHand));
@@ -208,38 +209,38 @@ public class Game {
 //        System.out.println("line above just checking printing the whole compares()");
 //
 //        System.out.println("testing was in 5 lines above");
-        System.out.println(Hands.compares(dealerHand, playerHand, sharedCards));
-//        if (Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.playerSharedHand)) {
-//            System.out.println("Dealer: \"Player wins!\"");
-//            bank += pot;
-//        } else if (Objects.equals(Hands.compares(dealerHand, playerHand, sharedCards), Hands.dealerSharedHand)) {
-//            System.out.println("Dealer: \"Dealer wins!\"");
-//            dealerBank += pot;
-//        } else {
-//            System.out.println("Dealer: \"Split pot!\"");
-//            bank += pot / 2;
-//            dealerBank += pot / 2;
-//        }
+        String resultCompare = Hands.compares(dealerHand, playerHand, sharedCards);
+
+        if (resultCompare.equals("winner: User")) {
+            System.out.println("Dealer: \"Player wins!\"");
+            bank += pot;
+        } else if (resultCompare.equals("winner: Dealer")) {
+            System.out.println("Dealer: \"Dealer wins!\"");
+            dealerBank += pot;
+        } else {
+            System.out.println("Dealer: \"Split pot!\"");
+            bank += pot / 2;
+            dealerBank += pot / 2;
+        }
     }
 
-    public void printWinner() {
-        String dealerResult = "";
-        String userResult = "";
-        sleep(time);
-        System.out.println("Dealer flips over their cards showing..." + dealerHand);
-        sleep(time);
-        Hands.compares(dealerHand, playerHand, sharedCards);
+//    public void printWinner() {
+//        String dealerResult = "";
+//        String userResult = "";
+//        sleep(time);
+//        System.out.println("Dealer flips over their cards showing..." + dealerHand);
+//        sleep(time);
 //        for (int i = 1; i < Hands.dealerSharedHand.size()-1; i++) {
 //            dealerResult += Hands.dealerSharedHand.get(i) + " ";
 //        }
 //        for (int i = 1; i < Hands.playerSharedHand.size()-1; i++) {
 //            userResult += Hands.playerSharedHand.get(i) + " ";
 //        }
-        String message = "Dealer: \"The dealer has " + dealerResult + "and the player has " + userResult + "\"";
-
-        System.out.println(message);
-        System.out.println("HELLO!");
-    }
+//        String message = "Dealer: \"The dealer has " + dealerResult + "and the player has " + userResult + "\"";
+//
+//        System.out.println(message);
+//        System.out.println("HELLO!");
+//    }
 
     public void sleep(int timer) {
         try {

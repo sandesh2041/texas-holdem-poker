@@ -4,6 +4,7 @@ import com.model.team.Deck;
 
 public class GameBoard {
     Game game = new Game();
+    public static int counter = 0;
 
     public void setGameOptions() {
         game.startGame();
@@ -12,7 +13,8 @@ public class GameBoard {
     }
 
     public void playerTurn() {
-//        Actions action = new Actions();
+        System.out.println("Dealer: \"Button moves to the dealer! Player has first action\"");
+        counter++;
         Game.pot = 0;
         Game.deck = new Deck();
         Game.playerHand.clear();
@@ -26,10 +28,12 @@ public class GameBoard {
         game.turn();
         game.river();
         game.determineWinner();
+
     }
 
     public void dealerTurn() {
-//        Actions action = new Actions();
+        System.out.println("Dealer: \"Button moves to the player! Dealer has first action\"");
+        counter++;
         Game.pot = 0;
         Game.deck = new Deck();
         Game.playerHand.clear();

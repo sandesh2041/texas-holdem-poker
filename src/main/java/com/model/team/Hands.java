@@ -56,7 +56,7 @@ public class Hands {
         return HighCard(hand);
     }
 
-    public static ArrayList<Card> compares(ArrayList<Card> hand1, ArrayList<Card> hand2, ArrayList<Card> shared) {
+    public static String compares(ArrayList<Card> hand1, ArrayList<Card> hand2, ArrayList<Card> shared) {
         //hands [0,1]
         Rank dealer = hand1.get(1).getRank();
         Rank user = hand2.get(1).getRank();
@@ -72,12 +72,13 @@ public class Hands {
 
         ArrayList<Object> first = getHand(hand1);
         ArrayList<Object> second = getHand(hand2);
-
         dealerSharedHand = first;
         playerSharedHand = second;
 
+
         System.out.println("Dealer" + first);
         System.out.println("User" + second);
+
         CardRankings rank1 = (CardRankings) first.get(1);
         CardRankings rank2 = (CardRankings) second.get(1);
 
@@ -87,48 +88,51 @@ public class Hands {
         Rank hand1LastCard = (Rank) first.get(2);
         Rank hand2LastCard = (Rank) second.get(2);
 
+
+
         if (rank1.ordinal() < rank2.ordinal()) {
-            System.out.println("winner: Dealer");
-            return hand1;
+            //System.out.println("winner: Dealer");
+            return "winner: Dealer";
         }
         if (rank1.ordinal() > rank2.ordinal()) {
-            System.out.println("winner: User");
-            return hand2;
+            // System.out.println("winner: User");
+            return "winner: User";
         }
         if (firstCard.ordinal() > secondCard.ordinal()) {
-            System.out.println("winner: dealer2");
-            return hand1;
+            //System.out.println("winner: dealer2");
+            return "winner: Dealer";
         }
         if (firstCard.ordinal() < secondCard.ordinal()) {
-            System.out.println("winner: user2");
-            return hand2;
+            // System.out.println("winner: user2");
+            return "winner: User";
         }
         if (hand1LastCard.ordinal() > hand2LastCard.ordinal()) {
-            System.out.println("winner: dealer3");
-            return hand1;
+            // System.out.println("winner: dealer3");
+            return "winner: Dealer";
         }
         if (hand1LastCard.ordinal() < hand2LastCard.ordinal()) {
-            System.out.println("winner: user3");
-            return hand2;
+            //System.out.println("winner: user3");
+            return "winner: User";
         }
         if (dealer.ordinal() > user.ordinal()) {
-            System.out.println("winner: dealer4");
-            return hand1;
+            //System.out.println("winner: dealer4");
+            return "winner: Dealer";
         }
         if (dealer.ordinal() < user.ordinal()) {
-            System.out.println("winner: user4");
-            return hand2;
+            //System.out.println("winner: user4");
+            return "winner: User";
         }
         if (dealerSecond.ordinal() < userSecond.ordinal()) {
-            System.out.println("winner: dealer5");
-            return hand1;
+            //System.out.println("winner: dealer5");
+            return "winner: Dealer";
         }
         if (dealerSecond.ordinal() > userSecond.ordinal()) {
-            System.out.println("winner: user5");
-            return hand2;
+            //System.out.println("winner: user5");
+            return "winner: User";
         }
-        System.out.println("push");
-        return null;
+        //System.out.println("push");
+        return "push";
+
 
     }
 
@@ -148,11 +152,11 @@ public class Hands {
                     straight.add(card);
 
                 } else {
-                    if (straight.size() >= 5) {
+                    if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE) {
                         val = highest.getSuit();
                         fin = new ArrayList<>();
                         fin.add(true);
-                        fin.add(CardRankings.STRAIGHT_FLUSH);
+                        fin.add(CardRankings.ROYAL_FLUSH);
                         fin.add(straight.get(straight.size() - 1).getRank());
                         fin.add(null);
                         return fin;
@@ -162,7 +166,7 @@ public class Hands {
             }
             highest = card;
         }
-        if (straight.size() >= 5) {
+        if (straight.size() >= 5 && straight.get(straight.size()-1).getRank() == Rank.ACE) {
             straightFlush.add(true);
             straightFlush.add(CardRankings.ROYAL_FLUSH);
             straightFlush.add(straight.get(straight.size() - 1).getRank());
@@ -348,7 +352,16 @@ public class Hands {
                 }
             }
             highest = card;
-        }if (straight.size() == 5) {
+        }
+        int x = straight.size()-1;
+        if(straight.size()>=4  && straight.get(x).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO){
+            fin.add(true);
+            fin.add(CardRankings.STRAIGHT);
+            fin.add(straight.get(straight.size() - 1).getRank());
+            fin.add(null);
+            return fin;
+        }
+        if (straight.size() == 5) {
             fin.add(true);
             fin.add(CardRankings.STRAIGHT);
             fin.add(straight.get(straight.size() - 1).getRank());
