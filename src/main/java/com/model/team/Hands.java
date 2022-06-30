@@ -191,6 +191,14 @@ public class Hands {
                         fin.add(null);
                         return fin;
                     }
+                    if(straight.size()>=4  && hand.get(hand.size()-1).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO){
+                        fin.add(true);
+                        fin.add(CardRankings.STRAIGHT_FLUSH);
+                        fin.add(straight.get(straight.size() - 1).getRank());
+                        fin.add(null);
+                        return fin;
+                    }
+
                     straight.clear();
                 }
             }
@@ -330,19 +338,20 @@ public class Hands {
                         fin.add(null);
                         return fin;
                     }
+                    int x = hand.size();
+                    if(straight.size()>=4  && hand.get(x-1).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO){
+                        fin.add(true);
+                        fin.add(CardRankings.STRAIGHT);
+                        fin.add(straight.get(straight.size() - 1).getRank());
+                        fin.add(null);
+                        return fin;
+                    }
                     straight.clear();
                 }
             }
             highest = card;
         }
-        int x = straight.size()-1;
-        if(straight.size()>=4  && straight.get(x).getRank() == Rank.ACE && straight.get(0).getRank() == Rank.TWO){
-            fin.add(true);
-            fin.add(CardRankings.STRAIGHT);
-            fin.add(straight.get(straight.size() - 1).getRank());
-            fin.add(null);
-            return fin;
-        }
+
         if (straight.size() == 5) {
             fin.add(true);
             fin.add(CardRankings.STRAIGHT);

@@ -83,14 +83,30 @@ public class Game {
         Card card8 = deck.draw();
 //
         user.add(deck.draw());
+        table.add(deck.draw());
+        table.add(deck.draw());
+        table.add(deck.draw());
         user.add(deck.draw());
+        table.add(deck.draw());
         dealer.add(deck.draw());
         dealer.add(deck.draw());
         table.add(deck.draw());
-        table.add(deck.draw());
-        table.add(deck.draw());
-        table.add(deck.draw());
-        table.add(deck.draw());
+        Card card38 = deck.draw();
+
+
+        Card card16 = deck.draw();
+        Card card17 = deck.draw();
+        Card card18 = deck.draw();
+        Card card26 = deck.draw();
+        Card card27 = deck.draw();
+        Card card28 = deck.draw();
+        Card card36 = deck.draw();
+        dealer.add(deck.draw());
+        Card card37 = deck.draw();
+        Card card46 = deck.draw();
+        Card card47 = deck.draw();
+        Card card48 = deck.draw();
+
 
 
         user.sort(displayComparator);
