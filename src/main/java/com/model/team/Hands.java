@@ -3,18 +3,23 @@ package com.model.team;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-    /**
-     * Implements entry point for the ArrayList of Cards.
-     */
+/**
+ * Implements entry point for the ArrayList of Cards.
+ */
 public class Hands {
 
     /**
-     *compares the card rankings and returns it in order of Rank.
+     * compares the card rankings and returns it in order of Rank.
      */
     private static final Comparator<Card> comparator = Comparator
             .comparing(Card::getRank);
 
-
+    /**
+     * iterates through the Rankings (royal,straight,ect.) to see if one of them is correct.
+     *
+     * @param hand Takes in the dealer/user + table hand as a single ArrayList.
+     * @return the ranking of the hand.
+     */
     public static ArrayList<Object> getHand(ArrayList<Card> hand) {
         ArrayList<Object> set;
         set = royalFlush(hand);
@@ -58,6 +63,15 @@ public class Hands {
         return HighCard(hand);
     }
 
+    /**
+     * Compares both hands and iterates through the getHand to get both rankings then compares those rankings
+     * with the index's from 1-4 inclusive and at which point if they do not have a winning hand they'd
+     *
+     * @param hand1  Takes in the dealers cards.
+     * @param hand2  takes in the users cards.
+     * @param shared Takes in the tables cards.
+     * @return Returns a String of who won out of both hands.
+     */
     public static String compares(ArrayList<Card> hand1, ArrayList<Card> hand2, ArrayList<Card> shared) {
         //hands [0,1]
         Rank dealer = hand1.get(1).getRank();
@@ -132,7 +146,12 @@ public class Hands {
 
     }
 
-
+    /**
+     * returns if CardRanking.ROYAL_FLUSH is true else it returns null.
+     *
+     * @param hand takes in an ArrayList of Cards
+     * @return returns [boolean, CardRanking]
+     */
     public static ArrayList<Object> royalFlush(ArrayList<Card> hand) {
         ArrayList<Object> straightFlush = new ArrayList<>();
         ArrayList<Card> straight = new ArrayList<>();
@@ -173,7 +192,12 @@ public class Hands {
         return straightFlush;
     }
 
-    //Straight Flush
+    /**
+     * returns if CardRanking.STRAIGHT_FLUSH is true else it returns null.
+     *
+     * @param hand takes in an ArrayList of Cards
+     * @return returns [boolean, CardRanking]
+     */
     public static ArrayList<Object> straightFlush(ArrayList<Card> hand) {
         ArrayList<Object> straightFlush = new ArrayList<>();
         ArrayList<Card> straight = new ArrayList<>();
@@ -229,7 +253,11 @@ public class Hands {
         return straightFlush;
     }
 
-    //Four of a kind
+    /**
+     * returns if CardRanking.FOUR_OF_A_KIND is true else it returns null.
+     * @param hand takes in an ArrayList of Cards
+     * @return returns [boolean, CardRanking]
+     */
     public static ArrayList<Object> fourOfAKind(ArrayList<Card> hand) {
         ArrayList<Object> four = new ArrayList<>();
         int counter = 0;
@@ -257,7 +285,11 @@ public class Hands {
     }
 
 
-    //Full House
+    /**
+     * returns if CardRanking.FULL_HOUSE is true else it returns null.
+     * @param hand takes in an ArrayList of Cards
+     * @return returns [boolean, CardRanking]
+     */
     public static ArrayList<Object> fullHouse(ArrayList<Card> hand) {
         ArrayList<Object> full = new ArrayList<>();
         Rank tripleRank = null;
@@ -294,8 +326,11 @@ public class Hands {
         return full;
     }
 
-
-    //Flush
+    /**
+     * returns if CardRanking.FLUSH is true else it returns null.
+     * @param hand takes in an ArrayList of Cards
+     * @return returns [boolean, CardRanking]
+     */
     public static ArrayList<Object> flush(ArrayList<Card> hand) {
         ArrayList<Object> flush = new ArrayList<>();
         Suit suit = null;
@@ -324,7 +359,11 @@ public class Hands {
         return flush;
     }
 
-    //Straight
+    /**
+     * returns if CardRanking.STRAIGHT is true else it returns null.
+     * @param hand takes in an ArrayList of Cards
+     * @return returns [boolean, CardRanking]
+     */
     public static ArrayList<Object> straight(ArrayList<Card> hand) {
         ArrayList<Card> straight = new ArrayList<>();
         ArrayList<Object> fin = new ArrayList<>();
@@ -370,7 +409,11 @@ public class Hands {
         return null;
     }
 
-    //Three of a kind
+    /**
+     * returns if CardRanking.THREE_OF_A_KIND is true else it returns null.
+     * @param hand takes in an ArrayList of Cards
+     * @return returns [boolean, CardRanking]
+     */
     public static ArrayList<Object> threeOfAKind(ArrayList<Card> hand) {
         ArrayList<Object> three = new ArrayList<>();
         int counter = 0;
@@ -398,7 +441,11 @@ public class Hands {
         return three;
     }
 
-    //Two pair
+    /**
+     * returns if CardRanking.TWO_PAIRS is true else it returns null.
+     * @param hand takes in an ArrayList of Cards
+     * @return returns [boolean, CardRanking]
+     */
     public static ArrayList<Object> twoPairs(ArrayList<Card> hand) {
         ArrayList<Object> two = new ArrayList<>();
         ArrayList<Rank> ranks = new ArrayList<>();
@@ -425,7 +472,11 @@ public class Hands {
         return two;
     }
 
-    //One pair
+    /**
+     * returns if CardRanking.ONE_PAIR is true else it returns null.
+     * @param hand takes in an ArrayList of Cards
+     * @return returns [boolean, CardRanking]
+     */
     public static ArrayList<Object> pair(ArrayList<Card> hand) {
         ArrayList<Object> pair = new ArrayList<>();
         ArrayList<Rank> ranks = new ArrayList<>();
@@ -456,7 +507,11 @@ public class Hands {
         return pair;
     }
 
-
+    /**
+     * returns if CardRanking.HIGH_CARD is true else it returns null.
+     * @param hand takes in an ArrayList of Cards
+     * @return returns [boolean, CardRanking]
+     */
     //High Card
     public static ArrayList<Object> HighCard(ArrayList<Card> hand) {
         ArrayList<Object> high = new ArrayList<>();
