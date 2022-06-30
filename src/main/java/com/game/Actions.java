@@ -37,14 +37,52 @@ public class Actions {
                 break;
             }
         }
+        actionDecision = caseNum;
         switch (caseNum) {
             case 1:
                 check();
+                actionDecision = 1;
                 break;
             case 2:
                 raise();
+                actionDecision = 2;
                 break;
             case 3:
+                fold();
+                actionDecision = 3;
+                break;
+        }
+        actionDecision = caseNum;
+        return actionDecision;
+    }
+
+    public int secondAction(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("What action do you wish to take? Select  \"1\" for raise, or \"2\" for fold. ");
+//        menu();
+        actionDecision = 0;
+        int caseNum = 0;
+        String result = scanner.next();
+        while (!(caseNum >= 1 && caseNum <= 2)) {
+            try {
+                caseNum = Integer.parseInt(String.valueOf(Integer.parseInt(result)));
+                if (caseNum < 1 || caseNum > 2) {
+                    System.out.println(bundle.getString("actions_menu"));
+                    result = scanner.next();
+                }
+            } catch (NumberFormatException ignored) {
+                System.out.println(bundle.getString("actions_menu"));
+                result = scanner.next();
+            }
+            if (caseNum >= 1 && caseNum <= 2) {
+                break;
+            }
+        }
+        switch (caseNum) {
+            case 1:
+                raise();
+                break;
+            case 2:
                 fold();
                 break;
         }

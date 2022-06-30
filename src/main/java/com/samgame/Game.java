@@ -298,18 +298,19 @@ public class Game {
         String dealerResult = "";
         String userResult = "";
         Hands.compares(dealerHand,hand,sharedCards);
-
-        for (int i = 1; i < Hands.dealerSharedHand.size(); i++) {
-            dealerResult += Hands.dealerSharedHand.get(i) + " ";
-        }
-        for (int i = 1; i < Hands.playerSharedHand.size(); i++) {
-            userResult += Hands.playerSharedHand.get(i) + " ";
-        }
-        String message = "Dealer: \"The dealer hand is " + dealerHand + " and has a " + dealerResult + "\"\n"
-                + "Dealer: \"The player hand is " + hand + " and has a " + userResult;
-//        System.out.println("The dealer hand is " + dealerResult);
-//        System.out.println("The user hand is " + userResult);
-        return message;
+//
+//        for (int i = 1; i < Hands.dealerSharedHand.size(); i++) {
+//            dealerResult += Hands.dealerSharedHand.get(i) + " ";
+//        }
+//        for (int i = 1; i < Hands.playerSharedHand.size(); i++) {
+//            userResult += Hands.playerSharedHand.get(i) + " ";
+//        }
+//        String message = "Dealer: \"The dealer hand is " + dealerHand + " and has a " + dealerResult + "\"\n"
+//                + "Dealer: \"The player hand is " + hand + " and has a " + userResult;
+////        System.out.println("The dealer hand is " + dealerResult);
+////        System.out.println("The user hand is " + userResult);
+//        return message;
+        return "Just checking";
     }
 
     public void sleep(int timer) {
