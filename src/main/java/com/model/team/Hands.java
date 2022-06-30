@@ -299,7 +299,7 @@ public class Hands {
                     counter += 1;
                 }
             }
-            if (counter == 5) {
+            if (counter >= 5) {
                 suit = cards.getSuit();
                 rank = cards.getRank();
             }

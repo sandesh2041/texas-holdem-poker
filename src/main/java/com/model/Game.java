@@ -73,14 +73,14 @@ public class Game {
 
 
     public void deal(Deck deck) {
-        Card card1 = deck.draw();
-        Card card2 = deck.draw();
-        Card card3 = deck.draw();
-        Card card4 = deck.draw();
-        Card card5 = deck.draw();
-        Card card6 = deck.draw();
-        Card card7 = deck.draw();
-        Card card8 = deck.draw();
+//        Card card1 = deck.draw();
+//        Card card2 = deck.draw();
+//        Card card3 = deck.draw();
+//        Card card4 = deck.draw();
+//        Card card5 = deck.draw();
+//        Card card6 = deck.draw();
+//        Card card7 = deck.draw();
+//        Card card8 = deck.draw();
 //
         user.add(deck.draw());
         table.add(deck.draw());
@@ -101,7 +101,7 @@ public class Game {
         Card card27 = deck.draw();
         Card card28 = deck.draw();
         Card card36 = deck.draw();
-        dealer.add(deck.draw());
+        //dealer.add(deck.draw());
         Card card37 = deck.draw();
         Card card46 = deck.draw();
         Card card47 = deck.draw();
