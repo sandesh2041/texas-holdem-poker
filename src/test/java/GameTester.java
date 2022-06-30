@@ -6,13 +6,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class GameTester {
 
-    public static ArrayList<Card> user = new ArrayList<>();
-    public static ArrayList<Card> table = new ArrayList<>();
-    public static ArrayList<Card> dealer = new ArrayList<>();
 
     Deck deck = new Deck();
     Card card1 = deck.draw();
@@ -68,23 +64,193 @@ public class GameTester {
     Card card51 = deck.draw();
     Card card52 = deck.draw();
 
+
     @Test
-    public void RankTest(){
+    public void royalFlushRankTest() {
+        ArrayList<Card> user = new ArrayList<>();
+        ArrayList<Card> table = new ArrayList<>();
+        ArrayList<Card> dealer = new ArrayList<>();
         dealer.add(card13);
-        dealer.add(card9);
-        table.add(card3);
-        table.add(card4);
-        table.add(card1);
+        dealer.add(card12);
+        table.add(card11);
+        table.add(card10);
+        table.add(card9);
         table.add(card5);
         table.add(card6);
         user.add(card44);
         user.add(card32);
+        System.out.println(" ");
+        System.out.println("Checking Royal Flush");
         System.out.println((dealer + " " + table + " " + user));
-        //user has a flush while dealer has a straight flush.
         assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
-        //assertNotEquals("push",Hands.compares(dealer,user,table));
-        //assertNotEquals("winner: Dealer", Hands.compares(dealer,user,table));
+        System.out.println(" ");
 
+    }
+
+    @Test
+    public void straightFlushRankTest() {
+        ArrayList<Card> user = new ArrayList<>();
+        ArrayList<Card> table = new ArrayList<>();
+        ArrayList<Card> dealer = new ArrayList<>();
+        dealer.add(card6);
+        dealer.add(card2);
+        table.add(card3);
+        table.add(card4);
+        table.add(card1);
+        table.add(card5);
+        table.add(card16);
+        user.add(card44);
+        user.add(card32);
+        System.out.println(" ");
+        System.out.println("Checking Straight Flush");
+        System.out.println((dealer + " " + table + " " + user));
+        assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
+
+    }
+
+    @Test
+    public void fourOfAKindTest() {
+        ArrayList<Card> user = new ArrayList<>();
+        ArrayList<Card> table = new ArrayList<>();
+        ArrayList<Card> dealer = new ArrayList<>();
+        dealer.add(card13);
+        dealer.add(card26);
+        table.add(card1);
+        table.add(card5);
+        table.add(card39);
+        table.add(card16);
+        table.add(card52);
+        user.add(card44);
+        user.add(card31);
+        System.out.println(" ");
+        System.out.println("Checking Four of A Kind");
+        System.out.println((dealer + " " + table + " " + user));
+        assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
+
+    }
+
+    @Test
+    public void fullHouseTest() {
+        ArrayList<Card> user = new ArrayList<>();
+        ArrayList<Card> table = new ArrayList<>();
+        ArrayList<Card> dealer = new ArrayList<>();
+        dealer.add(card44);
+        dealer.add(card31);
+        table.add(card1);
+        table.add(card5);
+        table.add(card39);
+        table.add(card16);
+        table.add(card52);
+        user.add(card12);
+        user.add(card23);
+        System.out.println(" ");
+        System.out.println("Checking Full House");
+        System.out.println((dealer + " " + table + " " + user));
+        assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
+
+    }
+
+    @Test
+    public void flushTest() {
+        ArrayList<Card> user = new ArrayList<>();
+        ArrayList<Card> table = new ArrayList<>();
+        ArrayList<Card> dealer = new ArrayList<>();
+        dealer.add(card1);
+        dealer.add(card2);
+        table.add(card3);
+        table.add(card5);
+        table.add(card7);
+        table.add(card16);
+        table.add(card52);
+        user.add(card44);
+        user.add(card31);
+        System.out.println(" ");
+        System.out.println("Checking Flush");
+        System.out.println((dealer + " " + table + " " + user));
+        assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
+
+    }
+
+    @Test
+    public void straightTest() {
+        ArrayList<Card> user = new ArrayList<>();
+        ArrayList<Card> table = new ArrayList<>();
+        ArrayList<Card> dealer = new ArrayList<>();
+        dealer.add(card14);
+        dealer.add(card28);
+        table.add(card4);
+        table.add(card5);
+        table.add(card39);
+        table.add(card16);
+        table.add(card52);
+        user.add(card42);
+        user.add(card31);
+        System.out.println(" ");
+        System.out.println("Checking Straight");
+        System.out.println((dealer + " " + table + " " + user));
+        assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
+
+    }
+    @Test
+    public void threeOfAKindTest() {
+        ArrayList<Card> user = new ArrayList<>();
+        ArrayList<Card> table = new ArrayList<>();
+        ArrayList<Card> dealer = new ArrayList<>();
+        dealer.add(card13);
+        dealer.add(card31);
+        table.add(card4);
+        table.add(card5);
+        table.add(card39);
+        table.add(card16);
+        table.add(card52);
+        user.add(card24);
+        user.add(card12);
+        System.out.println(" ");
+        System.out.println("Checking Three of a Kind");
+        System.out.println((dealer + " " + table + " " + user));
+        assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
+
+    }
+    @Test
+    public void twoPairsTest() {
+        ArrayList<Card> user = new ArrayList<>();
+        ArrayList<Card> table = new ArrayList<>();
+        ArrayList<Card> dealer = new ArrayList<>();
+        dealer.add(card13);
+        dealer.add(card31);
+        table.add(card4);
+        table.add(card5);
+        table.add(card39);
+        table.add(card16);
+        table.add(card50);
+        user.add(card24);
+        user.add(card12);
+        System.out.println(" ");
+        System.out.println("Checking Two Pairs");
+        System.out.println((dealer + " " + table + " " + user));
+        //String x = Hands.compares(dealer, user, table);
+        assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
+
+    }
+    @Test
+    public void onePairTest() {
+        ArrayList<Card> user = new ArrayList<>();
+        ArrayList<Card> table = new ArrayList<>();
+        ArrayList<Card> dealer = new ArrayList<>();
+        dealer.add(card13);
+        dealer.add(card32);
+        table.add(card4);
+        table.add(card5);
+        table.add(card39);
+        table.add(card16);
+        table.add(card50);
+        user.add(card24);
+        user.add(card12);
+        System.out.println(" ");
+        System.out.println("Checking One Pair");
+        System.out.println((dealer + " " + table + " " + user));
+        //String x = Hands.compares(dealer, user, table);
+        assertEquals("winner: Dealer", Hands.compares(dealer, user, table));
 
     }
 
