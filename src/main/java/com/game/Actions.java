@@ -1,14 +1,11 @@
 package com.game;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class Actions {
     private static final ResourceBundle bundle = ResourceBundle.getBundle("strings");
-    public static ArrayList<Object> dealerHand = new ArrayList<>();
-    public static ArrayList<Object> userHand = new ArrayList<>();
     public static int actionDecision = 0;
     public static int bet = 0;
     private final int time = 1;
@@ -41,32 +38,29 @@ public class Actions {
         switch (caseNum) {
             case 1:
                 check();
-                actionDecision = 1;
                 break;
             case 2:
                 raise();
-                actionDecision = 2;
                 break;
             case 3:
                 fold();
-                actionDecision = 3;
                 break;
         }
         actionDecision = caseNum;
         return actionDecision;
     }
 
-    public int secondAction(){
+    public int secondAction() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("What action do you wish to take? Select  \"1\" for raise, or \"2\" for fold. ");
-//        menu();
+        System.out.println(bundle.getString("actions_menu1"));
+        menu1();
         actionDecision = 0;
         int caseNum = 0;
         String result = scanner.next();
-        while (!(caseNum >= 1 && caseNum <= 2)) {
+        while (!(caseNum >= 1 && caseNum <= 3)) {
             try {
                 caseNum = Integer.parseInt(String.valueOf(Integer.parseInt(result)));
-                if (caseNum < 1 || caseNum > 2) {
+                if (caseNum < 1 || caseNum > 3) {
                     System.out.println(bundle.getString("actions_menu"));
                     result = scanner.next();
                 }
@@ -74,17 +68,21 @@ public class Actions {
                 System.out.println(bundle.getString("actions_menu"));
                 result = scanner.next();
             }
-            if (caseNum >= 1 && caseNum <= 2) {
+            if (caseNum >= 1 && caseNum <= 3) {
                 break;
             }
         }
         switch (caseNum) {
             case 1:
-                raise();
+                call();
                 break;
             case 2:
+                raise();
+                break;
+            case 3:
                 fold();
                 break;
+
         }
         actionDecision = caseNum;
         return actionDecision;
@@ -92,17 +90,23 @@ public class Actions {
 
     public void check() {
         bet = 0;
-        sleep(time);
-        System.out.println("Dealer: \"Player checks.\" ");
-
+        System.out.println(bundle.getString("actions_check"));
     }
-//    public void call() {
-//        int call;
-//        call = MyActions.getDealerWager;
-//        Game.getBank() = Game.getBank() - call;
-//
-//        Game.getPot = Game.getPot() + call;
-//    }
+
+    public void call() {
+        if (Game.bank >= Game.bBet) {
+            Game.pot += Game.bBet*2;
+            Game.bank -= Game.bBet;
+            Game.dealerBank -= Game.bBet;
+        } else {
+            Game.pot = Game.pot + (Game.bank * 2);
+            Game.dealerBank = Game.dealerBank + Game.bBet - Game.bank;
+            Game.bank = 0;
+
+        }
+
+        System.out.println(bundle.getString("actions_call"));
+    }
 
     public void raise() {
 
@@ -114,19 +118,16 @@ public class Actions {
             Actions actions = new Actions();
             actions.actions();
         }
-        String[] dealerResponses = {bundle.getString("raise_menu"), bundle.getString("raise_menu1"),bundle.getString("raise_menu2"),bundle.getString("raise_menu3")};
+        String[] dealerResponses = {bundle.getString("raise_menu"), bundle.getString("raise_menu1"), bundle.getString("raise_menu2"), bundle.getString("raise_menu3")};
         Random ran = new Random();
         String dealerRandomResponse = dealerResponses[ran.nextInt(dealerResponses.length)];
-
-        sleep(time);
 
 
         if (Game.getBank() >= 10) {
             System.out.println(dealerRandomResponse);
             String result = scanner.next();
-            sleep(time);
             do {
-                if (wager >= 10 && wager <= Game.getBank()) {
+                if ((wager >= 10 && wager <= Game.getBank()) && wager>=Game.bBet) {
                     break;
                 }
                 try {
@@ -137,20 +138,27 @@ public class Actions {
                     } else if (wager > Game.getBank()) {
                         System.out.println(bundle.getString("raise_betHigh"));
                         result = scanner.next();
+                    } else if (wager < Game.bBet){
+                        System.out.println(bundle.getString("raise_higherDealer"));
+                        result = scanner.next();
                     }
                 } catch (NumberFormatException ignored) {
                     System.out.println(bundle.getString("raise_betNope"));
                     result = scanner.next();
                 }
-            } while (!(wager >= 10 && wager <= Game.getBank()));
+            } while ((!(wager >= 10 && wager <= Game.getBank())) && wager < Game.bBet);
         }
         bet = wager;
+        Game.bank -= bet;
+        Game.pot += bet;
     }
 
     public void fold() {
-        bet = 0;
+        Game.dealerBank += Game.pot;
+        System.out.println(bundle.getString("actions_fold"));
         sleep(time);
-        System.out.println("Dealer: \"Player folds!\"");
+        GameBoard gameboard = new GameBoard();
+        gameboard.playerTurn();
     }
 
     public void sleep(int timer) {
@@ -160,12 +168,23 @@ public class Actions {
             throw new RuntimeException(e);
         }
     }
+
     public void menu() {
         String menu = "===============";
-        System.out.printf("%nPot:%4d %6s Blinds: %2d %5sBoard:%-21.21s %4sDealer Bank:%4d %n", Game.pot, "", Game.blinds, "", Game.sharedCards1.toString(),"", Game.dealerBank);
+        System.out.printf("%nPot:%4d %6s Blinds: %2d %5sBoard:%-21.21s %4sDealer Bank:%4d %n", Game.pot, "", Game.blinds, "", Game.sharedCards1.toString(), "", Game.dealerBank);
         System.out.printf("%s %12s %12s %12s %12s\n", menu, menu, menu, menu, menu);
         System.out.printf("%s %10d %15d %15d %14sHand: %s\n", "Enter:", 1, 2, 3, "", Game.playerHand);
         System.out.printf("%s %13s %15s %14s %10s Bank: %4d%n", "Action:", "Check", "Raise", "Fold", "", Game.getBank());
+        System.out.printf("%s %12s %12s %12s %12s\n", menu, menu, menu, menu, menu);
+
+    }
+
+    public void menu1() {
+        String menu = "===============";
+        System.out.printf("%nPot:%4d %6s Blinds: %2d %5sBoard:%-21.21s %4sDealer Bank:%4d %n", Game.pot, "", Game.blinds, "", Game.sharedCards1.toString(), "", Game.dealerBank);
+        System.out.printf("%s %12s %12s %12s %12s\n", menu, menu, menu, menu, menu);
+        System.out.printf("%s %10d %15d %15d %14sHand: %s\n", "Enter:", 1, 2, 3, "", Game.playerHand);
+        System.out.printf("%s %12s %16s %14s %10s Bank: %4d%n", "Action:", "Call", "Raise", "Fold", "", Game.getBank());
         System.out.printf("%s %12s %12s %12s %12s\n", menu, menu, menu, menu, menu);
 
     }

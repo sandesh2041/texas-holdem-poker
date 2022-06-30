@@ -6,11 +6,9 @@ import com.model.team.Deck;
 import com.model.team.Hands;
 import com.model.utils.ChenScore;
 import com.services.BotServices;
-
 import java.util.*;
 
 public class Game {
-
     private final int time = 1;
     public static int bank = 0;
     public static int dealerBank = 0;
@@ -18,7 +16,7 @@ public class Game {
     public static int blinds = 0;
 
     double score;
-    int bBet = 0;
+    public static int bBet = 0;
 
     BotServices botServices = new BotServices();
     BotActions bAction = new BotActions();
@@ -34,7 +32,6 @@ public class Game {
     public static ArrayList<Card> sharedCards = new ArrayList<>();
     public static ArrayList<Card> sharedCards1 = new ArrayList<>();
     private final ResourceBundle bundle = ResourceBundle.getBundle("strings");
-
     private ArrayList<Card> combinedCards = new ArrayList<>(); //Remove later
 
     public void startGame() {
@@ -67,9 +64,7 @@ public class Game {
                 System.out.println(bundle.getString("set_bank_error"));
             }
         }
-
         System.out.printf(bundle.getString("bank_value"), getBank(), getDealerBank());
-        sleep(time);
     }
 
     public void chooseBlinds() {
@@ -87,16 +82,14 @@ public class Game {
         }
 
         System.out.printf(bundle.getString("blinds_value"), getBlinds());
-        sleep(time);
     }
 
     public void startHandMenu() {
         System.out.println(bundle.getString("shuffle_cards"));
         deck.shuffle();
-        sleep(time);
+        sleep(time*2);
         System.out.println(bundle.getString("deal_menu"));
         String deal = scanner.next();
-
         do {
             if (deal.equalsIgnoreCase("deal") || deal.equalsIgnoreCase("d")) {
                 break;
@@ -109,10 +102,8 @@ public class Game {
             }
         } while (!(deal.equalsIgnoreCase("deal")) && !(deal.equalsIgnoreCase("d")));
 
-        sleep(time);
         System.out.println(bundle.getString("deal_hands"));
     }
-
 
     public void dealHand() {
         Deck deck = new Deck();
@@ -122,7 +113,6 @@ public class Game {
         Card card3 = deck.draw();
         Card card4 = deck.draw();
         Card card5 = deck.draw();
-
         burnPile.add(card1);
         playerHand.add(card2);
         dealerHand.add(card3);
@@ -130,11 +120,8 @@ public class Game {
         playerHand.add(card4);
         dealerHand.add(card5);
         dealerHand1.add(card5);
-
-
-
         System.out.println(bundle.getString("burn_pile"));
-        sleep(time);
+        sleep(time+250);
         System.out.printf(bundle.getString("card1"), card2);
         sleep(time);
         System.out.println(bundle.getString("dealer_card1"));
@@ -148,23 +135,20 @@ public class Game {
         bank = bank - blinds;
         pot = blinds * 2;
         dealerBank = dealerBank - blinds;
-
         actions.actions();
-
         //Bot actions
         ChenScore chenScore = new ChenScore();
         score = chenScore.calculateScore(dealerHand); //Calculated Chen Score
         Decision botAction = botServices.botTwoCardAction(bAction.getAction(), score); //Determine what bot will do with initial 2 pocket card
         bBet = botServices.getBotBet(botAction, dealerBank);
-
-        bank = bank - Actions.bet;
-        pot = pot + Actions.bet + bBet;
         dealerBank = dealerBank - bBet;
+        pot +=bBet;
         checkBetDifference();
+
+        Actions.bet=0;
     }
 
     public void flop() {
-
         Card card1 = deck.draw();
         Card card2 = deck.draw();
         Card card3 = deck.draw();
@@ -180,26 +164,21 @@ public class Game {
         sleep(time);
         System.out.printf(bundle.getString("dealing_flop"), card3);
         sleep(time);
-        System.out.printf(bundle.getString("shared_cards"), sharedCards);
+        System.out.printf(bundle.getString("shared_cards"), sharedCards1);
         sleep(time);
-
         actions.actions();
-
-        //Remove below 4 lines
         combinedCards = dealerHand;
         combinedCards.add(card1);
         combinedCards.add(card2);
         combinedCards.add(card3);
-        System.out.println("Computer card:" + combinedCards);
         //Bot action
         score = botServices.check(combinedCards);
         Decision botAction =  botServices.botMultiCardAction(bAction.getAction(), (int)score);
         bBet = botServices.getBotBet(botAction, dealerBank);
-
-        bank = bank - Actions.bet;
-        pot = pot + Actions.bet + bBet;
         dealerBank = dealerBank - bBet;
+        pot +=bBet;
         checkBetDifference();
+        Actions.bet=0;
     }
 
     public void turn() {
@@ -209,21 +188,18 @@ public class Game {
         sleep(time);
         System.out.printf(bundle.getString("dealing_turn"), card4);
         sleep(time);
-        System.out.printf(bundle.getString("shared_cards"), sharedCards);
+        System.out.printf(bundle.getString("shared_cards"), sharedCards1);
         sleep(time);
 
         actions.actions();
-
         combinedCards.add(card4);
-        System.out.println("Computer card:" + combinedCards);
         sharedCards.add(deck.draw());
         Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int)score);
         bBet = botServices.getBotBet(botAction, dealerBank);
-
-        bank = bank - Actions.bet;
-        pot = pot + Actions.bet + bBet;
         dealerBank = dealerBank - bBet;
+        pot +=bBet;
         checkBetDifference();
+        Actions.bet=0;
     }
 
     public void river() {
@@ -233,26 +209,22 @@ public class Game {
         sleep(time);
         System.out.printf(bundle.getString("dealing_river"), card5);
         sleep(time);
-        System.out.printf(bundle.getString("shared_cards"), sharedCards);
-        sleep(time);
+        System.out.printf(bundle.getString("shared_cards"), sharedCards1);
+        sleep(time/3);
 
         actions.actions();
-
         combinedCards.add(card5);
-        System.out.println("Computer card:" + combinedCards);
-        bank = bank - Actions.bet;
-        pot = pot + Actions.bet + bBet;
+        Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int)score);
+        bBet = botServices.getBotBet(botAction, dealerBank);
         dealerBank = dealerBank - bBet;
+        pot +=bBet;
         checkBetDifference();
+        Actions.bet=0;
     }
-
 
     public void determineWinner() {
         sleep(time);
         System.out.println("Dealer flips over their cards showing..." + dealerHand1);
-        System.out.println("Dealer flips over their cards showing..." + playerHand);
-        System.out.println("Dealer flips over their cards showing..." + sharedCards1);
-
         String resultCompare = Hands.compares(dealerHand1, playerHand, sharedCards1);
         String replace1 = Hands.printWinner.replace("_", " ");
         String replace2 = replace1.replace(" and",", and");
@@ -263,7 +235,6 @@ public class Game {
         dealerHand1.clear();
         playerHand.clear();
         sharedCards1.clear();
-
         if (resultCompare.equals("winner: User")) {
             System.out.println("Dealer: \"Player wins!\"");
             bank += pot;
@@ -278,6 +249,21 @@ public class Game {
         sleep(time);
     }
 
+    public void checkBetDifference(){
+        //Need to make change to bank amounts
+        if(Actions.bet != bBet) {
+            actions.secondAction();
+            sleep(750);
+            System.out.println("Dealer will play...");
+        }
+        int tempBet = bBet;
+        if(Actions.bet != tempBet){
+            bBet = Actions.bet - tempBet;
+            pot = pot  + bBet;
+            dealerBank = dealerBank - bBet;
+        }
+    }
+
     public void sleep(int timer) {
         try {
             Thread.sleep(timer);
@@ -286,51 +272,14 @@ public class Game {
         }
     }
 
-//    public static List<Card> getHand() {
-////        Deck deck = new Deck();
-////        Card card1 = deck.draw();
-////        Card card2 = deck.draw();
-////        hand.add(card1);
-////        hand.add(card2);
-//        List<Card> filtered = hand.stream().collect(Collectors.toList());
-//        return filtered;
-//    }
-
     public static int getBank() {
         return bank;
     }
-
     public static int getDealerBank() {
         return dealerBank;
     }
-
     public static int getBlinds() {
         return blinds;
-    }
-
-    public void checkBetDifference(){
-        //Need to make change to bank amounts
-        if(Actions.bet != bBet) {
-            System.out.println("Dealer CALLED!!! What you want to do?");
-            actions.secondAction();
-            System.out.println("Player Made RAISE!!!! " + Actions.bet);
-            bank = bank - Actions.bet;
-            System.out.println("Player Bank: " + bank);
-            pot = pot + Actions.bet;
-            System.out.println("Pot money: " + pot);
-            System.out.println("Dealer Bank: " + dealerBank);
-
-        }
-        int tempBet = bBet;
-        if(Actions.bet != tempBet){
-            bBet = Actions.bet - tempBet;
-            System.out.println("Computer CALLED!!!!!! " + bBet);
-            System.out.println("Player Bank: " + bank);
-            pot = pot  + bBet;
-            System.out.println("Pot money: " + pot);
-            dealerBank = dealerBank - bBet;
-            System.out.println("Dealer Bank: " + dealerBank);
-        }
     }
 }
 

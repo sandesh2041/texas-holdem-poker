@@ -78,7 +78,7 @@ public class Hands {
         for (int i = 1; i < second.size(); i++) {
             userResult += second.get(i) + " ";
         }
-        printWinner = "Dealer: \"The dealer has " + dealerResult.toLowerCase() + "and the player has " + userResult.toLowerCase() + "\"\n";
+        printWinner = "Dealer: \"The dealer has " + dealerResult.toLowerCase() + "and the player has " + userResult.toLowerCase() + ".\"\n";
 
 
 

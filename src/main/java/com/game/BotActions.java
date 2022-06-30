@@ -37,17 +37,17 @@ public class BotActions {
         return tempAction;
     }
 
-    public Decision getSecondAction() {
-        int caseNum = Actions.actionDecision;
-        switch (caseNum) {
-            case 1:
-                tempAction = Decision.CALL;
-                break;
-            case 2:
-                tempAction = Decision.FOLD;
-                break;
-        }
-        return tempAction;
-    }
+//    public Decision getSecondAction() {
+//        int caseNum = Actions.actionDecision;
+//        switch (caseNum) {
+//            case 1:
+//                tempAction = Decision.CALL;
+//                break;
+//            case 2:
+//                tempAction = Decision.FOLD;
+//                break;
+//        }
+//        return tempAction;
+//    }
 
 }
