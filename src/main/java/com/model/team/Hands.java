@@ -17,6 +17,7 @@ public class Hands {
     private static final Comparator<Card> comparator = Comparator
             .comparing(Card::getRank);
 
+    public static String printWinner;
     /**
      * iterates through the Rankings (royal,straight,ect.) to see if one of them is correct.
      *
@@ -92,8 +93,19 @@ public class Hands {
         ArrayList<Object> first = getHand(hand1);
         ArrayList<Object> second = getHand(hand2);
 
-        System.out.println("Dealer" + first);
-        System.out.println("User" + second);
+        String dealerResult = "";
+        String userResult = "";
+        for (int i = 1; i < first.size(); i++) {
+            dealerResult += first.get(i) + " ";
+        }
+        for (int i = 1; i < second.size(); i++) {
+            userResult += second.get(i) + " ";
+        }
+        printWinner = "Dealer: \"The dealer has " + dealerResult.toLowerCase() + "and the player has " + userResult.toLowerCase() + "\"\n";
+
+
+
+
 
         CardRankings rank1 = (CardRankings) first.get(1);
         CardRankings rank2 = (CardRankings) second.get(1);
@@ -148,7 +160,6 @@ public class Hands {
         return "push";
 
     }
-
     /**
      * returns if CardRanking.ROYAL_FLUSH is true else it returns null.
      *
