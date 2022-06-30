@@ -6,7 +6,10 @@ import com.model.team.Deck;
 import com.model.team.Hands;
 import com.model.utils.ChenScore;
 import com.services.BotServices;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class Game {
     private final int time = 1;
@@ -34,6 +37,9 @@ public class Game {
     private final ResourceBundle bundle = ResourceBundle.getBundle("strings");
     private ArrayList<Card> combinedCards = new ArrayList<>(); //Remove later
 
+    /**
+     * Starts the game with the ability to play or exit.
+     */
     public void startGame() {
         System.out.println(bundle.getString("start_game"));
         String startGame = scanner.next();
@@ -50,6 +56,9 @@ public class Game {
         } while (!(startGame.equalsIgnoreCase("y")) && !(startGame.equalsIgnoreCase("yes")));
     }
 
+    /**
+     * Chooses the bank value to start with.
+     */
     public void chooseBankValue() {
         System.out.println(bundle.getString("set_bank"));
 
@@ -67,6 +76,9 @@ public class Game {
         System.out.printf(bundle.getString("bank_value"), getBank(), getDealerBank());
     }
 
+    /**
+     * Plays by default for the blinds.
+     */
     public void chooseBlinds() {
         System.out.println(bundle.getString("set_blinds"));
 
@@ -84,10 +96,13 @@ public class Game {
         System.out.printf(bundle.getString("blinds_value"), getBlinds());
     }
 
+    /**
+     * Starts the deck and shuffles.
+     */
     public void startHandMenu() {
         System.out.println(bundle.getString("shuffle_cards"));
         deck.shuffle();
-        sleep(time*2);
+        sleep(time * 2);
         System.out.println(bundle.getString("deal_menu"));
         String deal = scanner.next();
         do {
@@ -105,6 +120,9 @@ public class Game {
         System.out.println(bundle.getString("deal_hands"));
     }
 
+    /**
+     * Creates a Deck then shuffles it and deals the cards.
+     */
     public void dealHand() {
         Deck deck = new Deck();
         deck.shuffle();
@@ -121,7 +139,7 @@ public class Game {
         dealerHand.add(card5);
         dealerHand1.add(card5);
         System.out.println(bundle.getString("burn_pile"));
-        sleep(time+250);
+        sleep(time + 250);
         System.out.printf(bundle.getString("card1"), card2);
         sleep(time);
         System.out.println(bundle.getString("dealer_card1"));
@@ -131,6 +149,9 @@ public class Game {
         System.out.println(bundle.getString("dealer_card2"));
     }
 
+    /**
+     * Action after the preflop in which you can see your first two cards and then do an action.
+     */
     public void preFlopAction() {
         bank = bank - blinds;
         pot = blinds * 2;
@@ -142,12 +163,15 @@ public class Game {
         Decision botAction = botServices.botTwoCardAction(bAction.getAction(), score); //Determine what bot will do with initial 2 pocket card
         bBet = botServices.getBotBet(botAction, dealerBank);
         dealerBank = dealerBank - bBet;
-        pot +=bBet;
+        pot += bBet;
         checkBetDifference();
 
-        Actions.bet=0;
+        Actions.bet = 0;
     }
 
+    /**
+     * Actions performed after the flop.
+     */
     public void flop() {
         Card card1 = deck.draw();
         Card card2 = deck.draw();
@@ -173,14 +197,17 @@ public class Game {
         combinedCards.add(card3);
         //Bot action
         score = botServices.check(combinedCards);
-        Decision botAction =  botServices.botMultiCardAction(bAction.getAction(), (int)score);
+        Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int) score);
         bBet = botServices.getBotBet(botAction, dealerBank);
         dealerBank = dealerBank - bBet;
-        pot +=bBet;
+        pot += bBet;
         checkBetDifference();
-        Actions.bet=0;
+        Actions.bet = 0;
     }
 
+    /**
+     * shows the next card and gives the user the ability to perform another action.
+     */
     public void turn() {
         Card card4 = deck.draw();
         sharedCards.add(card4);
@@ -194,14 +221,17 @@ public class Game {
         actions.actions();
         combinedCards.add(card4);
         sharedCards.add(deck.draw());
-        Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int)score);
+        Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int) score);
         bBet = botServices.getBotBet(botAction, dealerBank);
         dealerBank = dealerBank - bBet;
-        pot +=bBet;
+        pot += bBet;
         checkBetDifference();
-        Actions.bet=0;
+        Actions.bet = 0;
     }
 
+    /**
+     * shows the last card and gives the user the ability to perform another action.
+     */
     public void river() {
         Card card5 = deck.draw();
         sharedCards.add(card5);
@@ -210,25 +240,28 @@ public class Game {
         System.out.printf(bundle.getString("dealing_river"), card5);
         sleep(time);
         System.out.printf(bundle.getString("shared_cards"), sharedCards1);
-        sleep(time/3);
+        sleep(time / 3);
 
         actions.actions();
         combinedCards.add(card5);
-        Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int)score);
+        Decision botAction = botServices.botMultiCardAction(bAction.getAction(), (int) score);
         bBet = botServices.getBotBet(botAction, dealerBank);
         dealerBank = dealerBank - bBet;
-        pot +=bBet;
+        pot += bBet;
         checkBetDifference();
-        Actions.bet=0;
+        Actions.bet = 0;
     }
 
+    /**
+     * Determines the winner and resets the deck.
+     */
     public void determineWinner() {
         sleep(time);
         System.out.println("Dealer flips over their cards showing..." + dealerHand1);
         String resultCompare = Hands.compares(dealerHand1, playerHand, sharedCards1);
         String replace1 = Hands.printWinner.replace("_", " ");
-        String replace2 = replace1.replace(" and",", and");
-        String replace3 = replace2.replace("null","");
+        String replace2 = replace1.replace(" and", ", and");
+        String replace3 = replace2.replace("null", "");
         System.out.printf(replace3);
         sleep(time);
 
@@ -249,21 +282,28 @@ public class Game {
         sleep(time);
     }
 
-    public void checkBetDifference(){
+    /**
+     * Checks the amount the dealer has to give the user.
+     */
+    public void checkBetDifference() {
         //Need to make change to bank amounts
-        if(Actions.bet != bBet) {
+        if (Actions.bet != bBet) {
             actions.secondAction();
             sleep(750);
             System.out.println("Dealer will play...");
         }
         int tempBet = bBet;
-        if(Actions.bet != tempBet){
+        if (Actions.bet != tempBet) {
             bBet = Actions.bet - tempBet;
-            pot = pot  + bBet;
+            pot = pot + bBet;
             dealerBank = dealerBank - bBet;
         }
     }
 
+    /**
+     * sleep timer
+     * @param timer int value.
+     */
     public void sleep(int timer) {
         try {
             Thread.sleep(timer);
@@ -272,12 +312,25 @@ public class Game {
         }
     }
 
+    /**
+     * retuns the bank value.
+     */
     public static int getBank() {
         return bank;
     }
+
+    /**
+     * returns the dealers bank value
+     * @return returns the dealers bank value.
+     */
     public static int getDealerBank() {
         return dealerBank;
     }
+
+    /**
+     * returns the blinds
+     * @return returns the blinds.
+     */
     public static int getBlinds() {
         return blinds;
     }
