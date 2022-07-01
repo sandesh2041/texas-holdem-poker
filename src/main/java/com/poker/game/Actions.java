@@ -141,9 +141,6 @@ public class Actions {
             System.out.println(dealerRandomResponse);
             String result = scanner.next();
             do {
-                if ((wager >= 10 && wager <= Game.getBank()) && wager >= Game.bBet) {
-                    break;
-                }
                 try {
                     wager = Integer.parseInt(String.valueOf(result));
                     if (wager < 10) {
@@ -160,7 +157,10 @@ public class Actions {
                     System.out.println(bundle.getString("raise_betNope"));
                     result = scanner.next();
                 }
-            } while ((!(wager >= 10 && wager <= Game.getBank())) && wager < Game.bBet);
+                if ((wager >= 10 && wager <= Game.getBank()) && wager >= Game.bBet) {
+                    break;
+                }
+            } while (wager < 10 || wager >= Game.getBank() || wager < Game.bBet);
         }
         bet = wager;
         Game.bank -= bet;

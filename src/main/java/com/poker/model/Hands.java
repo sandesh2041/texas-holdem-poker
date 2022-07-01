@@ -9,7 +9,6 @@ import java.util.Comparator;
  * ArrayList of Objects.
  */
 public class Hands {
-
     /**
      *
      * compares the card rankings and returns it in order of Rank.

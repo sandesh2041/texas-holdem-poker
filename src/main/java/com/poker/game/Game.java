@@ -121,6 +121,10 @@ public class Game {
      * Creates a Deck then shuffles it and deals the cards.
      */
     public void dealHand() {
+        dealerHand1.clear();
+        playerHand.clear();
+        sharedCards.clear();
+        sharedCards1.clear();
         Deck deck = new Deck();
         deck.shuffle();
         Card card1 = deck.draw();
@@ -162,6 +166,7 @@ public class Game {
         pot += bBet;
         checkBetDifference();
         Actions.bet = 0;
+        bBet = 0;
     }
 
     /**
@@ -197,6 +202,7 @@ public class Game {
         pot += bBet;
         checkBetDifference();
         Actions.bet = 0;
+        bBet = 0;
     }
 
     /**
@@ -220,6 +226,7 @@ public class Game {
         pot += bBet;
         checkBetDifference();
         Actions.bet = 0;
+        bBet = 0;
     }
 
     /**
@@ -242,6 +249,7 @@ public class Game {
         pot += bBet;
         checkBetDifference();
         Actions.bet = 0;
+        bBet = 0;
     }
 
     /**
@@ -258,6 +266,7 @@ public class Game {
         sleep(time);
         dealerHand1.clear();
         playerHand.clear();
+        sharedCards.clear();
         sharedCards1.clear();
         if (resultCompare.equals("winner: User")) {
             System.out.println("Dealer: \"Player wins!\"");
